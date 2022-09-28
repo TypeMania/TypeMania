@@ -1,18 +1,4 @@
-# System and IDE files
-Thumbs.db
-.DS_Store
-.idea
-*.suo
-*.sublime-project
-*.sublime-workspace
-
-# Vendors
-node_modules/
-
-# Build
-dist/
-/npm-debug.log
-
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
