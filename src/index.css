@@ -1,13 +1,71 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300&family=Luckiest+Guy&display=swap');
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter Tight', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* NAV BAR STYLE */
+.nav h1 {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 5em;
+}
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.navbar li{
+  display: inline;
+}
+.navbar a {
+  padding: 15px;
+  font-weight: bold;
+}
+
+/* LEADERBOARD STYLE */
+.leaderboard h4{
+  margin-left: 60px;
+  text-align: left;
+  font-weight: normal;
+
+}
+.item-wrapper {
+  border: 3px solid black;
+  width: 200px;
+  padding: 0;
+  margin-bottom: 5px;
+}
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 5px;
+  padding-bottom: 1px;
+  border-top: 1px solid purple;
+  font-size: .9em;
+
+}
+.item__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.item__avatar__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.item__score {
+  font-family: monospace;
+  flex: 1;
+  text-align: right;
+}
+.item__avatar,
+.item__name,
+.item__score {
+  margin-left: 10px;
 }

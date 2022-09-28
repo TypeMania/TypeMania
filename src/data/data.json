@@ -1,0 +1,21 @@
+
+[
+    {
+      "userID": "4f4d5462-4a9f-483e-b620-9df9c13ec840",
+      "displayName": "typeGenius",
+      "picture": "http://robohash.org/stefan-one",
+      "score": 157000
+    },
+    {
+      "userID": "2c0c5c67-1cfc-4b99-992e-2918b8a0dcc1",
+      "displayName": "Tom",
+      "picture": "http://robohash.org/stefan-three",
+      "score": 46200
+    },
+    {
+        "userID": "2c0c5c67-1cfc-4b99-992e-2918b8a0ddd1",
+        "displayName": "Collin",
+        "picture": "http://robohash.org/stefan-two",
+        "score": 89999999
+      }
+]
