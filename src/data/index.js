@@ -1,4 +1,5 @@
 //leaderboard data functions
+//for mock purposes
 
 import data from "./data.json";
 

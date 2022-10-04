@@ -1,9 +1,20 @@
+/* font import */
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300&family=Luckiest+Guy&display=swap');
 
 * {
   margin: 0;
   font-family: 'Inter Tight', sans-serif;
+  /* centers content */
+  margin-right: auto;
+  margin-left: auto;
 }
+
+/* PHASER CANVAS ELEMENT*/
+canvas {
+  /* centers phaser canvas */
+  display : block;   
+  margin : auto;
+  }
 
 /* NAV BAR STYLE */
 .nav h1 {
@@ -14,21 +25,23 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  padding-bottom: 20px;
 }
 .navbar li{
   display: inline;
 }
-.navbar a {
+.nav a {
   padding: 15px;
   font-weight: bold;
+  text-decoration: none;
+  color: black;
 }
 
+/* HOME STYLE */
 /* LEADERBOARD STYLE */
 .leaderboard h4{
-  margin-left: 60px;
-  text-align: left;
   font-weight: normal;
-
+  font-weight: bold;
 }
 .item-wrapper {
   border: 3px solid black;
@@ -43,7 +56,7 @@
   padding-right: 5px;
   padding-bottom: 1px;
   border-top: 1px solid purple;
-  font-size: .9em;
+  font-size: .8em;
 
 }
 .item__avatar {
@@ -69,3 +82,146 @@
 .item__score {
   margin-left: 10px;
 }
+
+
+/* LOGINFORM STYLE */
+.login {
+  height: 100vh;
+  background-color: #000000;
+}
+
+
+.login div {
+  padding-top: 20px;
+  padding-right: 10%;
+  padding-left: 10%;
+  padding-bottom: 20px;
+}
+
+input, button{
+  appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+form {
+  display: block;
+  position: relative;
+}
+
+form:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  z-index: 1;
+  background-image: linear-gradient(to bottom right, #741a86, #FE4880);
+}
+
+.loginForm div {
+  background-color: #FFF;
+}
+
+form .form-inner{
+  position: relative;
+  display: block;
+  background-color: #FFFF;
+  padding: 10px;
+  z-index: 2;
+}
+
+form .form-inner h2 {
+  padding-top: 5px;
+  color: #888;
+  font-size: 30px;
+  font-weight: 500;
+  font-weight: bold;
+}
+
+form .form-inner .form-group {
+  display: block;
+  width: 80%;
+  margin-bottom: 5px;
+}
+
+.form-inner .form-group label {
+  display: block;
+  color: #666;
+  font-size: 16px;
+  text-align: left;
+  transition: 0.4s;
+  font-weight: bold;
+}
+
+.form-inner .form-group:focus-within label {
+  color: #FE4880;
+}
+
+form .form-inner .form-group input {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  margin-top: 3px;
+  background-color: #F8F8F8;
+  border-radius: 8px;
+  transition: 0.4s;
+}
+
+form .form-inner .form-group input:focus {
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+
+form .form-inner input[type="submit"],
+.welcome button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-image: linear-gradient(to right, #666,  50%, #741a86 50%);
+  background-position: 0%;
+  background-size: 200%;
+  color: #FFF;
+  transition: 0.4s;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+form .form-inner input[type="submit"]:hover,
+.welcome button:hover {
+  background-position: 100%;
+}
+
+.form-inner p {
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+
+.welcome {
+  max-width: 480px;
+  background-color: white;
+}
+
+.welcome p {
+  padding: 10px;
+}
+
+.welcome h2 {
+  color: #888;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.welcome h2 span{
+  color: #888;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+
+  
+

@@ -1,43 +1,58 @@
-//Phaser game component
-//still needs to be converted to a react component
-
+//import files
 import Phaser from 'phaser';
 import logoImg from '.././assets/logo.png';
+import React, { Component } from 'react';
 
+//phaser game component
 
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
+//react component (different syntax than other compoenents, but basically the same)
+export default class Game extends Component {
+  componentDidMount() {
+    const config = {
+      type: Phaser.AUTO,
+      parent: 'game-container',
+      width: 1000,
+      height: 600,
+      scene: {
+          preload: preload,
+          create: create,
+          update: update
+      }
     }
-  };
-  
-  const Game = new Phaser.Game(config);
-  
-  function preload (){
-    this.load.image("logo", logoImg);
+    function preload (){
+      this.load.image("logo", logoImg);
+    }
+    
+    function create (){
+      const logo = this.add.image(400, 150, "logo");
+      this.tweens.add({
+        targets: logo,
+        y: 450,
+        duration: 2000,
+        ease: "Power2",
+        yoyo: true,
+        loop: -1
+      });
+    }
+    
+    function update ()
+    {
+    }
+    
+    new Phaser.Game(config)
   }
-  
-  function create (){
-    const logo = this.add.image(400, 150, "logo");
-    this.tweens.add({
-      targets: logo,
-      y: 450,
-      duration: 2000,
-      ease: "Power2",
-      yoyo: true,
-      loop: -1
-    });
+
+  shouldComponentUpdate() {
+    return false;
   }
-  
-  function update ()
-  {
+
+  //sends div with game canvas to home component
+  render() {
+    return <div id='game-container' />   
   }
+
   
+  
+}
 
 
-export default Game;

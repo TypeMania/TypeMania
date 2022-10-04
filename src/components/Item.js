@@ -1,5 +1,7 @@
 //items for leaderboard
+//includes avatar, name, and score
 
+//file imports
 import React from "react";
 
 export default function Item({ row }) {
