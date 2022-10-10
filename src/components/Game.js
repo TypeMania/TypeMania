@@ -34,6 +34,37 @@ export default class Game extends Component {
         loop: -1
       });
     }
+
+    //precondition: recieves a Songmap object. Songmap class must have a static constant property: INITIAL_ARRAY
+    //postcondition: returns a shuffled array of integers [0-60)
+    function seededPRNG({bpm, length, seed}){
+      const totalPossibleKeyAmount = 128 // amount of playable characters on keyboard (subject to change)
+      const arraySize = bpm * length / totalPossibleKeyAmount; // the array size is calculated from the speed and length of the song
+      const start = seed % totalPossibleKeyAmount
+      const stop = start + arraySize;
+      const unshuffledArray = Songmap.INITIAL_ARRAY.slice(start,stop); // the larger static array is cut down to the previously calculated size
+      
+      //helper function: recursive shuffling algorithm without randomness.
+      //precondition: recieves an array and integer
+      //postcondition: returns the shuffled array
+      function shuffle(arr, shuffleCount){
+          if(shuffleCount <= 0){ // recursion exit condition
+              return arr;
+          }
+          else {
+              const normalizedSeed = shuffleCount % totalPossibleKeyAmount;
+              const half = Math.floor(normalizedSeed/2);
+              arr = arr.reverse(); //pointless reverse that may even lessen the impact the below swaps
+              //not really well thought out swapping loop of slightly offset left traversing and right traversing indices
+              for (let [i,j] = [normalizedSeed,arr.length-normalizedSeed]; i<arr.length/2 & j>=arr.length/2; i+=(normalizedSeed-half),j-=(normalizedSeed+half)){
+                  [arr[i], arr[j]] = [arr[j], arr[i]];
+              }
+              return shuffle(arr,shuffleCount-1); //recursion continuation statement
+          }
+      }
+      
+      return shuffle(unshuffledArray, seed); //the cut down array is uniformly shuffled x amount of times where x is the songmap's seed
+  }
     
     function update ()
     {
