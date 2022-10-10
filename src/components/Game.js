@@ -39,7 +39,7 @@ export default class Game extends Component {
     //postcondition: returns a shuffled array of integers [0-60)
     function seededPRNG({bpm, length, seed}){
       const totalPossibleKeyAmount = 128 // amount of playable characters on keyboard (subject to change)
-      const arraySize = bpm * length / totalPossibleKeyAmount; // the array size is calculated from the speed and length of the song
+      const arraySize = bpm * length / 60; // the array size is calculated from the speed and length of the song
       const start = seed % totalPossibleKeyAmount
       const stop = start + arraySize;
       const unshuffledArray = Songmap.INITIAL_ARRAY.slice(start,stop); // the larger static array is cut down to the previously calculated size
