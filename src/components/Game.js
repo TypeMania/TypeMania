@@ -34,7 +34,11 @@ export default class Game extends Component {
         loop: -1
       });
     }
-
+    
+    function update ()
+    {
+    }
+    
     //precondition: recieves a Songmap object. Songmap class must have a static constant property: INITIAL_ARRAY
     //postcondition: returns a shuffled array of integers [0-60)
     function seededPRNG({bpm, length, seed}){
@@ -64,10 +68,6 @@ export default class Game extends Component {
       }
       
       return shuffle(unshuffledArray, seed); //the cut down array is uniformly shuffled x amount of times where x is the songmap's seed
-  }
-    
-    function update ()
-    {
     }
     
     new Phaser.Game(config)
