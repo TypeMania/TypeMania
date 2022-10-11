@@ -18,19 +18,42 @@ export default class Game extends Component {
           update: update
       }
     };
+var follower;
+var path;
+var graphics;
     function preload (){
-      this.load.image('Key', 'Key.png');
     }
     
     function create (){
-      var r1 = this.add.rectangle(200, 200, 148, 148, 0x6666ff);
-      r1.animations.add('run');
-      r1.animations.play('run', 15, true);
+      graphics = this.add.graphics();
+      follower = { t: 0, vec: new Phaser.Math.Vector2() };
+      var line1 = new Phaser.Curves.Line([ 100, 100,900, 100 ]);
+      path = this.add.path();
+
+      // path = new Phaser.Curves.Path();
+      path.add(line1);
+      this.tweens.add({
+          targets: follower,
+          t: 0.9,
+          ease: 'Linear',
+          duration: 5000,
+          yoyo: true,
+          repeat: -1
+      });
+
     }
     
     function update ()
     {
-     
+      graphics.clear();
+      graphics.lineStyle(2, 0xffffff, 1);
+  
+      path.draw(graphics);
+  
+      path.getPoint(follower.t, follower.vec);
+  
+      graphics.fillStyle(0xFFCC00, 1);
+      graphics.fillRect(follower.vec.x - 8, follower.vec.y - 30, 60, 60);
     }
     new Phaser.Game(config)
   }
