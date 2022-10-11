@@ -1,6 +1,5 @@
 //import files
 import Phaser from 'phaser';
-import logoImg from '.././assets/logo.png';
 import React, { Component } from 'react';
 
 //phaser game component
@@ -18,27 +17,21 @@ export default class Game extends Component {
           create: create,
           update: update
       }
-    }
+    };
     function preload (){
-      this.load.image("logo", logoImg);
+      this.load.image('Key', 'Key.png');
     }
     
     function create (){
-      const logo = this.add.image(400, 150, "logo");
-      this.tweens.add({
-        targets: logo,
-        y: 450,
-        duration: 2000,
-        ease: "Power2",
-        yoyo: true,
-        loop: -1
-      });
+      var r1 = this.add.rectangle(200, 200, 148, 148, 0x6666ff);
+      r1.animations.add('run');
+      r1.animations.play('run', 15, true);
     }
     
     function update ()
     {
+     
     }
-    
     new Phaser.Game(config)
   }
 
