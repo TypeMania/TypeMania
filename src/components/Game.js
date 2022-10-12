@@ -12,6 +12,7 @@ export default class Game extends Component {
       parent: 'game-container',
       width: 1000,
       height: 600,
+      backgroundColor: "#7393B3",
       scene: {
           preload: preload,
           create: create,
@@ -21,10 +22,22 @@ export default class Game extends Component {
 var follower;
 var path;
 var graphics;
+
     function preload (){
     }
     
     function create (){
+      //creates arrow
+      var data = [ 0,20, 84,20, 84,0, 120,50, 84,100, 84,80, 0,80 ];
+      var r2 = this.add.polygon(400, 200, data, 0x9966ff);
+      r2.setStrokeStyle(4, 0xefc53f);
+
+
+      //grid
+      this.add.grid(800, 500, 2000, 250, 64, 64, 0x00b9f2).setAltFillStyle(0x016fce).setOutlineStyle();
+
+
+
       graphics = this.add.graphics();
       follower = { t: 0, vec: new Phaser.Math.Vector2() };
       var line1 = new Phaser.Curves.Line([ 100, 100,900, 100 ]);
