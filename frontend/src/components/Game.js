@@ -23,10 +23,13 @@ export default class Game extends Component {
           update: update
       }
     };
-var follower;
-var path;
-var graphics;
-var cursors;
+
+let follower;
+let path;
+let graphics;
+let cursors;
+let hitzone;
+let scrolltrack;
 
     function preload (){
     }
@@ -39,22 +42,33 @@ var cursors;
       this.add.grid(800, 500, 2000, 450, 64, 64, 0x00b9f2).setAltFillStyle(0x016fce).setOutlineStyle();
 
       //scroll track
-      this.add.rectangle(0,HEIGHT/3,WIDTH*2,HEIGHT/4, 0x333333).setStrokeStyle(4, 0x000000);
+      scrolltrack = this.add.rectangle(0,HEIGHT/3,WIDTH*2,HEIGHT/4, 0x333333)
+      scrolltrack.setStrokeStyle(4, 0x000000);
 
       //arrows
       for (let i=WIDTH/3; i<WIDTH; i+=WIDTH/4) {
-        var data = [ 120,20, 60,20, 60,0, 0,50, 60,100, 60,80, 120,80 ];
-        var r2 = this.add.polygon(i, HEIGHT/3, data, 0x9966ff);
+        const data = [ 120,20, 60,20, 60,0, 0,50, 60,100, 60,80, 120,80 ];
+        const r2 = this.add.polygon(i, HEIGHT/3, data, 0x9966ff);
         r2.setStrokeStyle(4, 0xefc53f);
       }
 
       //hitzone
-      const hitzone = this.add.rectangle(WIDTH/8,HEIGHT/3,100,HEIGHT/6, 0xFFFFFF).setStrokeStyle(4, 0x000000);
+      hitzone = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0xf54242)
+      hitzone.setStrokeStyle(4, 0x42adf5);
+      this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0xffbdf4).setStrokeStyle(3, 0x000000);
+      this.tweens.add({
+        targets: hitzone,
+        scale: 0.9,
+        ease: Phaser.Math.Easing.Back.In,
+        duration: 335,
+        yoyo: true,
+        loop: -1
+    });
       
       
       graphics = this.add.graphics();
       follower = { t: 1, vec: new Phaser.Math.Vector2() };
-      var line1 = new Phaser.Curves.Line([ -200, 200, WIDTH, 200 ]);
+      let line1 = new Phaser.Curves.Line([ -HEIGHT/3, HEIGHT/3, WIDTH, HEIGHT/3 ]);
       path = this.add.path();
 
       // path = new Phaser.Curves.Path();
@@ -83,11 +97,11 @@ var cursors;
       graphics.fillRect(follower.vec.x - 8, follower.vec.y - 30, 60, 60);
 
       //Block dissapears when a key is pressed
-      if (this.input.keyboard.checkDown(cursors.left, 250))
+      if (this.input.keyboard.checkDown(cursors.left))
       {
           graphics.x -= 1000;
       }
-      else if (this.input.keyboard.checkDown(cursors.right, 250))
+      else if (this.input.keyboard.checkDown(cursors.right))
       {
           graphics.x += 1000;
       }
