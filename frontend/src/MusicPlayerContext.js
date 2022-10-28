@@ -29,7 +29,7 @@ const MusicPlayerProvider = (props) => {
         },
         {
           title: 'Such Fun',
-          artist: 'TObu',
+          artist: 'Tobu',
           bpm: 10,
           length: '03:08',
           seed: 'seed',

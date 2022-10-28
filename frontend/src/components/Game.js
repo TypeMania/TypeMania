@@ -12,7 +12,7 @@ export default class Game extends Component {
       type: Phaser.AUTO,
       parent: 'game-container',
       width: 1000,
-      height: 600,
+      height: 500,
       scene: {
           preload: preload,
           create: create,
@@ -37,12 +37,6 @@ export default class Game extends Component {
     
     function update ()
     {
-    }
-
-    function playMusic(songmap) {
-      var audio = new Audio(songmap.songFilePath)
-      audio.play();
-      
     }
     
     new Phaser.Game(config)

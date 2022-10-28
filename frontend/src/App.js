@@ -9,7 +9,6 @@ import RegisterForm from './components/RegisterForm'
 import { Route, Routes} from 'react-router-dom'
 import Prefetch from './features/auth/Prefetch'
 import Layout from './components/Layout'
-import SongSelect from './components/SongSelect'
 import PersistLogin from './features/auth/PersistLogin';
 
 
@@ -25,7 +24,6 @@ function App() {
                   <Route index element={<PubHome/>}/>
                   <Route path="login" element={<LoginForm/>}/>
                   <Route path='register' element={<RegisterForm/>}/>
-                  <Route path='songSelect' element={<SongSelect/>}/>
 
 
                   <Route element={<PersistLogin/>}>
