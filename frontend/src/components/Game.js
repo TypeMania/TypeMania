@@ -38,6 +38,12 @@ export default class Game extends Component {
     function update ()
     {
     }
+
+    function playMusic(songmap) {
+      var audio = new Audio(songmap.songFilePath)
+      audio.play();
+      
+    }
     
     new Phaser.Game(config)
   }
