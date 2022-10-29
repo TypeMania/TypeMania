@@ -316,6 +316,13 @@ form .form-inner .form-group input:focus {
     display: none;
   }
 
+  .song-title {
+    margin-left: 20px;
+  }
 
+  .box {
+    display: flex !important;
+    align-items: center;
+  }
 
 }
