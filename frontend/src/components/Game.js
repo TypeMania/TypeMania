@@ -1,16 +1,17 @@
 //import files
 import Phaser from 'phaser';
 import React, { Component } from 'react';
+import { scroll_values } from './SpeedSlider';
 
 //phaser game component
-
-//constants
-const WIDTH = 1000;
-const HEIGHT = 600;
 
 //react component (different syntax than other compoenents, but basically the same)
 export default class Game extends Component {
   componentDidMount() {
+    //constants
+    const WIDTH = 1000;
+    const HEIGHT = 600;
+
     const config = {
       type: Phaser.AUTO,
       parent: 'game-container',
@@ -24,17 +25,19 @@ export default class Game extends Component {
       }
     };
 
-let follower;
-let path;
-let graphics;
-let cursors;
-let hitzone;
-let scrolltrack;
+    let follower;
+    let path;
+    let graphics;
+    let cursors;
+    let hitzone;
+    let note_animations;
+    let hitzone_animations;
+    let scrolltrack;
 
     function preload (){
     }
     
-    function create (){
+    function create () {
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
@@ -56,11 +59,11 @@ let scrolltrack;
       hitzone = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0xf54242)
       hitzone.setStrokeStyle(4, 0x42adf5);
       this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0xffbdf4).setStrokeStyle(3, 0x000000);
-      this.tweens.add({
+      hitzone_animations = this.tweens.add({
         targets: hitzone,
         scale: 0.9,
         ease: Phaser.Math.Easing.Back.In,
-        duration: 335,
+        duration: scroll_values.hitzone_pulse,
         yoyo: true,
         loop: -1
     });
@@ -73,12 +76,12 @@ let scrolltrack;
 
       // path = new Phaser.Curves.Path();
       path.add(line1);
-      this.tweens.add({
+      note_animations = this.tweens.add({
           targets: follower,
           t: .1,
           ease: 'Linear',
-          duration: 5000,
-          loop: -1
+          duration: scroll_values.note_scroll,
+          loop: -1,
       });
 
     }
@@ -105,12 +108,17 @@ let scrolltrack;
       {
           graphics.x += 1000;
       }
+      
+      note_animations.duration = scroll_values.note_scroll;
+      hitzone_animations.duration = scroll_values.hitzone_pulse;
+
+
     }
     new Phaser.Game(config)
   }
 
   shouldComponentUpdate() {
-    return false;
+    return true;
   }
 
   //sends div with game canvas to home component
