@@ -1,23 +1,23 @@
-import { Box, Button, Tabs, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import useMusicPlayer from "../hooks/useMusicPlayer";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlay, faPause} from "@fortawesome/free-solid-svg-icons";
 //import Game from "./Game";
 
-function SongList() {
+function SongSelect() {
 
-    const {songsList, playMusic, isPlaying} = useMusicPlayer();
-    const [currentSongmap, setCurrentSongmap] = useState(songsList[0]);
+    const {songsList, playMusic} = useMusicPlayer();
+    const [setCurrentSongmap] = useState(songsList[0]);
     const [expanded, setExpanded] = useState(false);
 
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
+    const handleChange =
+        (panel) => (event , newExpanded) => {
+        setExpanded(newExpanded ? panel : false);
+        };
+    
     //const [visible, setVisible] = useState(false);
     /*const [isPlaying, setIsPlaying] = useState(false);*/
 
@@ -26,25 +26,62 @@ function SongList() {
         setCurrentSongmap(songmap);
         playMusic(songmap);
     }
-
-    /*<Tabs
-                        value={currentSongmap}
-                        onChange={handleChange}
-                        orientation="vertical"
-                        >
-                            {songsList.map((songmap) =>
-                                <Tab label={songmap.title} value={songmap}/>
-                            )}
-                        
-                        </Tabs>*/
     
 
     
   
 return (
+    <div className="song-select">
+        <Accordion defaultExpanded={false}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              <Typography>Song Select</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
 
-    <div id="game-container">
-            <Accordion
+                {songsList.map((songmap, index) => (
+                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)}>
+                    <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                    >
+                    <button className="button" onClick={() => handlePlayMusic(songmap)}>
+                        {songmap.title}
+                    </button>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Box>
+                            <Box>
+                                <Typography>Artist: {songmap.artist}</Typography>
+                            </Box>
+                            <Box>
+                                <Typography>bpm: {songmap.bpm}</Typography>
+                            </Box>
+                            <Box>
+                                <Typography>length: {songmap.length}</Typography>
+                            </Box>
+                    
+                        </Box>
+                    </AccordionDetails>
+                    </Accordion>
+                ))}
+
+            </AccordionDetails>
+        </Accordion>
+        
+
+</div>
+            
+    
+  );
+}
+export default SongSelect;
+
+/*<Accordion
                 defaultExpanded={false}
                 expanded={expanded === "panel1"}
                 onChange={handleChange("panel1")}
@@ -95,15 +132,4 @@ return (
                     </Box>
                 </AccordionDetails>
             </Accordion>    
-        </div>
-
-
-    
-
-    
-  );
-}
-export default SongList;
-/*
-<Button variant="outlined" onClick={handlePlayMusic}>Select</Button>*/
-/*<Button onClick={handleChange("panel1")}>Select</Button>*/
+        </div>*/

@@ -1,4 +1,7 @@
-export const Songmap = (title, artist, bpm, npm, length, seed, uploadedBy, songFilePath) => {
+const Songmap =  (title, artist, bpm, npm, length, seed, uploadedBy, songFilePath) => {
+
+     const INITIAL_ARRAY = [];
+
      return { title: title, 
             artist: artist,
             bpm: bpm,
@@ -6,7 +9,10 @@ export const Songmap = (title, artist, bpm, npm, length, seed, uploadedBy, songF
             length: length,
             seed: seed,
             uploadedBy: uploadedBy,
-            songFilePath: songFilePath
+            songFilePath: songFilePath,
+            INITIAL_ARRAY
             }
 }
+
+export default Songmap;
 

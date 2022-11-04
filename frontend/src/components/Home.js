@@ -1,9 +1,9 @@
 //file imports
 import Banner from "./Banner";
-import SongList from "./SongList";
+import SongSelect from "./SongSelect";
 import Nav from "./Nav";
 import Footer from "./Footer";
-
+import Game from "./Game";
 import { MusicPlayerProvider } from "../MusicPlayerContext";
 
 
@@ -15,7 +15,8 @@ const Home = () => {
             <div className="home">
                 <Nav/>
                 <Banner/>
-                <SongList/>
+                <SongSelect/>
+                <Game/>
                 <Footer/>
         </div>
         </MusicPlayerProvider>

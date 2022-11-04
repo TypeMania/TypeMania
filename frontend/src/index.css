@@ -265,6 +265,7 @@ form .form-inner .form-group input:focus {
 @media only screen and (max-width: 1575px) {
   #game-container {
     margin-left: 290px;
+    position: fixed;
   }
 
 
@@ -316,13 +317,21 @@ form .form-inner .form-group input:focus {
     display: none;
   }
 
-  .song-title {
-    margin-left: 20px;
-  }
+}
 
-  .box {
-    display: flex !important;
-    align-items: center;
-  }
+.song-title {
+  margin-left: 20px;
+}
 
+.box {
+  display: flex !important;
+  align-items: left;
+}
+
+.song-select {
+  position: absolute;
+  right: 20px;  
+  width: 160px;
+  border: 3px solid black;
+  top: 180px;
 }

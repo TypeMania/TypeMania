@@ -2,7 +2,8 @@
 import Banner from "../Banner";
 import PubNav from './PubNav'
 import Footer from "../Footer";
-import SongList from "../SongList";
+import SongSelect from "../SongSelect";
+import Game from "../Game";
 import { MusicPlayerProvider } from "../../MusicPlayerContext";
 
 //home component
@@ -14,7 +15,8 @@ const Home = () => {
             <div className="home">
                 <PubNav/>
                 <Banner/>
-                <SongList/>
+                <SongSelect/>
+                <Game/>
                 <Footer/>
             </div>
 
