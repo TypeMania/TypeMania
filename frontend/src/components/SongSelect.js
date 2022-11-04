@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 function SongSelect() {
 
     const {songsList, playMusic} = useMusicPlayer();
-    const [setCurrentSongmap] = useState(songsList[0]);
+    //const [currenSongmap, setCurrentSongmap] = useState(songsList[0]);
     const [expanded, setExpanded] = useState(false);
 
     const handleChange =
@@ -23,7 +23,7 @@ function SongSelect() {
 
     function handlePlayMusic(songmap){
 
-        setCurrentSongmap(songmap);
+        //setCurrentSongmap(songmap);
         playMusic(songmap);
     }
     
