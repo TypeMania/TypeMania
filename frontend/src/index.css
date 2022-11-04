@@ -253,20 +253,15 @@ form .form-inner .form-group input:focus {
   display: inline;
 }
 
-
-
-
 /* MEDIA QUERIES (RESPONSIVE) */
 @media only screen and (max-width: 1575px) {
-  #game-container {
+  #game-container, p#speed-slider {
     margin-left: 290px;
   }
-
-
 }
 
 @media only screen and (max-width: 1300px) {
-  #game-container {
+  #game-container, p#speed-slider {
     margin-left: 200px;
   }
 
@@ -298,7 +293,7 @@ form .form-inner .form-group input:focus {
 }
 
 @media only screen and (max-width: 1100px) {
-  #game-container {
+  #game-container, p#speed-slider {
     margin-left: 0px;
   }
 

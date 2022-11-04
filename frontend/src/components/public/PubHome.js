@@ -3,7 +3,7 @@ import Banner from "../Banner";
 import Game from "../Game";
 import PubNav from './PubNav'
 import Footer from "../Footer";
-
+import SpeedSlider from "../SpeedSlider";
 
 //home component
 const Home = () => {
@@ -12,6 +12,7 @@ const Home = () => {
             <PubNav/>
             <Banner/>
             <Game/>
+            <SpeedSlider/>
             <Footer/>
         </div>   
     );

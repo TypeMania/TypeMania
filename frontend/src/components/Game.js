@@ -1,16 +1,17 @@
 //import files
 import Phaser from 'phaser';
 import React, { Component } from 'react';
+import { scroll_values } from './SpeedSlider';
 
 //phaser game component
-
-//constants
-const WIDTH = 1000;
-const HEIGHT = 600;
 
 //react component (different syntax than other compoenents, but basically the same)
 export default class Game extends Component {
   componentDidMount() {
+    //constants
+    const WIDTH = 1000;
+    const HEIGHT = 600;
+
     const config = {
       type: Phaser.AUTO,
       parent: 'game-container',
@@ -24,17 +25,20 @@ export default class Game extends Component {
       }
     };
 
-let follower;
-let path;
-let graphics;
-let cursors;
-let hitzone;
-let scrolltrack;
+    let follower;
+    let path;
+    let graphics;
+    let cursors;
+    let hitzone_outer;
+    let hitzone_inner;
+    let note_animations;
+    let hitzone_animations;
+    let scrolltrack;
 
     function preload (){
     }
     
-    function create (){
+    function create () {
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
@@ -53,34 +57,50 @@ let scrolltrack;
       }
 
       //hitzone
-      hitzone = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0xf54242)
-      hitzone.setStrokeStyle(4, 0x42adf5);
-      this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0xffbdf4).setStrokeStyle(3, 0x000000);
-      this.tweens.add({
-        targets: hitzone,
-        scale: 0.9,
-        ease: Phaser.Math.Easing.Back.In,
-        duration: 335,
-        yoyo: true,
-        loop: -1
-    });
       
-      
-      graphics = this.add.graphics();
-      follower = { t: 1, vec: new Phaser.Math.Vector2() };
-      let line1 = new Phaser.Curves.Line([ -HEIGHT/3, HEIGHT/3, WIDTH, HEIGHT/3 ]);
-      path = this.add.path();
-
-      // path = new Phaser.Curves.Path();
-      path.add(line1);
-      this.tweens.add({
-          targets: follower,
-          t: .1,
-          ease: 'Linear',
-          duration: 5000,
+      hitzone_animations = () => {
+        hitzone_outer = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0xf54242);
+        hitzone_outer.setStrokeStyle(4, 0x42adf5);
+        hitzone_inner = this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0xffbdf4).setStrokeStyle(3, 0x000000);
+        this.tweens.add({
+          targets: hitzone_outer,
+          scale: 0.9,
+          ease: Phaser.Math.Easing.Back.In,
+          duration: scroll_values.hitzone_pulse,
+          yoyo: true,
           loop: -1
-      });
+        });
+      }
+      hitzone_animations();
+      
+      
+      
+      note_animations = () => {  
+        graphics = this.add.graphics();
+        follower = { t: 1, vec: new Phaser.Math.Vector2() };
+        let line1 = new Phaser.Curves.Line([ -HEIGHT/3, HEIGHT/3, WIDTH, HEIGHT/3 ]);
+        path = this.add.path();
 
+        // path = new Phaser.Curves.Path();
+        path.add(line1);
+        this.tweens.add({
+            targets: follower,
+            t: .1,
+            ease: 'Linear',
+            duration: scroll_values.note_scroll,
+            loop: -1
+        });}
+      note_animations();
+
+    }
+    
+    scroll_values.applySpeed = (multiplier) => {
+      scroll_values.hitzone_pulse = 335 / multiplier;
+      scroll_values.note_scroll = 5000 / multiplier;
+      graphics.destroy();
+      hitzone_outer.destroy();
+      hitzone_animations();
+      note_animations();
     }
     
     function update ()
@@ -105,6 +125,7 @@ let scrolltrack;
       {
           graphics.x += 1000;
       }
+
     }
     new Phaser.Game(config)
   }
