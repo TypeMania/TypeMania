@@ -29,7 +29,8 @@ export default class Game extends Component {
     let path;
     let graphics;
     let cursors;
-    let hitzone;
+    let hitzone_outer;
+    let hitzone_inner;
     let note_animations;
     let hitzone_animations;
     let scrolltrack;
@@ -56,34 +57,50 @@ export default class Game extends Component {
       }
 
       //hitzone
-      hitzone = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0xf54242)
-      hitzone.setStrokeStyle(4, 0x42adf5);
-      this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0xffbdf4).setStrokeStyle(3, 0x000000);
-      hitzone_animations = this.tweens.add({
-        targets: hitzone,
-        scale: 0.9,
-        ease: Phaser.Math.Easing.Back.In,
-        duration: scroll_values.hitzone_pulse,
-        yoyo: true,
-        loop: -1
-    });
+      
+      hitzone_animations = () => {
+        hitzone_outer = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0xf54242);
+        hitzone_outer.setStrokeStyle(4, 0x42adf5);
+        hitzone_inner = this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0xffbdf4).setStrokeStyle(3, 0x000000);
+        this.tweens.add({
+          targets: hitzone_outer,
+          scale: 0.9,
+          ease: Phaser.Math.Easing.Back.In,
+          duration: scroll_values.hitzone_pulse,
+          yoyo: true,
+          loop: -1
+        });
+      }
+      hitzone_animations();
       
       
-      graphics = this.add.graphics();
-      follower = { t: 1, vec: new Phaser.Math.Vector2() };
-      let line1 = new Phaser.Curves.Line([ -HEIGHT/3, HEIGHT/3, WIDTH, HEIGHT/3 ]);
-      path = this.add.path();
+      
+      note_animations = () => {  
+        graphics = this.add.graphics();
+        follower = { t: 1, vec: new Phaser.Math.Vector2() };
+        let line1 = new Phaser.Curves.Line([ -HEIGHT/3, HEIGHT/3, WIDTH, HEIGHT/3 ]);
+        path = this.add.path();
 
-      // path = new Phaser.Curves.Path();
-      path.add(line1);
-      note_animations = this.tweens.add({
-          targets: follower,
-          t: .1,
-          ease: 'Linear',
-          duration: scroll_values.note_scroll,
-          loop: -1,
-      });
+        // path = new Phaser.Curves.Path();
+        path.add(line1);
+        this.tweens.add({
+            targets: follower,
+            t: .1,
+            ease: 'Linear',
+            duration: scroll_values.note_scroll,
+            loop: -1
+        });}
+      note_animations();
 
+    }
+    
+    scroll_values.applySpeed = (multiplier) => {
+      scroll_values.hitzone_pulse = 335 / multiplier;
+      scroll_values.note_scroll = 5000 / multiplier;
+      graphics.destroy();
+      hitzone_outer.destroy();
+      hitzone_animations();
+      note_animations();
     }
     
     function update ()
@@ -108,17 +125,13 @@ export default class Game extends Component {
       {
           graphics.x += 1000;
       }
-      
-      note_animations.duration = scroll_values.note_scroll;
-      hitzone_animations.duration = scroll_values.hitzone_pulse;
-
 
     }
     new Phaser.Game(config)
   }
 
   shouldComponentUpdate() {
-    return true;
+    return false;
   }
 
   //sends div with game canvas to home component
