@@ -28,13 +28,10 @@ const theme = createTheme({
                     width: "15%",
                     top: "10px",
                     '@media only screen and (max-width: 1575px)':{
-                        left: "150px"
                     },
                     '@media only screen and (max-width: 1300px)':{
-                        left: "100px"
                     },
                     '@media only screen and (max-width: 1100px)':{
-                        left: "auto"
                     }
                 }
             }

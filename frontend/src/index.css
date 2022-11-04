@@ -261,18 +261,7 @@ form .form-inner .form-group input:focus {
 
 /* MEDIA QUERIES (RESPONSIVE) */
 @media only screen and (max-width: 1575px) {
-  #game-container, p#speed-slider {
-    margin-left: 290px;
-    position: fixed;
-  }
-}
 
-@media only screen and (max-width: 1300px) {
-  #game-container, p#speed-slider {
-    margin-left: 200px;
-  }
-
-  
   /* leaderboard banner item */
   .leaderboardIMG {
     height: 20em;
@@ -299,20 +288,22 @@ form .form-inner .form-group input:focus {
   }
 }
 
-@media only screen and (max-width: 1100px) {
-  #game-container, p#speed-slider {
-    margin-left: 0px;
-  }
+@media only screen and (max-width: 1400px) {
 
-  /* leaderboard banner item */
-  .leaderboardIMG {
+   /* leaderboard banner item */
+   .leaderboardIMG {
     display: none;
   }
 
   .item-wrapper {
     display: none;
   }
+}
 
+@media only screen and (max-height: 900px) {
+  .foot, .WelcomeIMG {
+    display: none;
+  }
 }
 
 .song-title {
