@@ -1,4 +1,4 @@
-Code within "Typemania.github.io" folder is the code as of the demo1 presentation. Please add the folder to a directory on your device and note the filepath to it.
+Code within the "Typemania.github.io" folder is the code as of the demo1 presentation (04Nov2022). Please add the folder to a directory on your device and note the filepath to it.
 
 Before running the code, please ensure the following are installed on your device:
 Git - https://git-scm.com/downloads
