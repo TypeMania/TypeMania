@@ -1,4 +1,4 @@
-Code within "04NOV2022" folder is the code as of the demo1 presentation. Please add the folder to a directory on your device and note the filepath to it.
+Code within "Typemania.github.io" folder is the code as of the demo1 presentation. Please add the folder to a directory on your device and note the filepath to it.
 
 Before running the code, please ensure the following are installed on your device:
 Git - https://git-scm.com/downloads
@@ -6,7 +6,7 @@ NodeJS - https://nodejs.org/en/download/
 
 Once installed, follow these steps to run the code:
 Run git bash & use its terminal to... 
-Type "cd filepath/to/04NOV2022/Typemania.github.io/backend", navigating into our backend codebase.
+Type "cd filepath/to/Typemania.github.io/backend", navigating into our backend codebase.
 Type "npm i", installing the required dependencies at this location.
 Type "npm run dev", starting a developer server from our backend.
 Type "cd ../frontend", navigating to our frontend codebase.
