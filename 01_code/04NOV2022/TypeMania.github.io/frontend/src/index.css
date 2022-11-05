@@ -1,0 +1,324 @@
+/* font import */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300&family=Luckiest+Guy&family=Press+Start+2P&display=swap');
+
+
+* {
+  margin: 0;
+  font-family: 'Inter Tight', sans-serif;
+  /* centers content */
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* PHASER CANVAS ELEMENT*/
+canvas {
+  /* centers phaser canvas */
+  display : block;   
+  margin : auto;
+  }
+
+/* NAV BAR STYLE */
+.nav h1 {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 3em;
+}
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 10px;
+}
+.navbar li{
+  display: inline;
+}
+.nav a {
+  padding: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  font-size: 1em;
+}
+
+.nav a:hover {
+  color: #7745E5;
+}
+
+/* HOME STYLE */
+/* BANNER STYLE */
+.welcome {
+  color: #7745E5;
+  font-weight: bold;
+  font-size: 1em;
+  font-family: 'Press Start 2P', cursive;
+  margin-top: 20px;
+  right: 30px;
+  position:absolute;
+
+}
+
+/* leaderboard banner item */
+.leaderboardIMG {
+  height: 28em;
+  top: 170px;
+  position: absolute;
+  left: 20px;
+}
+
+.item-wrapper {
+  border: 3px solid black;
+  width: 200px;
+  padding: 0;
+  margin-bottom: 5px;
+  position: absolute;
+  left: 80px;
+  top: 180px;
+
+}
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 5px;
+  padding-bottom: 1px;
+  border-top: 1px solid #7745E5;
+  font-size: 1em;
+
+}
+.item__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.item__avatar__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.item__score {
+  font-family: monospace;
+  flex: 1;
+  text-align: right;
+}
+.item__avatar,
+.item__name,
+.item__score {
+  margin-left: 10px;
+}
+
+
+/* LOGINFORM STYLE */
+input, button{
+  border: none;
+}
+
+form {
+  display: block;
+  position: relative;
+  padding: 1px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 40vw;
+}
+
+form:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  z-index: 1;
+  background-image: linear-gradient(to bottom right, #7745E5, #FE4880);
+}
+
+.loginForm div {
+  background-color: #FFF;
+}
+
+form .form-inner{
+  position: relative;
+  display: block;
+  background-color: #FFFF;
+  padding: 10px;
+  z-index: 2;
+}
+
+form .form-inner h2 {
+  padding-top: 5px;
+  padding-bottom: 20px;
+  color: black;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+form .form-inner .form-group {
+  display: block;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.form-inner .form-group label {
+  display: block;
+  color: black;
+  font-size: 1.2em;
+  text-align: left;
+  transition: 0.4s;
+  font-weight: bold;
+}
+
+.form-inner .form-group:focus-within label {
+  color: #7745E5;
+}
+
+form .form-inner .form-group input {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  margin-top: 3px;
+  background-color: #56545a3a;
+  border-radius: 8px;
+  transition: 0.4s;
+}
+
+form .form-inner .form-group input:focus {
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-image: linear-gradient(to right, #666,  50%, #7745E5 50%);
+  background-position: 0%;
+  background-size: 200%;
+  color: #FFF;
+  transition: 0.4s;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form-inner button:hover {
+  background-position: 100%;
+}
+
+.form-inner p {
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.errmsg {
+  display: inline-block;
+  background-color: black;
+  color: red;
+  padding: 0.25em;
+  margin-bottom: 0.5em;
+}
+
+
+.form__input--incomplete {
+  border: 1px solid black;
+  outline: 1px solid black;
+}
+
+
+
+/*  GAME STYLING */
+#game-container {
+  margin-top: 10px;
+}
+
+
+/* FOOTER STYLE */
+.WelcomeIMG {
+  position: absolute;
+  right: 10px;
+  height: 5em;
+  
+}
+
+.foot {
+  border-top: solid 5px black;
+  margin-top: 5px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 5em;
+  width: 100%;
+}
+
+.foot h3 {
+  margin-top: 20px;
+  display: inline;
+}
+
+/* MEDIA QUERIES (RESPONSIVE) */
+@media only screen and (max-width: 1575px) {
+
+  /* leaderboard banner item */
+  .leaderboardIMG {
+    height: 20em;
+  }
+
+  .item-wrapper {
+    width: 130px;
+    left: 60px;
+  }
+
+  .item__avatar__img {
+    display: none;
+  }
+
+  .item__score {
+    font-family: monospace;
+    flex: 1;
+    text-align: right;
+  }
+  .item__avatar,
+  .item__name,
+  .item__score {
+    margin-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+
+   /* leaderboard banner item */
+   .leaderboardIMG {
+    display: none;
+  }
+
+  .item-wrapper {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 900px) {
+  .foot, .WelcomeIMG {
+    display: none;
+  }
+}
+
+.song-title {
+  margin-left: 20px;
+}
+
+.box {
+  display: flex !important;
+  align-items: left;
+}
+
+.song-select {
+  position: absolute;
+  right: 20px;  
+  width: 160px;
+  border: 3px solid black;
+  top: 180px;
+}
