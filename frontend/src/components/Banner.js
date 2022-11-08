@@ -24,7 +24,6 @@ const Banner = (  ) => {
 
     let content
     if (!username) { //not logged in
-        console.log('guest');
         content = <div className="banner">
                     <img src={LeaderboardIMG} alt="Leaderboard" className='leaderboardIMG'/> 
                     <List data={data}/> 

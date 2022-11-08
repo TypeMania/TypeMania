@@ -1,19 +1,29 @@
 //file imports
 import Banner from "../Banner";
-import Game from "../Game";
 import PubNav from './PubNav'
 import Footer from "../Footer";
-
+import SpeedSlider from "../SpeedSlider";
+import SongSelect from "../SongSelect";
+import Game from "../Game";
+import { MusicPlayerProvider } from "../../MusicPlayerContext";
 
 //home component
 const Home = () => {
-    return (  
-        <div className="home">
-            <PubNav/>
-            <Banner/>
-            <Game/>
-            <Footer/>
-        </div>   
+
+
+    return ( 
+        <MusicPlayerProvider>
+            
+            <div className="home">
+                <PubNav/>
+                <Banner/>
+                <SongSelect/>
+                <Game/>
+                <SpeedSlider/>
+                <Footer/>
+            </div>
+
+        </MusicPlayerProvider> 
     );
 }
 

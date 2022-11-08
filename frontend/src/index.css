@@ -241,11 +241,17 @@ form .form-inner .form-group input:focus {
   position: absolute;
   right: 10px;
   height: 5em;
+  
 }
 
 .foot {
   border-top: solid 5px black;
   margin-top: 5px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 5em;
+  width: 100%;
 }
 
 .foot h3 {
@@ -253,24 +259,9 @@ form .form-inner .form-group input:focus {
   display: inline;
 }
 
-
-
-
 /* MEDIA QUERIES (RESPONSIVE) */
 @media only screen and (max-width: 1575px) {
-  #game-container {
-    margin-left: 290px;
-  }
 
-
-}
-
-@media only screen and (max-width: 1300px) {
-  #game-container {
-    margin-left: 200px;
-  }
-
-  
   /* leaderboard banner item */
   .leaderboardIMG {
     height: 20em;
@@ -297,17 +288,37 @@ form .form-inner .form-group input:focus {
   }
 }
 
-@media only screen and (max-width: 1100px) {
-  #game-container {
-    margin-left: 0px;
-  }
+@media only screen and (max-width: 1400px) {
 
-  /* leaderboard banner item */
-  .leaderboardIMG {
+   /* leaderboard banner item */
+   .leaderboardIMG {
     display: none;
   }
 
   .item-wrapper {
     display: none;
   }
+}
+
+@media only screen and (max-height: 900px) {
+  .foot, .WelcomeIMG {
+    display: none;
+  }
+}
+
+.song-title {
+  margin-left: 20px;
+}
+
+.box {
+  display: flex !important;
+  align-items: left;
+}
+
+.song-select {
+  position: absolute;
+  right: 20px;  
+  width: 160px;
+  border: 3px solid black;
+  top: 180px;
 }
