@@ -244,7 +244,7 @@ form .form-inner .form-group input:focus {
   
 }
 
-.foot {
+.footer {
   border-top: solid 5px black;
   margin-top: 5px;
   position: fixed;
@@ -252,12 +252,10 @@ form .form-inner .form-group input:focus {
   bottom: 0;
   height: 5em;
   width: 100%;
+  text-align: right;
+  background-color:blue;
 }
 
-.foot h3 {
-  margin-top: 20px;
-  display: inline;
-}
 
 /* MEDIA QUERIES (RESPONSIVE) */
 @media only screen and (max-width: 1575px) {
@@ -266,6 +264,16 @@ form .form-inner .form-group input:focus {
   .leaderboardIMG {
     height: 20em;
   }
+
+  /*Typemania logo item */
+  .FooterImage{
+    margin-top: 5px;
+    position: absolute;
+    left: 1px;
+    height: 25%;
+    width: 100%
+  }
+
 
   .item-wrapper {
     width: 130px;
@@ -285,24 +293,6 @@ form .form-inner .form-group input:focus {
   .item__name,
   .item__score {
     margin-left: 0px;
-  }
-}
-
-@media only screen and (max-width: 1400px) {
-
-   /* leaderboard banner item */
-   .leaderboardIMG {
-    display: none;
-  }
-
-  .item-wrapper {
-    display: none;
-  }
-}
-
-@media only screen and (max-height: 900px) {
-  .foot, .WelcomeIMG {
-    display: none;
   }
 }
 

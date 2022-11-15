@@ -1,6 +1,5 @@
 //file imports
-import WelcomeIMG from '../assets/WelcomeIMG.PNG'
-
+import FooterImage from '../assets/FooterImage.png'
 
 
 
@@ -8,8 +7,9 @@ import WelcomeIMG from '../assets/WelcomeIMG.PNG'
 const Footer = () => {
     return (  
         <div className="foot">
-            <h3>Footer Placeholder</h3>
-           <img src={WelcomeIMG} alt="Welcome_Image" className='WelcomeIMG'/> 
+            <a href="https://github.com/TypeMania/TypeMania.github.io">
+           <img src={FooterImage} alt="FooterImage" className='FooterImage'/>
+           </a>
            
         </div>   
     );

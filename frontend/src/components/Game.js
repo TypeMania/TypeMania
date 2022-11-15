@@ -17,11 +17,10 @@ export default class Game extends Component {
       parent: 'game-container',
       width: WIDTH,
       height: HEIGHT,
-      backgroundColor: "#7393B3",
       scene: {
           preload: preload,
           create: create,
-          update: update
+          update: update,
       }
     };
 
@@ -35,19 +34,22 @@ export default class Game extends Component {
     let hitzone_animations;
     let scrolltrack;
 
-    function preload (){
+  
+    function preload(){
+      
     }
     
     function create () {
+      
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
       //grid
-      this.add.grid(800, 500, 2000, 450, 64, 64, 0x00b9f2).setAltFillStyle(0x016fce).setOutlineStyle();
+      this.add.grid(800, 500, 2000,1000, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
 
       //scroll track
-      scrolltrack = this.add.rectangle(0,HEIGHT/3,WIDTH*2,HEIGHT/4, 0x333333)
-      scrolltrack.setStrokeStyle(4, 0x000000);
+      scrolltrack = this.add.rectangle(0,HEIGHT/3,WIDTH*3,HEIGHT/3, 0x00b9f2)
+      scrolltrack.setStrokeStyle(4, 0x00b9f2);
 
       //arrows
       for (let i=WIDTH/3; i<WIDTH; i+=WIDTH/4) {
@@ -59,9 +61,9 @@ export default class Game extends Component {
       //hitzone
       
       hitzone_animations = () => {
-        hitzone_outer = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0xf54242);
-        hitzone_outer.setStrokeStyle(4, 0x42adf5);
-        hitzone_inner = this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0xffbdf4).setStrokeStyle(3, 0x000000);
+        hitzone_outer = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0x270a3d);
+        hitzone_outer.setStrokeStyle(7, 0xefc53f);
+        hitzone_inner = this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0x9966ff).setStrokeStyle(5, 0x00b9f2);
         this.tweens.add({
           targets: hitzone_outer,
           scale: 0.9,
