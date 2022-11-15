@@ -13,6 +13,15 @@ export default class Game extends Component {
     const HEIGHT = 600;
 
     const config = {
+      default: 'arcade',
+      arcade: {
+        x:0,
+        y:0,
+        width:WIDTH,
+        height:HEIGHT,
+        fixedStep:true,
+        fps:60,
+      },
       type: Phaser.AUTO,
       parent: 'game-container',
       width: WIDTH,
@@ -25,15 +34,13 @@ export default class Game extends Component {
       }
     };
 
-    let follower;
-    let path;
-    let graphics;
+    const game = new Phaser.Game(config)
     let cursors;
     let hitzone_outer;
     let hitzone_inner;
-    let note_animations;
     let hitzone_animations;
     let scrolltrack;
+    let noteArray;
 
     function preload (){
     }
@@ -72,60 +79,38 @@ export default class Game extends Component {
         });
       }
       hitzone_animations();
-      
-      
-      
-      note_animations = () => {  
-        graphics = this.add.graphics();
-        follower = { t: 1, vec: new Phaser.Math.Vector2() };
-        let line1 = new Phaser.Curves.Line([ -HEIGHT/3, HEIGHT/3, WIDTH, HEIGHT/3 ]);
-        path = this.add.path();
 
-        // path = new Phaser.Curves.Path();
-        path.add(line1);
-        this.tweens.add({
-            targets: follower,
-            t: .1,
-            ease: 'Linear',
-            duration: scroll_values.note_scroll,
-            loop: -1
-        });}
-      note_animations();
+      noteArray = [];
+      setInterval(()=>{
+        const note = this.add.rectangle(WIDTH+WIDTH/8,HEIGHT/3,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+
+        // add characters to notes here
+
+        noteArray.push(note);
+      }, scroll_values.note_scroll*1000);
 
     }
     
     scroll_values.applySpeed = (multiplier) => {
       scroll_values.hitzone_pulse = 335 / multiplier;
-      scroll_values.note_scroll = 5000 / multiplier;
-      graphics.destroy();
+      scroll_values.note_scroll = 1 * multiplier;
       hitzone_outer.destroy();
       hitzone_animations();
-      note_animations();
+      noteArray.forEach((note)=>{note.destroy()});
+      noteArray.length = 0;
     }
     
     function update ()
     {
+      noteArray.forEach((note)=>{
+        note.x -= scroll_values.note_scroll;
+        if(note.x < -50){
+          note.destroy();
+          noteArray.shift();
+        }
+      });
+
       
-      graphics.clear();
-      graphics.lineStyle();
-  
-      path.draw(graphics);
-  
-      path.getPoint(follower.t, follower.vec);
-  
-      graphics.fillStyle(0xFFCC00, 1);
-      graphics.fillRect(follower.vec.x - 8, follower.vec.y - 30, 60, 60);
-
-      //Block dissapears when a key is pressed
-      if (this.input.keyboard.checkDown(cursors.left))
-      {
-          graphics.x -= 1000;
-      }
-      else if (this.input.keyboard.checkDown(cursors.right))
-      {
-          graphics.x += 1000;
-      }
-
     }
 
     //precondition: recieves an array of integer returned by seededPRNG function, and the value from songmap settings
@@ -181,7 +166,7 @@ export default class Game extends Component {
     return charArray;
   }
  
-    new Phaser.Game(config)
+    
   }
 
   shouldComponentUpdate() {
