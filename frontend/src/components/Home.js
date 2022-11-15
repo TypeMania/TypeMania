@@ -4,6 +4,7 @@ import SongSelect from "./SongSelect";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import Game from "./Game";
+import SpeedSlider from "./SpeedSlider";
 import { MusicPlayerProvider } from "../MusicPlayerContext";
 
 
@@ -17,6 +18,7 @@ const Home = () => {
                 <Banner/>
                 <SongSelect/>
                 <Game/>
+                <SpeedSlider/>
                 <Footer/>
         </div>
         </MusicPlayerProvider>

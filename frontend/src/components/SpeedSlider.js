@@ -27,6 +27,7 @@ const theme = createTheme({
                 root: {
                     width: "15%",
                     top: "10px",
+                    bottom: "80px",
                     '@media only screen and (max-width: 1575px)':{
                     },
                     '@media only screen and (max-width: 1300px)':{

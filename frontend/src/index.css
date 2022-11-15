@@ -10,6 +10,7 @@
   margin-left: auto;
 }
 
+
 /* PHASER CANVAS ELEMENT*/
 canvas {
   /* centers phaser canvas */
@@ -51,17 +52,46 @@ canvas {
   font-size: 1em;
   font-family: 'Press Start 2P', cursive;
   margin-top: 20px;
-  right: 30px;
+  right: 25%;
   position:absolute;
+}
 
+/* SONG SELECT MENU */
+.song-title {
+  margin-left: 20px;
+}
+
+.box {
+  display: flex !important;
+  align-items: left;
+}
+
+.song-select {
+  position: sticky;
+  float: right;
+  margin-right: 20px;
+  margin-left: 0;
+  padding-left: 0;
+  border: 3px solid black;
+  top: 140px;
+  width: 20%;
+}
+
+/*  GAME STYLING */
+#game-container {
+  margin-top: 10px;
+  margin-left: 20%;
+  margin-right: 0;
+  padding-right: 0;
+  width: 80%;
 }
 
 /* leaderboard banner item */
 .leaderboardIMG {
-  height: 28em;
-  top: 170px;
-  position: absolute;
-  left: 20px;
+  height: 33em;
+  position: sticky;
+  float: left;
+  margin-left: 30px;
 }
 
 .item-wrapper {
@@ -69,9 +99,10 @@ canvas {
   width: 200px;
   padding: 0;
   margin-bottom: 5px;
-  position: absolute;
-  left: 80px;
-  top: 180px;
+  position: sticky;
+  float: left;
+  margin-left: 20px;
+  margin-top: 15px;
 
 }
 .item {
@@ -230,10 +261,8 @@ form .form-inner .form-group input:focus {
 
 
 
-/*  GAME STYLING */
-#game-container {
-  margin-top: 10px;
-}
+
+
 
 
 /* FOOTER STYLE */
@@ -252,6 +281,7 @@ form .form-inner .form-group input:focus {
   bottom: 0;
   height: 5em;
   width: 100%;
+  background-color: white;
 }
 
 .foot h3 {
@@ -259,28 +289,58 @@ form .form-inner .form-group input:focus {
   display: inline;
 }
 
+
+
+
+
+
 /* MEDIA QUERIES (RESPONSIVE) */
-@media only screen and (max-width: 1575px) {
+
+/* removes footer when screen shrinks (prevents hiding slider) */
+@media only screen and (max-height: 870px) {
+  .foot {
+    display: none;
+  }
+}
+
+/* shifts song select right to not cover game canvas */
+@media only screen and (max-width: 1820px) {
+  .song-select {
+    width: 15%;
+  }
+}
+
+
+@media only screen and (max-width: 1650px) {
+  #game-container {
+    margin-left: 100px;
+  } 
 
   /* leaderboard banner item */
   .leaderboardIMG {
-    height: 20em;
+    height: 30em;
+    margin-left: 20px;
   }
 
   .item-wrapper {
-    width: 130px;
-    left: 60px;
+    width: 150px;
+    margin-left: 15px;
+    margin-top: 15px;
   }
+
+  .item {
+    padding-right: 5px;
+    font-size: 0.8em;
+  }
+
+  .item__avatar {
+    width: 5px;
+  } 
 
   .item__avatar__img {
     display: none;
   }
 
-  .item__score {
-    font-family: monospace;
-    flex: 1;
-    text-align: right;
-  }
   .item__avatar,
   .item__name,
   .item__score {
@@ -288,37 +348,63 @@ form .form-inner .form-group input:focus {
   }
 }
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1540px) {
 
-   /* leaderboard banner item */
-   .leaderboardIMG {
+    /* leaderboard banner item */
+    .leaderboardIMG {
+      height: 22em;
+      margin-left: 20px;
+    }
+    .item-wrapper {
+      width: 120px;
+    
+    }
+  .song-select {
+    width: 10%;
+  }
+}
+
+@media only screen and (max-width: 1365px) {
+  .leaderboardIMG {
     display: none;
   }
-
   .item-wrapper {
     display: none;
   }
+  #game-container {
+    margin-left: 10px;
+  } 
+  .song-select {
+    width: 15%;
+  }
+
 }
 
-@media only screen and (max-height: 900px) {
-  .foot, .WelcomeIMG {
+@media only screen and (max-width: 1220px) {
+  .song-select {
+    width: 10%;
+  }
+
+}
+
+@media only screen and (max-width: 1150px) {
+  .song-select {
+    float: none;
+    width: 100%;
+  }
+
+  .foot {
     display: none;
   }
-}
 
-.song-title {
-  margin-left: 20px;
-}
+  #game-container {
+    margin-top: 20px;
+    width: 100%;
+  } 
 
-.box {
-  display: flex !important;
-  align-items: left;
-}
+  .welcome {
+    top: 200px;
+    right: 80px;
+  }
 
-.song-select {
-  position: absolute;
-  right: 20px;  
-  width: 160px;
-  border: 3px solid black;
-  top: 180px;
 }
