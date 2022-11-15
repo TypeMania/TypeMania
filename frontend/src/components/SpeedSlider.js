@@ -41,10 +41,10 @@ const theme = createTheme({
 
 export const scroll_values = {
     hitzone_pulse: 335,
-    note_scroll: 5000,
+    note_scroll: 1,
     applySpeed: (multiplier) => {
         scroll_values.hitzone_pulse = 335 / multiplier;
-        scroll_values.note_scroll = 5000 / multiplier;
+        scroll_values.note_scroll = 1 * multiplier;
     }
 }
 
