@@ -9,7 +9,20 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function SongSelect() {
 
-    const {songsList, playMusic} = useMusicPlayer();
+    //const {songsList, playMusic} = useMusicPlayer();
+    const {playMusic} = useMusicPlayer();
+    const [songs, setSong] = useState([]);
+    useEffect(() => {
+        songs();
+      }, []);
+    useEffect(() => {
+        getAllSongs();
+    }, []);
+     
+    const getAllSongs = async () => {
+        const response = await axios.get("http://localhost:5000/songs");
+        setSong(response.data);
+    };
     //const [currenSongmap, setCurrentSongmap] = useState(songsList[0]);
     const [expanded, setExpanded] = useState(false);
 
@@ -42,7 +55,7 @@ return (
             </AccordionSummary>
             <AccordionDetails>
 
-                {songsList.map((songmap, index) => (
+                {songs.map((songmap, index) => (
                     <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

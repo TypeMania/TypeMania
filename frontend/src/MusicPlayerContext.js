@@ -8,7 +8,7 @@ const MusicPlayerContext = React.createContext([{}, () => {}]);
 const MusicPlayerProvider = (props) => {
   const [state, setState] = useState({
     audioPlayer: new Audio(),
-    songs: [
+    /*songs: [
         {
           title: 'Genesis',
           artist: 'Lost Chameleon',
@@ -36,7 +36,7 @@ const MusicPlayerProvider = (props) => {
           songFilePath: '../assets/songfiles/Tobu.mp3',
           file: Tobu,
         },
-      ],
+      ],*/
     currentSongmap: null,
     isPlaying: false,
   });

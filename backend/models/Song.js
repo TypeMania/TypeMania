@@ -15,7 +15,30 @@ const songSchema = new mongoose.Schema({
     artist: [{
         type: String,
         required: "True"
-    }]
+    }],
+    bpm: {
+        type: Number,
+        required: "True"
+    },
+    length: {
+        type: String,
+        required: "True"
+    },
+    seed: {
+        type: Array,
+        required: "True"
+    },
+    songFilePath: {
+        type: String,
+        required: "True"
+    },
+    songFile: {
+        type: String,
+        required: "True"
+    }
+
+
+
 })
 
 module.exports = mongoose.model('Song', songSchema)
