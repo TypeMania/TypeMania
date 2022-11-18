@@ -29,7 +29,7 @@ const useMusicPlayer = () => {
   return {
     playMusic,
     togglePlay,
-    songsList: state.songs,
+    //songsList: state.songs,
     isPlaying: state.isPlaying
   }
 };
