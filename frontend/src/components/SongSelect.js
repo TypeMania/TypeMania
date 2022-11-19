@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import useMusicPlayer from "../hooks/useMusicPlayer";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -7,44 +8,43 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 //import Game from "./Game";
 
-function SongSelect() {
+const SongSelect = () => {
 
-    //const {songsList, playMusic} = useMusicPlayer();
-    const {playMusic} = useMusicPlayer();
-    const [songs, setSong] = useState([]);
-    useEffect(() => {
-        songs();
-      }, []);
-    useEffect(() => {
-        getAllSongs();
-    }, []);
-     
-    const getAllSongs = async () => {
-        const response = await axios.get("http://localhost:5000/songs");
-        setSong(response.data);
+//const {songsList, playMusic} = useMusicPlayer();
+const {playMusic} = useMusicPlayer();
+const [songs, setSong] = useState([]);
+useEffect(() => {
+    songs();
+  }, []);
+useEffect(() => {
+    getAllSongs();
+}, []);
+ 
+const getAllSongs = async () => {
+    const response = await axios.get("http://localhost:5000/songs");
+    setSong(response.data);
+};
+//const [currentSongmap, setCurrentSongmap] = useState(songsList[0]);
+const [expanded, setExpanded] = useState(false);
+
+const handleChange =
+    (panel) => (event , newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
     };
-    //const [currenSongmap, setCurrentSongmap] = useState(songsList[0]);
-    const [expanded, setExpanded] = useState(false);
 
-    const handleChange =
-        (panel) => (event , newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
-        };
-    
-    //const [visible, setVisible] = useState(false);
-    /*const [isPlaying, setIsPlaying] = useState(false);*/
+//const [visible, setVisible] = useState(false);
+/*const [isPlaying, setIsPlaying] = useState(false);*/
 
-    function handlePlayMusic(songmap){
+function handlePlayMusic(songmap){
 
-        //setCurrentSongmap(songmap);
-        playMusic(songmap);
-    }
-    
+    //setCurrentSongmap(songmap);
+    playMusic(songmap);
+}
 
-    
-  
+
 return (
     <div className="song-select">
+    {/*   
         <Accordion defaultExpanded={false}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -85,26 +85,20 @@ return (
 
             </AccordionDetails>
         </Accordion>
-        
-
-</div>
-            
-    
-  );
-}
-export default SongSelect;
-
-/*<Accordion
+        */}
+    {/*
+        <div className="song-select">
+            <Accordion
                 defaultExpanded={false}
                 expanded={expanded === "panel1"}
                 onChange={handleChange("panel1")}
             >
                 <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
                 >
-                    <Typography>Song Select</Typography>
+                <Typography>Song Select</Typography>
                 </AccordionSummary>
                 <AccordionDetails >
                 <Box>
@@ -145,4 +139,16 @@ export default SongSelect;
                     </Box>
                 </AccordionDetails>
             </Accordion>    
-        </div>*/
+        </div>
+        
+    */}
+    </div>
+            
+    
+  );
+}
+
+
+
+export default SongSelect;
+
