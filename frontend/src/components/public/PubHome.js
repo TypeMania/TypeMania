@@ -6,6 +6,8 @@ import SpeedSlider from "../SpeedSlider";
 import SongSelect from "../SongSelect";
 import Game from "../Game";
 import { MusicPlayerProvider } from "../../MusicPlayerContext";
+import StartMenu from "../StartMenu";
+
 
 //home component
 const Home = () => {
@@ -20,6 +22,7 @@ const Home = () => {
                 <SongSelect/>
                 <Game/>
                 <SpeedSlider/>
+                <StartMenu/>
                 <Footer/>
             </div>
 

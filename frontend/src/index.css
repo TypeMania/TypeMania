@@ -10,12 +10,57 @@
   margin-left: auto;
 }
 
+
+
 /* PHASER CANVAS ELEMENT*/
 canvas {
   /* centers phaser canvas */
-  display : block;   
-  margin : auto;
+  display: block;   
+  margin: auto;
   }
+
+
+/* START MENU FOR GAME */
+.hidden {
+  display: none; 
+}
+
+div .startmenu {
+  background-color: black;
+  font-size: 2em;
+  color: white;
+  position: relative;
+  float: center;
+  left: 6px;
+  top: -600px;
+  width: 901px;
+  height: 300px;
+  left: 12px;
+} 
+
+.startbutton {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2em;
+  font-weight: bold;
+  background-color: #7745E5;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 90px;
+
+}
+
+.startbutton:hover {
+  background-color: white;
+  color: #7745E5;
+}
+
+
+
+
 
 /* NAV BAR STYLE */
 .nav h1 {
@@ -46,22 +91,51 @@ canvas {
 /* HOME STYLE */
 /* BANNER STYLE */
 .welcome {
-  color: #7745E5;
+  color: black;
   font-weight: bold;
   font-size: 1em;
   font-family: 'Press Start 2P', cursive;
   margin-top: 20px;
-  right: 30px;
+  right: 25%;
   position:absolute;
+}
 
+/* SONG SELECT MENU */
+.song-title {
+  margin-left: 20px;
+}
+
+.box {
+  display: flex !important;
+  align-items: left;
+}
+
+.song-select {
+  position: sticky;
+  float: right;
+  margin-right: 20px;
+  margin-left: 0;
+  padding-left: 0;
+  border: 3px solid black;
+  top: 140px;
+  width: 20%;
+}
+
+/*  GAME STYLING */
+#game-container {
+  margin-top: 10px;
+  margin-left: 20%;
+  margin-right: 0;
+  padding-right: 0;
+  width: 80%;
 }
 
 /* leaderboard banner item */
 .leaderboardIMG {
-  height: 28em;
-  top: 170px;
-  position: absolute;
-  left: 20px;
+  height: 33em;
+  position: sticky;
+  float: left;
+  margin-left: 30px;
 }
 
 .item-wrapper {
@@ -69,9 +143,10 @@ canvas {
   width: 200px;
   padding: 0;
   margin-bottom: 5px;
-  position: absolute;
-  left: 80px;
-  top: 180px;
+  position: sticky;
+  float: left;
+  margin-left: 20px;
+  margin-top: 15px;
 
 }
 .item {
@@ -230,10 +305,8 @@ form .form-inner .form-group input:focus {
 
 
 
-/*  GAME STYLING */
-#game-container {
-  margin-top: 10px;
-}
+
+
 
 
 /* FOOTER STYLE */
@@ -247,7 +320,6 @@ form .form-inner .form-group input:focus {
 .footer {
   border-top: solid 5px black;
   margin-top: 5px;
-  position: fixed;
   left: 0;
   bottom: 0;
   height: 5em;
@@ -256,13 +328,26 @@ form .form-inner .form-group input:focus {
   background-color:blue;
 }
 
-
 /* MEDIA QUERIES (RESPONSIVE) */
-@media only screen and (max-width: 1575px) {
+
+
+
+/* shifts song select right to not cover game canvas */
+@media only screen and (max-width: 1820px) {
+  .song-select {
+    width: 15%;
+  }
+}
+
+@media only screen and (max-width: 1650px) {
+  #game-container {
+    margin-left: 100px;
+  } 
 
   /* leaderboard banner item */
   .leaderboardIMG {
-    height: 20em;
+    height: 30em;
+    margin-left: 20px;
   }
 
   /*Typemania logo item */
@@ -276,19 +361,24 @@ form .form-inner .form-group input:focus {
 
 
   .item-wrapper {
-    width: 130px;
-    left: 60px;
+    width: 150px;
+    margin-left: 15px;
+    margin-top: 15px;
   }
+
+  .item {
+    padding-right: 5px;
+    font-size: 0.8em;
+  }
+
+  .item__avatar {
+    width: 5px;
+  } 
 
   .item__avatar__img {
     display: none;
   }
 
-  .item__score {
-    font-family: monospace;
-    flex: 1;
-    text-align: right;
-  }
   .item__avatar,
   .item__name,
   .item__score {
@@ -296,19 +386,63 @@ form .form-inner .form-group input:focus {
   }
 }
 
-.song-title {
-  margin-left: 20px;
+@media only screen and (max-width: 1540px) {
+
+    /* leaderboard banner item */
+    .leaderboardIMG {
+      height: 22em;
+      margin-left: 20px;
+    }
+    .item-wrapper {
+      width: 120px;
+    
+    }
+  .song-select {
+    width: 10%;
+  }
 }
 
-.box {
-  display: flex !important;
-  align-items: left;
+@media only screen and (max-width: 1365px) {
+  .leaderboardIMG {
+    display: none;
+  }
+  .item-wrapper {
+    display: none;
+  }
+  #game-container {
+    margin-left: 10px;
+  } 
+  .song-select {
+    width: 15%;
+  }
+
 }
 
-.song-select {
-  position: absolute;
-  right: 20px;  
-  width: 160px;
-  border: 3px solid black;
-  top: 180px;
+@media only screen and (max-width: 1220px) {
+  .song-select {
+    width: 10%;
+  }
+
+}
+
+@media only screen and (max-width: 1150px) {
+  .song-select {
+    float: none;
+    width: 100%;
+  }
+
+  .foot {
+    display: none;
+  }
+
+  #game-container {
+    margin-top: 20px;
+    width: 100%;
+  } 
+
+  .welcome {
+    top: 200px;
+    right: 80px;
+  }
+
 }
