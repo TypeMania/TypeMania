@@ -22,7 +22,7 @@ const Home = () => {
                 <Nav/>
                 <Banner/>
                 <SongSelect hidden = {hidden} setHidden={setHidden}/>
-                <Game/>
+                <Game hidden = {hidden}/>
                 <SpeedSlider/>
                 <StartMenu hidden = {hidden} setHidden={setHidden}/>
                 <Footer/>

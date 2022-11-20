@@ -1,4 +1,6 @@
 //file import
+import React, { Component } from "react"
+import { shouldForwardProp } from "@mui/styled-engine";
 
 
 
@@ -11,20 +13,28 @@ const StartMenu = ({hidden, setHidden}) => {
 
     
 
-    function playGame(e) {
-        e.preventDefault();
+    function playGame() {
         setHidden(!hidden)
         console.log('You clicked play.');
     }
 
 
+
         return (  
             <div className={hidden ? "hidden" : "startmenu"}>
-                <button className="startbutton" onClick={playGame}>Click to Play!</button>
+                <button className="startbutton" onClick={() => {playGame(); gameListener.listener();}}>Click to Play!</button>
             </div>   
         );
     }
 
+
+    //watches for the play button to alert game animations to reset
+    export const gameListener = {
+        listener: () => { 
+            console.log("play button clicked");
+            return true;
+        }
+    };
 
 export default StartMenu;
 

@@ -1,8 +1,10 @@
 //import files
+import { create } from '@mui/material/styles/createTransitions';
 import Phaser from 'phaser';
 import React, { Component } from 'react';
 import { scroll_values } from './SpeedSlider';
-import useMusicPlayer from "../hooks/useMusicPlayer";
+import { gameListener } from './StartMenu';
+
 
 //phaser game component
 //react component (different syntax than other compoenents, but basically the same)
@@ -36,9 +38,6 @@ export default class Game extends Component {
     let scrolltrack;
 
     function preload (){
-      this.load.image('load_background',  '../assets/background.png');
-      this.load.image('logo',    '../assets/logo.png');
-      this.load.script('splash',  'states/Splash.js');
     }
     
     function create () {
@@ -96,7 +95,7 @@ export default class Game extends Component {
         });}
       note_animations();
 
-    }
+    } 
     
     scroll_values.applySpeed = (multiplier) => {
       scroll_values.hitzone_pulse = 335 / multiplier;
@@ -106,6 +105,23 @@ export default class Game extends Component {
       hitzone_animations();
       note_animations();
     }
+    
+
+
+    //has animations restart when the play on start menu is pressed
+    gameListener.listener = () => {
+      console.log("component props: " + this.props.hidden);
+      if (this.props.hidden === false) {
+        graphics.destroy();
+        hitzone_outer.destroy();
+        hitzone_animations();
+        note_animations();
+      };
+    }
+    
+  
+
+
 
 
 
@@ -191,7 +207,13 @@ export default class Game extends Component {
     new Phaser.Game(config)
   }
 
-  shouldComponentUpdate() {
+
+  shouldComponentUpdate(prevProps) {
+    console.log(prevProps.hidden);
+    if (prevProps.hidden !== this.props.hidden) {
+      console.log("it did change");
+      return true;
+    }
     return false;
   }
 

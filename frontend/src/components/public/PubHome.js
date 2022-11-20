@@ -7,7 +7,7 @@ import SongSelect from "../SongSelect";
 import Game from "../Game";
 import { MusicPlayerProvider } from "../../MusicPlayerContext";
 import StartMenu from "../StartMenu";
-import React, { useState } from 'react';
+import React from 'react';
 
 
 
@@ -23,7 +23,7 @@ const Home = () => {
                 <PubNav/>
                 <Banner/>
                 <SongSelect hidden = {hidden} setHidden={setHidden}/>
-                <Game/>
+                <Game hidden = {hidden}/>
                 <SpeedSlider/>
                 <StartMenu hidden = {hidden} setHidden={setHidden}/>
                 <Footer/>
