@@ -1,12 +1,9 @@
 //file imports
-import Banner from "../Banner";
+import CenterLayer from "../CenterLayer";
 import PubNav from './PubNav'
 import Footer from "../Footer";
-import SpeedSlider from "../SpeedSlider";
-import SongSelect from "../SongSelect";
-import Game from "../Game";
+
 import { MusicPlayerProvider } from "../../MusicPlayerContext";
-import StartMenu from "../StartMenu";
 
 
 //home component
@@ -18,10 +15,7 @@ const Home = () => {
             
             <div className="home">
                 <PubNav/>
-                <Banner/>
-                <SongSelect/>
-                <Game/>
-                <SpeedSlider/>
+                <CenterLayer/>
                 <Footer/>
             </div>
 

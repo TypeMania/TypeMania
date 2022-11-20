@@ -5,6 +5,8 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SpeedSlider from './SpeedSlider';
+import Banner from './Banner'
 //import Game from "./Game";
 
 function SongSelect() {
@@ -43,7 +45,7 @@ return (
             <AccordionDetails>
 
                 {songsList.map((songmap, index) => (
-                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)}>
+                <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1bh-content"
@@ -54,6 +56,7 @@ return (
                     </button>
                     </AccordionSummary>
                     <AccordionDetails>
+                        <Banner/>
                         <Box>
                             <Box>
                                 <Typography>Artist: {songmap.artist}</Typography>
@@ -64,17 +67,18 @@ return (
                             <Box>
                                 <Typography>length: {songmap.length}</Typography>
                             </Box>
-                    
                         </Box>
                     </AccordionDetails>
-                    </Accordion>
+                </Accordion>
                 ))}
 
             </AccordionDetails>
+            <SpeedSlider/>
+
         </Accordion>
         
 
-</div>
+    </div>
             
     
   );

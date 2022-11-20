@@ -8,9 +8,17 @@
   /* centers content */
   margin-right: auto;
   margin-left: auto;
+
 }
 body {
-  overflow-x: hidden;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+  background-color:#FFFFFF;
+  color:black;
+  overflow-x:hidden;
+
+
 }
 
 
@@ -28,12 +36,11 @@ canvas {
 }
 
 div .startmenu {
-  z-index: 1;
+  z-index: 100;
   background-color: black;
   font-size: 2em;
   color: white;
-  left: 6px;
-  top: -600px;
+  position: relative;
   width: 100%;
   height: 100%;
   left: 12px;
@@ -74,6 +81,12 @@ div .startmenu {
   padding: 0;
   padding-bottom: 10px;
 }
+
+.navbar, .nav {
+  position:relative;
+
+}
+
 .navbar li{
   display: inline;
 }
@@ -90,6 +103,14 @@ div .startmenu {
 }
 
 /* HOME STYLE */
+.center-layer {
+  width:100vw;
+  height: 73vh;
+  display:block;
+  position:relative;
+}
+
+
 /* BANNER STYLE */
 .welcome {
   color: black;
@@ -98,12 +119,11 @@ div .startmenu {
   font-family: 'Press Start 2P', cursive;
   margin-top: 20px;
   right: 25%;
-  position:absolute;
 }
 
 /* SONG SELECT MENU */
 .song-title {
-  margin-left: 20px;
+  margin: auto;
 }
 
 .box {
@@ -111,26 +131,37 @@ div .startmenu {
   align-items: left;
 }
 
-.song-select {
-  margin-right: auto;
-  margin-left: auto;
+.center-layer .song-select {
+  position:absolute;
+  z-index:1;
+  width:900px;
+  height:fit-content;
+  max-height:532px;
+  overflow-y:auto;
   border: 3px solid black;
-  width: 20%;
+  right: 10.7%;
 }
 
 /*  GAME STYLING */
+/* Game will always be centered no matter what. */
+#game-container, .song-select {
+  margin: 0 auto;
+}
 #game-container {
-  z-index: 0;
-  margin-top: 10px;
-  margin-left: 20%;
-  margin-right: 0;
-  padding-right: 0;
-  width: 80%;
+  display: unset;
+  position:relative;
+  z-index:-1;
+}
+
+canvas {
+  border-color: black;
+  border-style: solid;
+  border-width: 5px;
 }
 
 /* leaderboard banner item */
 .leaderboardIMG {
-  height: 33em;
+  height: 22em;
   position: sticky;
   float: left;
   margin-left: 30px;
@@ -303,23 +334,21 @@ form .form-inner .form-group input:focus {
 
 
 
-
-
+/* Slider */
+.speed-slider {
+  margin: 3vh 3vh;
+}
 
 
 /* FOOTER STYLE */
-.WelcomeIMG {
-  position: absolute;
-  right: 10px;
-  height: 5em;
-  
-}
-
 .footer {
   border-top: solid 5px black;
-  margin-bottom:0;
   width: 100%;
+  height:fit-content;
   background-color:#050a30;
+  align-self: flex-end;
+  margin:auto;
+
 }
 
 /*Typemania logo item */
@@ -328,29 +357,9 @@ form .form-inner .form-group input:focus {
   
 }
 
-/* MEDIA QUERIES (RESPONSIVE) */
-
-
-
-/* shifts song select right to not cover game canvas */
-@media only screen and (max-width: 1820px) {
-  .song-select {
-    width: 15%;
-  }
+.item-wrapper {
+  width: 120px;
 }
-
-@media only screen and (max-width: 1650px) {
-  #game-container {
-    margin-left: 100px;
-  } 
-
-  /* leaderboard banner item */
-  .leaderboardIMG {
-    height: 30em;
-    margin-left: 20px;
-  }
-
-
 
 
   .item-wrapper {
@@ -377,68 +386,23 @@ form .form-inner .form-group input:focus {
   .item__score {
     margin-left: 0px;
   }
-}
 
-@media only screen and (max-width: 1540px) {
-
-    /* leaderboard banner item */
-    .leaderboardIMG {
-      height: 22em;
-      margin-left: 20px;
-    }
-    .item-wrapper {
-      width: 120px;
-    
-    }
-  .song-select {
-    width: 10%;
-  }
+/* MEDIA QUERIES (RESPONSIVE) */
+@media only screen and (max-width: 1650px) {
+  /* leaderboard banner item */
+  
 }
 
 @media only screen and (max-width: 1365px) {
-  .leaderboardIMG {
-    display: none;
-  }
-  .item-wrapper {
-    display: none;
-  }
-  #game-container {
-    margin-left: 10px;
-  } 
-  .song-select {
-    width: 15%;
-  }
   .FooterImage{
     width: 900px;
   }
-
 }
 
 @media only screen and (max-width: 1220px) {
-  .song-select {
-    width: 10%;
-  }
-
+  
 }
 
 @media only screen and (max-width: 1150px) {
-  .song-select {
-    float: none;
-    width: 100%;
-  }
-
-  .foot {
-    display: none;
-  }
-
-  #game-container {
-    margin-top: 20px;
-    width: 100%;
-  } 
-
-  .welcome {
-    top: 200px;
-    right: 80px;
-  }
-
+  
 }
