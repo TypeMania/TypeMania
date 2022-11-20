@@ -11,12 +11,56 @@
 }
 
 
+
 /* PHASER CANVAS ELEMENT*/
 canvas {
   /* centers phaser canvas */
-  display : block;   
-  margin : auto;
+  display: block;   
+  margin: auto;
   }
+
+
+/* START MENU FOR GAME */
+.hidden {
+  display: none; 
+}
+
+div .startmenu {
+  background-color: black;
+  font-size: 2em;
+  color: white;
+  position: relative;
+  float: center;
+  left: 6px;
+  top: -600px;
+  width: 901px;
+  height: 300px;
+  left: 12px;
+} 
+
+.startbutton {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2em;
+  font-weight: bold;
+  background-color: #7745E5;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 90px;
+
+}
+
+.startbutton:hover {
+  background-color: white;
+  color: #7745E5;
+}
+
+
+
+
 
 /* NAV BAR STYLE */
 .nav h1 {
@@ -47,7 +91,7 @@ canvas {
 /* HOME STYLE */
 /* BANNER STYLE */
 .welcome {
-  color: #7745E5;
+  color: black;
   font-weight: bold;
   font-size: 1em;
   font-family: 'Press Start 2P', cursive;
@@ -276,7 +320,6 @@ form .form-inner .form-group input:focus {
 .foot {
   border-top: solid 5px black;
   margin-top: 5px;
-  position: fixed;
   left: 0;
   bottom: 0;
   height: 5em;
@@ -297,11 +340,12 @@ form .form-inner .form-group input:focus {
 /* MEDIA QUERIES (RESPONSIVE) */
 
 /* removes footer when screen shrinks (prevents hiding slider) */
-@media only screen and (max-height: 870px) {
+/* unnecessary now */
+/* @media only screen and (max-height: 400px) {
   .foot {
     display: none;
   }
-}
+} */
 
 /* shifts song select right to not cover game canvas */
 @media only screen and (max-width: 1820px) {

@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import Game from "./Game";
 import SpeedSlider from "./SpeedSlider";
 import { MusicPlayerProvider } from "../MusicPlayerContext";
+import StartMenu from "./StartMenu";
 
 
 
@@ -19,6 +20,7 @@ const Home = () => {
                 <SongSelect/>
                 <Game/>
                 <SpeedSlider/>
+                <StartMenu/>
                 <Footer/>
         </div>
         </MusicPlayerProvider>

@@ -9,7 +9,7 @@ import { scroll_values } from './SpeedSlider';
 export default class Game extends Component {
   componentDidMount() {
     //constants
-    const WIDTH = 1000;
+    const WIDTH = 900;
     const HEIGHT = 600;
 
     const config = {
