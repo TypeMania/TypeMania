@@ -2,9 +2,9 @@
 import Phaser from 'phaser';
 import React, { Component } from 'react';
 import { scroll_values } from './SpeedSlider';
+import useMusicPlayer from "../hooks/useMusicPlayer";
 
 //phaser game component
-
 //react component (different syntax than other compoenents, but basically the same)
 export default class Game extends Component {
   componentDidMount() {
@@ -36,9 +36,13 @@ export default class Game extends Component {
     let scrolltrack;
 
     function preload (){
+      this.load.image('load_background',  '../assets/background.png');
+      this.load.image('logo',    '../assets/logo.png');
+      this.load.script('splash',  'states/Splash.js');
     }
     
     function create () {
+
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
@@ -102,6 +106,9 @@ export default class Game extends Component {
       hitzone_animations();
       note_animations();
     }
+
+
+
     
     function update ()
     {

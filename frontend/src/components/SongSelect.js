@@ -5,9 +5,10 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 //import Game from "./Game";
 
-function SongSelect() {
+function SongSelect({hidden, setHidden}) {
 
     const {songsList, playMusic} = useMusicPlayer();
     //const [currenSongmap, setCurrentSongmap] = useState(songsList[0]);
@@ -22,11 +23,15 @@ function SongSelect() {
     /*const [isPlaying, setIsPlaying] = useState(false);*/
 
     function handlePlayMusic(songmap){
-
-        //setCurrentSongmap(songmap);
+        //setCurrentSongmap(songmap); 
         playMusic(songmap);
     }
     
+    //brings back start menu
+    function selectSong() {
+        setHidden(!hidden)
+        console.log('You selected a song.');
+    }
 
     
   
@@ -49,7 +54,7 @@ return (
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                     >
-                    <button className="button" onClick={() => handlePlayMusic(songmap)}>
+                    <button className="button" onClick={() => {handlePlayMusic(songmap); selectSong();}}>
                         {songmap.title}
                     </button>
                     </AccordionSummary>
@@ -79,6 +84,8 @@ return (
     
   );
 }
+
+
 export default SongSelect;
 
 /*<Accordion
