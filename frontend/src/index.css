@@ -9,7 +9,9 @@
   margin-right: auto;
   margin-left: auto;
 }
-
+body {
+  overflow-x: hidden;
+}
 
 
 /* PHASER CANVAS ELEMENT*/
@@ -26,15 +28,14 @@ canvas {
 }
 
 div .startmenu {
+  z-index: 1;
   background-color: black;
   font-size: 2em;
   color: white;
-  position: relative;
-  float: center;
   left: 6px;
   top: -600px;
-  width: 901px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   left: 12px;
 } 
 
@@ -111,18 +112,15 @@ div .startmenu {
 }
 
 .song-select {
-  position: sticky;
-  float: right;
-  margin-right: 20px;
-  margin-left: 0;
-  padding-left: 0;
+  margin-right: auto;
+  margin-left: auto;
   border: 3px solid black;
-  top: 140px;
   width: 20%;
 }
 
 /*  GAME STYLING */
 #game-container {
+  z-index: 0;
   margin-top: 10px;
   margin-left: 20%;
   margin-right: 0;
@@ -319,13 +317,15 @@ form .form-inner .form-group input:focus {
 
 .footer {
   border-top: solid 5px black;
-  margin-top: 5px;
-  left: 0;
-  bottom: 0;
-  height: 5em;
+  margin-bottom:0;
   width: 100%;
-  text-align: right;
-  background-color:blue;
+  background-color:#050a30;
+}
+
+/*Typemania logo item */
+.FooterImage{
+  width: 1280px;
+  
 }
 
 /* MEDIA QUERIES (RESPONSIVE) */
@@ -350,14 +350,7 @@ form .form-inner .form-group input:focus {
     margin-left: 20px;
   }
 
-  /*Typemania logo item */
-  .FooterImage{
-    margin-top: 5px;
-    position: absolute;
-    left: 1px;
-    height: 25%;
-    width: 100%
-  }
+
 
 
   .item-wrapper {
@@ -414,6 +407,9 @@ form .form-inner .form-group input:focus {
   } 
   .song-select {
     width: 15%;
+  }
+  .FooterImage{
+    width: 900px;
   }
 
 }

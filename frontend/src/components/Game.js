@@ -2,6 +2,7 @@
 import Phaser from 'phaser';
 import React, { Component } from 'react';
 import { scroll_values } from './SpeedSlider';
+import StartMenu from './StartMenu';
 
 //phaser game component
 
@@ -192,7 +193,11 @@ export default class Game extends Component {
 
   //sends div with game canvas to home component
   render() {
-    return <div id='game-container' />   
+    return (
+    <div id='game-container'>
+      <StartMenu/>
+    </div> 
+    )
   }
 
   

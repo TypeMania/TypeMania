@@ -22,7 +22,6 @@ const Home = () => {
                 <SongSelect/>
                 <Game/>
                 <SpeedSlider/>
-                <StartMenu/>
                 <Footer/>
             </div>
 
