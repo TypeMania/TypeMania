@@ -29,7 +29,7 @@ function SongSelect({hidden, setHidden}) {
     
     //brings back start menu
     function selectSong() {
-        setHidden(!hidden)
+        setHidden(false)
         console.log('You selected a song.');
     }
 
