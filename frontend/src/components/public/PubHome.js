@@ -9,8 +9,6 @@ import { MusicPlayerProvider } from "../../MusicPlayerContext";
 
 //home component
 const Home = () => {
-
-
     return ( 
         <MusicPlayerProvider>
             
