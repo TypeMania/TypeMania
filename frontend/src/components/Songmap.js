@@ -8,7 +8,6 @@ const Songmap =  (title, artist, bpm, npm, length, seed, uploadedBy, songFilePat
             npm: npm,
             length: length,
             seed: seed,
-            uploadedBy: uploadedBy,
             songFilePath: songFilePath,
             INITIAL_ARRAY
             }

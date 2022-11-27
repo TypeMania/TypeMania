@@ -67,7 +67,7 @@ const LoginForm = () => {
     //checking when mutation is called
     if (isLoading) return <p>Loading...</p>
     return ( 
-        <div>
+        <div className='formtainer'>
             <PubNav />
             <div className="loginForm">
                 {/* //error display */}
@@ -105,10 +105,9 @@ const LoginForm = () => {
                         <p className="link">Not registered? <a href="./register">Register</a></p>
                         
                     </div>
-                    
-                </form>
-                <Footer/>
-            </div>   
+                </form>   
+            </div>  
+            <Footer/>
         </div>
     );
 }

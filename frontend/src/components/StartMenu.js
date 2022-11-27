@@ -15,7 +15,6 @@ const StartMenu = ({hidden, setHidden}) => {
 
     function playGame() {
         setHidden(!hidden)
-        console.log('You clicked play.');
     }
 
 

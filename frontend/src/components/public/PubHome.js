@@ -1,31 +1,21 @@
 //file imports
-import Banner from "../Banner";
+import CenterLayer from "../CenterLayer";
 import PubNav from './PubNav'
 import Footer from "../Footer";
-import SpeedSlider from "../SpeedSlider";
-import SongSelect from "../SongSelect";
-import Game from "../Game";
+
 import { MusicPlayerProvider } from "../../MusicPlayerContext";
-import StartMenu from "../StartMenu";
 import React from 'react';
 
 
 
 //home component
 const Home = () => {
-    //used for start menu
-    const [hidden, setHidden] = React.useState(false);
-
     return ( 
         <MusicPlayerProvider>
             
             <div className="home">
                 <PubNav/>
-                <Banner/>
-                <SongSelect hidden = {hidden} setHidden={setHidden}/>
-                <Game hidden = {hidden}/>
-                <SpeedSlider/>
-                <StartMenu hidden = {hidden} setHidden={setHidden}/>
+                <CenterLayer/>
                 <Footer/>
             </div>
 

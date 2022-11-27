@@ -91,7 +91,7 @@ const RegisterForm = () => {
 
 
     return ( 
-        <div>
+        <div className='formtainer'>
             <PubNav />
             <div className="loginForm">
                 
@@ -161,8 +161,8 @@ const RegisterForm = () => {
 
                     </div>
                 </form>
-                <Footer/>
             </div>   
+            <Footer/>
         </div>
     );
 }

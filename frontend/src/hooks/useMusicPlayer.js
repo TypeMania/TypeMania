@@ -9,7 +9,8 @@ const useMusicPlayer = () => {
       togglePlay();
     } else {
       state.audioPlayer.pause();
-      state.audioPlayer = new Audio(songmap.file);
+      //state.audioPlayer = new Audio(songmap.songFilePath);
+      state.audioPlayer = new Audio(state.songFiles[songmap.index].file);
       state.audioPlayer.play();
       setState(state => ({ ...state, currentSongmap: songmap, isPlaying: true }));
     }
@@ -29,7 +30,7 @@ const useMusicPlayer = () => {
   return {
     playMusic,
     togglePlay,
-    songsList: state.songs,
+    songFiles: state.songFiles,
     isPlaying: state.isPlaying
   }
 };

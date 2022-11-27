@@ -1,26 +1,34 @@
 import { Box, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useMusicPlayer from "../hooks/useMusicPlayer";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SpeedSlider from './SpeedSlider';
+import Banner from './Banner'
+import axios from "axios";
 
-//import Game from "./Game";
+const SongSelect = ({hidden, setHidden}) => {
+    const [songs, setSong] = useState([]);
+    useEffect(() => {
+        getSongs();
+      }, []);
+     
+      const getSongs = async () => {
+        const response = await axios.get("http://localhost:3500/songs");
+        setSong(response.data);
+      };
 
-function SongSelect({hidden, setHidden}) {
+    //states 
+    const {playMusic} = useMusicPlayer();
 
-    const {songsList, playMusic} = useMusicPlayer();
-    //const [currenSongmap, setCurrentSongmap] = useState(songsList[0]);
     const [expanded, setExpanded] = useState(false);
 
     const handleChange =
         (panel) => (event , newExpanded) => {
         setExpanded(newExpanded ? panel : false);
         };
-    
-    //const [visible, setVisible] = useState(false);
-    /*const [isPlaying, setIsPlaying] = useState(false);*/
 
     function handlePlayMusic(songmap){
         //setCurrentSongmap(songmap); 
@@ -30,7 +38,6 @@ function SongSelect({hidden, setHidden}) {
     //brings back start menu
     function selectSong() {
         setHidden(false)
-        console.log('You selected a song.');
     }
 
     
@@ -38,18 +45,18 @@ function SongSelect({hidden, setHidden}) {
 return (
     <div className="song-select">
         <Accordion defaultExpanded={false}>
-            <AccordionSummary
+            <AccordionSummary key="sum1"
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1bh-content"
               id="panel1bh-header"
             >
               <Typography>Song Select</Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails key="det1">
 
-                {songsList.map((songmap, index) => (
-                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)}>
-                    <AccordionSummary
+                {songs?.map((songmap, index) => (
+                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)} key={"acc" + index}>
+                    <AccordionSummary key="sum2"
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
@@ -58,7 +65,8 @@ return (
                         {songmap.title}
                     </button>
                     </AccordionSummary>
-                    <AccordionDetails>
+                    <AccordionDetails key="det2">
+                        <Banner/>
                         <Box>
                             <Box>
                                 <Typography>Artist: {songmap.artist}</Typography>
@@ -69,40 +77,42 @@ return (
                             <Box>
                                 <Typography>length: {songmap.length}</Typography>
                             </Box>
-                    
                         </Box>
                     </AccordionDetails>
-                    </Accordion>
+                </Accordion>
                 ))}
 
             </AccordionDetails>
+            <SpeedSlider/>
+
         </Accordion>
         
 
-</div>
-            
-    
-  );
-}
-
-
+    </div>
+);} 
 export default SongSelect;
+    
+    //const [visible, setVisible] = useState(false);
+    /*const [isPlaying, setIsPlaying] = useState(false);*/
 
-/*<Accordion
-                defaultExpanded={false}
-                expanded={expanded === "panel1"}
-                onChange={handleChange("panel1")}
+    /*function handlePlayMusic(songmap){
+
+        //setCurrentSongmap(songmap);
+        playMusic(songmap);*/
+    
+      
+  
+/*return (
+    <div className="song-select">
+        <Accordion defaultExpanded={false}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
             >
-                <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                >
-                    <Typography>Song Select</Typography>
-                </AccordionSummary>
-                <AccordionDetails >
-                <Box>
-                    <Box sx={{ display: 'flex'}}>
+              <Typography>Song Select</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
 
                     <Tabs
                         orientation="vertical"
@@ -123,18 +133,15 @@ export default SongSelect;
                     <div>
                         <Box>
                             <Box>
-                                <Typography>Artist: {currentSongmap.artist}</Typography>
+                                <Typography>Artist: {songmap.artist}</Typography>
                             </Box>
                             <Box>
-                                <Typography>bpm: {currentSongmap.bpm}</Typography>
+                                <Typography>bpm: {songmap.bpm}</Typography>
                             </Box>
                             <Box>
-                                <Typography>length: {currentSongmap.length}</Typography>
+                                <Typography>length: {songmap.length}</Typography>
                             </Box>
-            
-                        </Box>   
-                    </div>
-                        
+                    
                         </Box>
                     </Box>
                 </AccordionDetails>
