@@ -1,10 +1,10 @@
 //file imports
-import Banner from "./Banner";
-import SongSelect from "./SongSelect";
 import Nav from "./Nav";
 import Footer from "./Footer";
-import Game from "./Game";
 import { MusicPlayerProvider } from "../MusicPlayerContext";
+import React from 'react';
+import CenterLayer from "./CenterLayer";
+import WelcomeBack from "./WelcomeBack";
 
 
 
@@ -14,9 +14,8 @@ const Home = () => {
         <MusicPlayerProvider>
             <div className="home">
                 <Nav/>
-                <Banner/>
-                <SongSelect/>
-                <Game/>
+                <WelcomeBack/>
+                <CenterLayer/>
                 <Footer/>
         </div>
         </MusicPlayerProvider>

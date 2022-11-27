@@ -3,37 +3,22 @@ import LostChameleon from './assets/songfiles/LostChameleon.mp3';
 import TheHipsta from './assets/songfiles/TheHipsta.mp3';
 import Tobu from './assets/songfiles/Tobu.mp3';
 
-const MusicPlayerContext = React.createContext([{}, () => {}]);
+const MusicPlayerContext = React.createContext([{}, () => { }]);
 
 const MusicPlayerProvider = (props) => {
   const [state, setState] = useState({
     audioPlayer: new Audio(),
-    songs: [
+    songFiles: [
         {
-          title: 'Genesis',
-          artist: 'Lost Chameleon',
-          bpm: 10,
-          length: '02:20',
-          seed: 'seed',
-          songFilePath: '../assets/songfiles/LostChameleon.mp3',
+          index: 0,
           file: LostChameleon,
         },
         {
-          title: 'Shaken Soda',
-          artist: 'The Hipsta',
-          bpm: 10,
-          length: '03:15',
-          seed: 'seed',
-          songFilePath: '../assets/songfiles/TheHipsta.mp3',
+          index: 1,
           file: TheHipsta
         },
         {
-          title: 'Such Fun',
-          artist: 'Tobu',
-          bpm: 10,
-          length: '03:08',
-          seed: 'seed',
-          songFilePath: '../assets/songfiles/Tobu.mp3',
+          index: 2,
           file: Tobu,
         },
       ],

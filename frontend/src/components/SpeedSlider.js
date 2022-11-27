@@ -1,10 +1,9 @@
-import { createTheme, Slider, ThemeProvider } from "@mui/material";
+import { createTheme, dividerClasses, Slider, ThemeProvider } from "@mui/material";
 import { createRef } from "react";
-import Game from "./Game.js"
 
 const SpeedSlider = () => {
     return (
-    <ThemeProvider theme={theme}>
+    <div className='speed-slider'>
         <Slider
             ref={myself}
             defaultValue={1}
@@ -15,7 +14,7 @@ const SpeedSlider = () => {
             onChangeCommitted={()=>{scroll_values.applySpeed(parseFloat(myself.current.innerText));}}
         />
         <p id="speed-slider">BPM Override</p>
-    </ThemeProvider>
+    </div>
     );
 };
 
@@ -27,12 +26,7 @@ const theme = createTheme({
                 root: {
                     width: "15%",
                     top: "10px",
-                    '@media only screen and (max-width: 1575px)':{
-                    },
-                    '@media only screen and (max-width: 1300px)':{
-                    },
-                    '@media only screen and (max-width: 1100px)':{
-                    }
+                    bottom: "80px",
                 }
             }
         }
@@ -41,15 +35,11 @@ const theme = createTheme({
 
 export const scroll_values = {
     hitzone_pulse: 335,
-    note_scroll: 5000,
+    note_scroll: 1,
     applySpeed: (multiplier) => {
         scroll_values.hitzone_pulse = 335 / multiplier;
-        scroll_values.note_scroll = 5000 / multiplier;
+        scroll_values.note_scroll = 1 * multiplier;
     }
-}
-
-export function update_scroll_values() {
-
 }
 
 export default SpeedSlider;
