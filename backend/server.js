@@ -1,4 +1,5 @@
 //import
+
 require('dotenv').config()
 const express = require('express')
 const app = express()
@@ -11,6 +12,7 @@ const corsOptions = require('./config/corsOptions')
 const connectDB = require('./config/dbConn')
 const mongoose = require('mongoose')
 const PORT = process.env.PORT || 3500
+const songRoutes = require('./routes/songRoutes')
 
 console.log(process.env.NODE_ENV)
 
@@ -30,7 +32,7 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/', require('./routes/root'))
 app.use('/auth', require('./routes/authRoutes'))
 app.use('/users', require('./routes/userRoutes'))
-app.use('/songs', require('./routes/songRoutes'))
+app.use(songRoutes)
 
 app.all('*', (req, res) => {
     res.status(404)

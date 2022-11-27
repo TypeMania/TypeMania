@@ -3,29 +3,25 @@ const mongoose = require('mongoose')
 
 //song data schema
 const songSchema = new mongoose.Schema({
-    user: {
+    /*user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-    },
+    },*/
     title: {
         type: String,
         required: true
     },
-    artist: [{
+    artist: {
         type: String,
         required: "True"
-    }],
+    },
     bpm: {
-        type: Number,
+        type: String,
         required: "True"
     },
     length: {
         type: String,
-        required: "True"
-    },
-    seed: {
-        type: Array,
         required: "True"
     },
     songFilePath: {
