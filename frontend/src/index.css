@@ -36,7 +36,7 @@ div.formtainer {
 }
 
 .home {
-  display:block;
+  display:flex;
   flex-direction: column;
   overflow-y:auto;
   overflow-x:hidden;
@@ -58,13 +58,13 @@ canvas {
 
 div .startmenu {
   z-index: 100;
+  display:flex;
   background-color: black;
   font-size: 2em;
   color: white;
-  position: relative;
   width: 100%;
-  height: 100%;
-  left: 12px;
+  height: 535px;
+  align-content:center;
 } 
 
 .startbutton {
@@ -77,14 +77,13 @@ div .startmenu {
   font-weight: bold;
   background-color: #7745E5;
   border-radius: 10px;
-  position: relative;
-  margin-top: 90px;
-
+  margin: auto;
 }
 
 .startbutton:hover {
   background-color: white;
   color: #7745E5;
+  cursor:pointer;
 }
 
 
@@ -131,13 +130,12 @@ div .startmenu {
 .center-layer {
   width:100vw;
   height: 73vh;
-  position:relative;
-  display:flex;
+  display:grid;
   justify-content:center;
   min-height:555px;
   overflow-y:auto;
   overflow-x:hidden;
-
+  column-gap:1vh;
 }
 
 
@@ -147,7 +145,7 @@ div .startmenu {
   font-weight: bold;
   font-size: 1em;
   font-family: 'Press Start 2P', cursive;
-
+  margin: 0.5vh auto;
 }
 
 /* SONG SELECT MENU */
@@ -161,7 +159,6 @@ div .startmenu {
 }
 
 .center-layer .song-select {
-  position:absolute;
   z-index:1;
   width:900px;
   height:fit-content;
@@ -172,13 +169,11 @@ div .startmenu {
 
 /*  GAME STYLING */
 /* Game will always be centered no matter what. */
-#game-container, .song-select {
+#game-container, .song-select, .startmenu {
   margin: 0 auto;
-}
-#game-container {
-  display: unset;
-  position:relative;
-  z-index:-1;
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
+  justify-self: center;
 }
 
 canvas {

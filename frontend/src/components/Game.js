@@ -102,6 +102,7 @@ export default class Game extends Component {
     
     function update ()
     {
+      // Move each note left a little bit constantly.
       noteArray.forEach((note)=>{
         note.x -= scroll_values.note_scroll;
         if(note.x < -50){
@@ -110,7 +111,14 @@ export default class Game extends Component {
         }
       });
 
-      
+      // Destroy the note if the key is down.
+      // Only works when the note before finally shifts as seen above.
+      if (this.input.keyboard.checkDown(cursors.left)) {
+        noteArray[0].destroy();
+      }
+      if (this.input.keyboard.checkDown(cursors.right)) {
+        noteArray[0].destroy();
+      }
     }
 
     //precondition: recieves an array of integer returned by seededPRNG function, and the value from songmap settings
