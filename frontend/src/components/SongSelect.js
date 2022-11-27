@@ -9,7 +9,7 @@ import SpeedSlider from './SpeedSlider';
 import Banner from './Banner'
 import axios from "axios";
 
-const SongsList = () => {
+const SongSelect = () => {
     const [songs, setSong] = useState([]);
     useEffect(() => {
         getSongs();
@@ -41,18 +41,18 @@ const SongsList = () => {
 return (
     <div className="song-select">
         <Accordion defaultExpanded={false}>
-            <AccordionSummary
+            <AccordionSummary key="sum1"
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1bh-content"
               id="panel1bh-header"
             >
               <Typography>Song Select</Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails key="det1">
 
                 {songs?.map((songmap, index) => (
-                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)}>
-                    <AccordionSummary
+                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)} key={"acc" + index}>
+                    <AccordionSummary key="sum2"
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
@@ -61,7 +61,7 @@ return (
                         {songmap.title}
                     </button>
                     </AccordionSummary>
-                    <AccordionDetails>
+                    <AccordionDetails key="det2">
                         <Banner/>
                         <Box>
                             <Box>
@@ -85,7 +85,8 @@ return (
         
 
     </div>
-            
+);} 
+export default SongSelect;
     
     //const [visible, setVisible] = useState(false);
     /*const [isPlaying, setIsPlaying] = useState(false);*/
@@ -93,8 +94,8 @@ return (
     /*function handlePlayMusic(songmap){
 
         //setCurrentSongmap(songmap);
-        playMusic(songmap);
-    }*/
+        playMusic(songmap);*/
+    
       
   
 /*return (
@@ -146,5 +147,6 @@ return (
     
   );
 }
-export default SongSelect;*/
+export default SongSelect;
+*/
 
