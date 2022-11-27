@@ -5,9 +5,11 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SpeedSlider from './SpeedSlider';
+import Banner from './Banner'
 import axios from "axios";
 
-const SongsList = () => {
+const SongSelect = () => {
     const [songs, setSong] = useState([]);
     useEffect(() => {
         getSongs();
@@ -39,18 +41,18 @@ const SongsList = () => {
 return (
     <div className="song-select">
         <Accordion defaultExpanded={false}>
-            <AccordionSummary
+            <AccordionSummary key="sum1"
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1bh-content"
               id="panel1bh-header"
             >
               <Typography>Song Select</Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails key="det1">
 
                 {songs?.map((songmap, index) => (
-                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)}>
-                    <AccordionSummary
+                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)} key={"acc" + index}>
+                    <AccordionSummary key="sum2"
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
@@ -59,7 +61,8 @@ return (
                         {songmap.title}
                     </button>
                     </AccordionSummary>
-                    <AccordionDetails>
+                    <AccordionDetails key="det2">
+                        <Banner/>
                         <Box>
                             <Box>
                                 <Typography>Artist: {songmap.artist}</Typography>
@@ -70,40 +73,20 @@ return (
                             <Box>
                                 <Typography>length: {songmap.length}</Typography>
                             </Box>
-                    
                         </Box>
                     </AccordionDetails>
-                    </Accordion>
+                </Accordion>
                 ))}
 
             </AccordionDetails>
-        </Accordion>     
-    </div>   
-  );
-}
-export default SongsList
+            <SpeedSlider/>
 
-/*function SongSelect() {
+        </Accordion>
+        
 
-    //const {songsList, playMusic} = useMusicPlayer();
-    const {playMusic} = useMusicPlayer();
-    const [songs, setSongs] = useState([]);
-
-    useEffect(() => {
-        getAllSongs();
-      }, []);
-     
-    const getAllSongs = async () => {
-        const response = await axios.get("http://localhost:3500/songs");
-        setSongs(response.data);
-    };
-    //const [currenSongmap, setCurrentSongmap] = useState(songsList[0]);
-    const [expanded, setExpanded] = useState(false);
-
-    const handleChange =
-        (panel) => (event , newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
-        };
+    </div>
+);} 
+export default SongSelect;
     
     //const [visible, setVisible] = useState(false);
     /*const [isPlaying, setIsPlaying] = useState(false);*/
@@ -111,8 +94,8 @@ export default SongsList
     /*function handlePlayMusic(songmap){
 
         //setCurrentSongmap(songmap);
-        playMusic(songmap);
-    }*/
+        playMusic(songmap);*/
+    
       
   
 /*return (
@@ -164,5 +147,6 @@ export default SongsList
     
   );
 }
-export default SongSelect;*/
+export default SongSelect;
+*/
 
