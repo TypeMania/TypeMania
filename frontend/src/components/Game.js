@@ -46,10 +46,6 @@ export default class Game extends Component {
     }
     
     function create () {
-      // Click to Play!
-      const gameCanvas = createRoot(document.getElementsByTagName('canvas')[0]);
-      gameCanvas.render(React.createElement(StartMenu));
-      
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
