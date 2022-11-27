@@ -1,12 +1,11 @@
 //import files
 import Phaser from 'phaser';
 import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
 import { scroll_values } from './SpeedSlider';
-import StartMenu from './StartMenu';
+import { gameListener } from './StartMenu';
+
 
 //phaser game component
-
 //react component (different syntax than other compoenents, but basically the same)
 export default class Game extends Component {
   componentDidMount() {
@@ -46,6 +45,7 @@ export default class Game extends Component {
     }
     
     function create () {
+
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
@@ -89,15 +89,23 @@ export default class Game extends Component {
         noteArray.push(note);
       }, scroll_values.note_scroll*1000);
 
-    }
+    } 
     
     scroll_values.applySpeed = (multiplier) => {
       scroll_values.hitzone_pulse = 335 / multiplier;
       scroll_values.note_scroll = 1 * multiplier;
       hitzone_outer.destroy();
       hitzone_animations();
-      noteArray.forEach((note)=>{note.destroy()});
-      noteArray.length = 0;
+    }
+
+    //has animations restart when the play on start menu is pressed
+    gameListener.listener = () => {
+      if (this.props.hidden === false) {
+        noteArray.forEach(e=>e.destroy());
+        noteArray = [];
+        hitzone_outer.destroy();
+        hitzone_animations();
+      };
     }
     
     function update ()
@@ -177,7 +185,11 @@ export default class Game extends Component {
     
   }
 
-  shouldComponentUpdate() {
+
+  shouldComponentUpdate(prevProps) {
+    if (prevProps.hidden !== this.props.hidden) {
+      return true;
+    }
     return false;
   }
 

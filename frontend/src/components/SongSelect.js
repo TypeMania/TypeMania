@@ -9,7 +9,7 @@ import SpeedSlider from './SpeedSlider';
 import Banner from './Banner'
 import axios from "axios";
 
-const SongSelect = () => {
+const SongSelect = ({hidden, setHidden}) => {
     const [songs, setSong] = useState([]);
     useEffect(() => {
         getSongs();
@@ -31,13 +31,17 @@ const SongSelect = () => {
         };
 
     function handlePlayMusic(songmap){
-
-        //setCurrentSongmap(songmap);
+        //setCurrentSongmap(songmap); 
         playMusic(songmap);
     }
+    
+    //brings back start menu
+    function selectSong() {
+        setHidden(false)
+    }
 
-
-     
+    
+  
 return (
     <div className="song-select">
         <Accordion defaultExpanded={false}>
@@ -57,7 +61,7 @@ return (
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                     >
-                    <button className="button" onClick={() => handlePlayMusic(songmap)}>
+                    <button className="button" onClick={() => {handlePlayMusic(songmap); selectSong();}}>
                         {songmap.title}
                     </button>
                     </AccordionSummary>
@@ -110,18 +114,23 @@ export default SongSelect;
             </AccordionSummary>
             <AccordionDetails>
 
-                {songs.map((songmap, index) => (
-                    <Accordion expanded={expanded === songmap.title} onChange={handleChange(songmap.title)}>
-                    <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                    >
-                    <button className="button" onClick={() => handlePlayMusic(songmap)}>
-                        {songmap.title}
-                    </button>
-                    </AccordionSummary>
-                    <AccordionDetails>
+                    <Tabs
+                        orientation="vertical"
+                        >
+                        {songsList.map((songmap, index) => (
+                            <div className="box">
+                                <button className="button" onClick={() => handlePlayMusic(songmap)}>
+                                    {currentSongmap.title === songmap.title && isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
+                                </button>
+                                <div className="song-title">
+                                    {songmap.title}
+                                </div>
+                            </div>
+                        ))}
+                        
+                    </Tabs>
+                             
+                    <div>
                         <Box>
                             <Box>
                                 <Typography>Artist: {songmap.artist}</Typography>
@@ -134,19 +143,7 @@ export default SongSelect;
                             </Box>
                     
                         </Box>
-                    </AccordionDetails>
-                    </Accordion>
-                ))}
-
-            </AccordionDetails>
-        </Accordion>
-        
-
-</div>
-            
-    
-  );
-}
-export default SongSelect;
-*/
-
+                    </Box>
+                </AccordionDetails>
+            </Accordion>    
+        </div>*/
