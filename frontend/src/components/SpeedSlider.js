@@ -1,4 +1,4 @@
-import { createTheme, dividerClasses, Slider, ThemeProvider } from "@mui/material";
+import { createTheme, Slider} from "@mui/material";
 import { createRef } from "react";
 
 const SpeedSlider = () => {

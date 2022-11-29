@@ -15,6 +15,11 @@ const useMusicPlayer = () => {
       setState(state => ({ ...state, currentSongmap: songmap, isPlaying: true }));
     }
   }
+  //restarts music when the play button is pushed on the start meny
+  function restartMusic() {
+    state.audioPlayer.currentTime = 0; //resets song to beginning
+    state.audioPlayer.play(); //plays song at 0
+  }
 
   function togglePlay() {
     if (state.isPlaying) {
@@ -29,6 +34,7 @@ const useMusicPlayer = () => {
 
   return {
     playMusic,
+    restartMusic,
     togglePlay,
     songFiles: state.songFiles,
     isPlaying: state.isPlaying

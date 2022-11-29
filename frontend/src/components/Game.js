@@ -100,7 +100,8 @@ export default class Game extends Component {
 
     //has animations restart when the play on start menu is pressed
     gameListener.listener = () => {
-      if (this.props.hidden === false) {
+      if (this.props.hidden === false) { //if the start menu is no longer hidden 
+        //reset animations
         noteArray.forEach(e=>e.destroy());
         noteArray = [];
         hitzone_outer.destroy();

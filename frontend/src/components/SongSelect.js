@@ -1,3 +1,4 @@
+//imports
 import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import useMusicPlayer from "../hooks/useMusicPlayer";
@@ -8,20 +9,22 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SpeedSlider from './SpeedSlider';
 import Banner from './Banner'
 import axios from "axios";
+import { gameListener } from './StartMenu';
 
-const SongSelect = ({hidden, setHidden}) => {
+
+const SongSelect = ({setHidden, setSongSelected, setSongName, songName, hidden}) => {
     const [songs, setSong] = useState([]);
     useEffect(() => {
         getSongs();
-      }, []);
-     
-      const getSongs = async () => {
+    }, []);
+
+    const getSongs = async () => {
         const response = await axios.get("http://localhost:3500/songs");
         setSong(response.data);
-      };
+    };
 
     //states 
-    const {playMusic} = useMusicPlayer();
+    const {playMusic, restartMusic} = useMusicPlayer();
 
     const [expanded, setExpanded] = useState(false);
 
@@ -34,14 +37,22 @@ const SongSelect = ({hidden, setHidden}) => {
         //setCurrentSongmap(songmap); 
         playMusic(songmap);
     }
+
+    //restarts song when play button is pressed on start menu
+    gameListener.musicstarter = (songmap) => {
+        restartMusic(songmap); //function from usemusicplayer hook
+    }
     
-    //brings back start menu
-    function selectSong() {
-        setHidden(false)
+    
+    //sets states for start menu
+    function selectSong(songmap) {
+        setHidden(false); //brings back start menu if song selected during gameplay
+        setSongSelected(true); //sets song selected to true for startmenu button to be enabled
+        setSongName(songmap.title); //returns song title for start menu
     }
 
     
-  
+
 return (
     <div className="song-select">
         <Accordion defaultExpanded={false}>
@@ -61,7 +72,7 @@ return (
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                     >
-                    <button className="button" onClick={() => {handlePlayMusic(songmap); selectSong();}}>
+                    <button className="button" onClick={() => {handlePlayMusic(songmap); selectSong(songmap);}}>
                         {songmap.title}
                     </button>
                     </AccordionSummary>
@@ -90,6 +101,7 @@ return (
 
     </div>
 );} 
+
 export default SongSelect;
     
     //const [visible, setVisible] = useState(false);
