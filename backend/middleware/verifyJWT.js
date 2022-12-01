@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 
+//handles verifying json web tokens for authorization
 const verifyJWT = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization
 
@@ -11,11 +12,10 @@ const verifyJWT = (req, res, next) => {
 
     jwt.verify(
         token,
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.ACCESS_TOKEN_SECRET, //from .env file
         (err, decoded) => {
             if (err) return res.status(403).json({ message: 'Forbidden' })
             req.user = decoded.UserInfo.username
-            // req.roles = decoded.UserInfo.roles
             next()
         }
     )

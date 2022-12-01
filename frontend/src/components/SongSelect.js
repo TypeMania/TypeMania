@@ -2,7 +2,7 @@
 import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import useMusicPlayer from "../hooks/useMusicPlayer";
-import Accordion from '@mui/material/Accordion';
+import Accordion from '@mui/material/Accordion'; 
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -18,6 +18,7 @@ const SongSelect = ({setHidden, setSongSelected, setSongName, songName, hidden})
         getSongs();
     }, []);
 
+    //using axios is an easier way to access the db that bypasses needed an api slice file found in the features folder
     const getSongs = async () => {
         const response = await axios.get("http://localhost:3500/songs");
         setSong(response.data);
