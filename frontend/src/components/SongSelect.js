@@ -7,7 +7,16 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from "axios";
 
+export const SongValues = () => {
+    const {currentSongmap} = useMusicPlayer();
+    return {
+        currentSong: currentSongmap
+    }
+
+}
+
 const SongsList = () => {
+    const {playMusic} = useMusicPlayer();
     const [songs, setSong] = useState([]);
     useEffect(() => {
         getSongs();
@@ -19,7 +28,7 @@ const SongsList = () => {
       };
 
     //states 
-    const {playMusic} = useMusicPlayer();
+    
 
     const [expanded, setExpanded] = useState(false);
 
@@ -30,7 +39,7 @@ const SongsList = () => {
 
     function handlePlayMusic(songmap){
 
-        //setCurrentSongmap(songmap);
+        //setCurrentSong(songmap);
         playMusic(songmap);
     }
 
@@ -40,11 +49,11 @@ return (
     <div className="song-select">
         <Accordion defaultExpanded={false}>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
             >
-              <Typography>Song Select</Typography>
+            <Typography>Song Select</Typography>
             </AccordionSummary>
             <AccordionDetails>
 
@@ -78,10 +87,15 @@ return (
 
             </AccordionDetails>
         </Accordion>     
-    </div>   
-  );
+    </div>
+    );  
+       
 }
 export default SongsList
+
+//export const song_values = {
+ //   currentSong
+//}
 
 /*function SongSelect() {
 
