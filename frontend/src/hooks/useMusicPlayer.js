@@ -31,7 +31,8 @@ const useMusicPlayer = () => {
     playMusic,
     togglePlay,
     songFiles: state.songFiles,
-    isPlaying: state.isPlaying
+    isPlaying: state.isPlaying,
+    currentSongmap: state.currentSongmap
   }
 };
 

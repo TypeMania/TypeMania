@@ -1,15 +1,12 @@
-const Songmap =  (title, artist, bpm, npm, length, seed, uploadedBy, songFilePath) => {
-
-     const INITIAL_ARRAY = [];
+const Songmap =  (title, artist, bpm, length, seed, index, songFilePath) => {
 
      return { title: title, 
             artist: artist,
             bpm: bpm,
-            npm: npm,
             length: length,
             seed: seed,
             songFilePath: songFilePath,
-            INITIAL_ARRAY
+            index
             }
 }
 

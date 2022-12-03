@@ -9,8 +9,45 @@ import SpeedSlider from './SpeedSlider';
 import Banner from './Banner'
 import axios from "axios";
 
+
+function seededPRNG(bpm, length){
+    const arraySize = Math.round(bpm * length / 60); // the array size is calculated from the speed and length of the song
+    console.log("arraySize: " + arraySize)
+    var seedArr = [];
+    
+    for (var i = 0; i < arraySize; i++) {
+      seedArr.push(Math.random() * (127 - 0) + 0);
+    }
+    
+    return seedArr;
+    
+}
+
+export function randomizedCharacters(bpm, length){
+    
+    
+    const seedArr = seededPRNG(bpm, length)
+    const charArray = [];
+    for (let i = 0; i < seedArr.length; i++) {
+      const char = String.fromCharCode(seedArr[i]);
+      charArray.push(char);
+    }
+    return charArray;
+  }
+
+export const song_values = {
+    current_song_char: randomizedCharacters(145, 139),
+    updateSong: (songmap) => {
+        song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
+        console.log("current song char length: " + song_values.current_song_char.length);
+    }
+}
+
+
 const SongSelect = ({hidden, setHidden}) => {
+    const {playMusic} = useMusicPlayer();
     const [songs, setSong] = useState([]);
+    //const [currentSongmap, setCurrentSongmap] = useState([]);
     useEffect(() => {
         getSongs();
       }, []);
@@ -21,18 +58,20 @@ const SongSelect = ({hidden, setHidden}) => {
       };
 
     //states 
-    const {playMusic} = useMusicPlayer();
-
+    
     const [expanded, setExpanded] = useState(false);
 
     const handleChange =
         (panel) => (event , newExpanded) => {
+        console.log("newExpanded: " + newExpanded)
         setExpanded(newExpanded ? panel : false);
         };
 
     function handlePlayMusic(songmap){
-        //setCurrentSongmap(songmap); 
+        //setCurrentSongmap(songmap);
+        song_values.updateSong(songmap);
         playMusic(songmap);
+
     }
     
     //brings back start menu
@@ -69,7 +108,16 @@ return (
                         <Banner/>
                         <Box>
                             <Box>
-                                <Typography>Artist: {songmap.artist}</Typography>
+                                <Box>
+                                    <Typography>Artist: {songmap.artist}</Typography>
+                                </Box>
+                                <Box>
+                                    <Typography>bpm: {songmap.bpm}</Typography>
+                                </Box>
+                                <Box>
+                                    <Typography>length: {songmap.length}</Typography>
+                                </Box>
+                        
                             </Box>
                             <Box>
                                 <Typography>bpm: {songmap.bpm}</Typography>
@@ -89,7 +137,7 @@ return (
         
 
     </div>
-);} 
+);}
 export default SongSelect;
     
     //const [visible, setVisible] = useState(false);
@@ -146,4 +194,4 @@ export default SongSelect;
                     </Box>
                 </AccordionDetails>
             </Accordion>    
-        </div>*/
+                        </div>*/
