@@ -204,21 +204,22 @@ canvas {
 
 /* leaderboard banner item */
 .leaderboardIMG {
-  height: 22em;
-  position: sticky;
+  height: 1.5em;
   float: left;
   margin-left: 30px;
 }
 
 .item-wrapper {
   border: 3px solid black;
+  position: relative;
   width: 200px;
   padding: 0;
   margin-bottom: 5px;
-  position: sticky;
   float: left;
-  margin-left: 20px;
-  margin-top: 15px;
+  /* margin-left: 20px; */
+  margin-top: 30px;
+  right: 200px;
+  margin-bottom: 25px;
 
 }
 .item {
@@ -228,31 +229,20 @@ canvas {
   padding-right: 5px;
   padding-bottom: 1px;
   border-top: 1px solid #7745E5;
-  font-size: 1em;
+  font-size: 0.9em;
+
 
 }
-.item__avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.item__avatar__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
+
 .item__score {
   font-family: monospace;
   flex: 1;
   text-align: right;
 }
-.item__avatar,
+
 .item__name,
 .item__score {
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 
@@ -402,12 +392,13 @@ div.statsContainer {
   
 }
 
-
-.header {
-  font-weight: 900;
+.statDate {
+  text-align: left;
+}
+.statTitle {
   color: #7745E5;
-  font-size: 2em;
-  text-align: justify;
+  text-align: left;
+
 }
 
 .items{
@@ -452,35 +443,7 @@ div.statsContainer {
   
 }
 
-.item-wrapper {
-  width: 120px;
-}
 
-
-  .item-wrapper {
-    width: 150px;
-    margin-left: 15px;
-    margin-top: 15px;
-  }
-
-  .item {
-    padding-right: 5px;
-    font-size: 0.8em;
-  }
-
-  .item__avatar {
-    width: 5px;
-  } 
-
-  .item__avatar__img {
-    display: none;
-  }
-
-  .item__avatar,
-  .item__name,
-  .item__score {
-    margin-left: 0px;
-  }
 
 /* MEDIA QUERIES (RESPONSIVE) */
 @media only screen and (max-width: 1650px) {

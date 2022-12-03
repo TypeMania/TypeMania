@@ -7,7 +7,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SpeedSlider from './SpeedSlider';
-import Banner from './Banner'
+import Leaderboard from './Leaderboard'
 import axios from "axios";
 import { gameListener } from './StartMenu';
 
@@ -78,7 +78,7 @@ return (
                     </button>
                     </AccordionSummary>
                     <AccordionDetails key="det2">
-                        <Banner/>
+                        <Leaderboard songmap = {songmap} />
                         <Box>
                             <Box>
                                 <Typography>Artist: {songmap.artist}</Typography>
