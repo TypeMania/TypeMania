@@ -1,6 +1,6 @@
 TypeMania Data Collection
 
-We used mp3 data in our project to generate our song database for song selection and gameplay. Song data collection was conducted by manually by downloading three selected songs from the music provider, SoundCloud. Songs were manually added to the project code assets folder. In future software iterations, mp3 files will be stored and accessed via the cloud-based mongodb database. 
+We used mp3 data in our project to generate our song database for song selection and gameplay. Song data collection was conducted by manually by downloading three selected songs from the music provider, SoundCloud. Song files were uploaded to and stored in the project cloud-based database hosted by mongodb. The project accesses the song files through axios as well as the backend api functionality. In future iterations, there will be a larger database of songfiles available for users.
 
 MP3 Source Material:
 
