@@ -1,64 +1,36 @@
+//imports
 import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import useMusicPlayer from "../hooks/useMusicPlayer";
-import Accordion from '@mui/material/Accordion';
+import Accordion from '@mui/material/Accordion'; 
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SpeedSlider from './SpeedSlider';
-import Banner from './Banner'
+import Leaderboard from './Leaderboard'
 import axios from "axios";
+import { gameListener } from './StartMenu';
 
 
-function seededPRNG(bpm, length){
-    const arraySize = Math.round(bpm * length / 60); // the array size is calculated from the speed and length of the song
-    console.log("arraySize: " + arraySize)
-    var seedArr = [];
-    
-    for (var i = 0; i < arraySize; i++) {
-      seedArr.push(Math.random() * (127 - 0) + 0);
-    }
-    
-    return seedArr;
-    
-}
-
-export function randomizedCharacters(bpm, length){
-    
-    
-    const seedArr = seededPRNG(bpm, length)
-    const charArray = [];
-    for (let i = 0; i < seedArr.length; i++) {
-      const char = String.fromCharCode(seedArr[i]);
-      charArray.push(char);
-    }
-    return charArray;
-  }
-
-export const song_values = {
-    current_song_char: randomizedCharacters(145, 139),
-    updateSong: (songmap) => {
-        song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
-        console.log("current song char length: " + song_values.current_song_char.length);
-    }
-}
 
 
-const SongSelect = ({hidden, setHidden}) => {
-    const {playMusic} = useMusicPlayer();
+const SongSelect = ({setHidden, setSongSelected, setSongName, songName, hidden}) => {
+
     const [songs, setSong] = useState([]);
     //const [currentSongmap, setCurrentSongmap] = useState([]);
     useEffect(() => {
         getSongs();
-      }, []);
-     
-      const getSongs = async () => {
+    }, []);
+
+    //using axios is an easier way to access the db that bypasses needed an api slice file found in the features folder
+    const getSongs = async () => {
         const response = await axios.get("http://localhost:3500/songs");
         setSong(response.data);
-      };
+    };
 
     //states 
-    
+    const {playMusic, restartMusic} = useMusicPlayer();
+
     const [expanded, setExpanded] = useState(false);
 
     const handleChange =
@@ -73,14 +45,22 @@ const SongSelect = ({hidden, setHidden}) => {
         playMusic(songmap);
 
     }
+
+    //restarts song when play button is pressed on start menu
+    gameListener.musicstarter = (songmap) => {
+        restartMusic(songmap); //function from usemusicplayer hook
+    }
     
-    //brings back start menu
-    function selectSong() {
-        setHidden(false)
+    
+    //sets states for start menu
+    function selectSong(songmap) {
+        setHidden(false); //brings back start menu if song selected during gameplay
+        setSongSelected(true); //sets song selected to true for startmenu button to be enabled
+        setSongName(songmap.title); //returns song title for start menu
     }
 
     
-  
+
 return (
     <div className="song-select">
         <Accordion defaultExpanded={false}>
@@ -100,12 +80,12 @@ return (
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                     >
-                    <button className="button" onClick={() => {handlePlayMusic(songmap); selectSong();}}>
+                    <button className="button" onClick={() => {handlePlayMusic(songmap); selectSong(songmap);}}>
                         {songmap.title}
                     </button>
                     </AccordionSummary>
                     <AccordionDetails key="det2">
-                        <Banner/>
+                        <Leaderboard songmap = {songmap} />
                         <Box>
                             <Box>
                                 <Box>
@@ -139,6 +119,36 @@ return (
     </div>
 );}
 export default SongSelect;
+function seededPRNG(bpm, length){
+    const arraySize = Math.round(bpm * length / 60); // the array size is calculated from the speed and length of the song
+    console.log("arraySize: " + arraySize)
+    var seedArr = [];
+    
+    for (var i = 0; i < arraySize; i++) {
+      seedArr.push(Math.random() * (127 - 0) + 0);
+    }
+    
+    return seedArr;
+}
+export function randomizedCharacters(bpm, length){
+    
+    
+    const seedArr = seededPRNG(bpm, length)
+    const charArray = [];
+    for (let i = 0; i < seedArr.length; i++) {
+      const char = String.fromCharCode(seedArr[i]);
+      charArray.push(char);
+    }
+    return charArray;
+}
+
+export const song_values = {
+    current_song_char: randomizedCharacters(145, 139),
+    updateSong: (songmap) => {
+        song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
+        console.log("current song char length: " + song_values.current_song_char.length);
+    }
+}
     
     //const [visible, setVisible] = useState(false);
     /*const [isPlaying, setIsPlaying] = useState(false);*/

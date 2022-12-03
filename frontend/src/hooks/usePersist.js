@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react"
+// import { useState, useEffect } from "react"
+// //enables login auth remain with refresh of screen
+// const usePersist = () => {
+//     const [persist, setPersist] = useState(JSON.parse(localStorage.getItem("persist", "username")) || false);
 
-const usePersist = () => {
-    const [persist, setPersist] = useState(JSON.parse(localStorage.getItem("persist")) || true);
+//     useEffect(() => {
+//         localStorage.setItem("persist", JSON.stringify(persist))
+//     }, [persist])
 
-    useEffect(() => {
-        localStorage.setItem("persist", JSON.stringify(persist))
-    }, [persist, setPersist])
-    console.log([persist])
-    return [persist, setPersist]
-}
-export default usePersist
+//     return [persist, setPersist]
+// }
+// export default usePersist
