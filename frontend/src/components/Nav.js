@@ -26,7 +26,7 @@ const Nav = () => {
         {/* nav items/links */}
             <li><Link to="/home">Home</Link></li>
             <li><Link to="/stats">Statistics</Link></li>
-            <li><Link to="/upload">Upload Music</Link></li>
+            {/*<li><Link to="/upload">Upload Music</Link></li>*/}
             <li><Link to="/" onClick={sendLogout}>Logout</Link></li>
 
 

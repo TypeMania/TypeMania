@@ -3,31 +3,26 @@ import Phaser from 'phaser';
 import React, { Component } from 'react';
 import { scroll_values } from './SpeedSlider';
 import { randomizedCharacters, song_values } from './SongSelect';
-//phaser game component
+import { gameListener } from './StartMenu';
 
+
+//phaser game component
 //react component (different syntax than other compoenents, but basically the same)
 export default class Game extends Component {
 
   componentDidMount() {
-    //constants
-    const WIDTH = 1000;
-    const HEIGHT = 600;
+    // Responsive game window or setting it up to be in the future.
+    const screen = {
+      width: 900,
+      get height() {return this.width/1.7},
+    }
 
     const config = {
       default: 'arcade',
-      arcade: {
-        x:0,
-        y:0,
-        width:WIDTH,
-        height:HEIGHT,
-        fixedStep:true,
-        fps:60,
-      },
       type: Phaser.AUTO,
       parent: 'game-container',
-      width: WIDTH,
-      height: HEIGHT,
-      backgroundColor: "#7393B3",
+      width: screen.width,
+      height: screen.height,
       scene: {
           preload: preload,
           create: create,
@@ -36,7 +31,8 @@ export default class Game extends Component {
       
     };
 
-    const game = new Phaser.Game(config)
+    const theGame = new Phaser.Game(config)
+
     let cursors;
     let hitzone_outer;
     let hitzone_inner;
@@ -51,29 +47,30 @@ export default class Game extends Component {
     
     
     function create () {
+
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
       //grid
-      this.add.grid(800, 500, 2000, 450, 64, 64, 0x00b9f2).setAltFillStyle(0x016fce).setOutlineStyle();
+      this.add.grid(800, 500, 2000,1000, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
 
       //scroll track
-      scrolltrack = this.add.rectangle(0,HEIGHT/3,WIDTH*2,HEIGHT/4, 0x333333)
-      scrolltrack.setStrokeStyle(4, 0x000000);
+      scrolltrack = this.add.rectangle(0,screen.height/3,screen.width*3,screen.height/3, 0x00b9f2)
+      scrolltrack.setStrokeStyle(4, 0x00b9f2);
 
       //arrows
-      for (let i=WIDTH/3; i<WIDTH; i+=WIDTH/4) {
+      for (let i=screen.width/3; i<screen.width; i+=screen.width/4) {
         const data = [ 120,20, 60,20, 60,0, 0,50, 60,100, 60,80, 120,80 ];
-        const r2 = this.add.polygon(i, HEIGHT/3, data, 0x9966ff);
+        const r2 = this.add.polygon(i, screen.height/3, data, 0x9966ff);
         r2.setStrokeStyle(4, 0xefc53f);
       }
 
       //hitzone
       
       hitzone_animations = () => {
-        hitzone_outer = this.add.rectangle(WIDTH/8,HEIGHT/3,100,100, 0xf54242);
-        hitzone_outer.setStrokeStyle(4, 0x42adf5);
-        hitzone_inner = this.add.rectangle(WIDTH/8,HEIGHT/3,60,60, 0xffbdf4).setStrokeStyle(3, 0x000000);
+        hitzone_outer = this.add.rectangle(screen.width/8,screen.height/3,100,100, 0x270a3d);
+        hitzone_outer.setStrokeStyle(7, 0xefc53f);
+        hitzone_inner = this.add.rectangle(screen.width/8,screen.height/3,60,60, 0x9966ff).setStrokeStyle(5, 0x00b9f2);
         this.tweens.add({
           targets: hitzone_outer,
           scale: 0.9,
@@ -105,7 +102,7 @@ export default class Game extends Component {
           counter = counter + 1;
         }
         
-        const note = this.add.container(WIDTH+WIDTH/8,HEIGHT/3, [this.rectangle, this.Text]);
+        const note = this.add.container(screen.width+screen.width/8,screen.height/3, [this.rectangle, this.Text]);
         Phaser.Display.Align.In.Center( this.Text, this.rectangle);
       
 
@@ -129,12 +126,21 @@ export default class Game extends Component {
       scroll_values.note_scroll = 1 * multiplier;
       hitzone_outer.destroy();
       hitzone_animations();
-      noteArray.forEach((note)=>{note.destroy()});
-      noteArray.length = 0;
+    }
+
+    //has animations restart when the play on start menu is pressed
+    gameListener.listener = () => {
+      if (this.props.hidden === false) {
+        noteArray.forEach(e=>e.destroy());
+        noteArray = [];
+        hitzone_outer.destroy();
+        hitzone_animations();
+      };
     }
     
     function update ()
     {
+      // Move each note left a little bit constantly.
       noteArray.forEach((note)=>{
         note.x -= scroll_values.note_scroll;
         if(note.x < -50){
@@ -143,17 +149,31 @@ export default class Game extends Component {
         }
       });
 
-      
+      // Destroy the note if the key is down.
+      // Only works when the note before finally shifts as seen above.
+      if (this.input.keyboard.checkDown(cursors.left)) {
+        noteArray[0].destroy();
+      }
+      if (this.input.keyboard.checkDown(cursors.right)) {
+        noteArray[0].destroy();
+      }
     }
   }
 
-  shouldComponentUpdate() {
+
+  shouldComponentUpdate(prevProps) {
+    if (prevProps.hidden !== this.props.hidden) {
+      return true;
+    }
     return false;
   }
 
   //sends div with game canvas to home component
   render() {
-    return <div id='game-container' />   
+
+    return (
+    <div id='game-container'/>
+    )
   }
 
   

@@ -5,7 +5,6 @@ const useMusicPlayer = () => {
   const [state, setState] = useContext(MusicPlayerContext);
 
   function playMusic(songmap) {
-    console.log(songmap.title);
     if (songmap === state.currentSongmap) {
       togglePlay();
     } else {
