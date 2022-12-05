@@ -122,11 +122,6 @@ div .startmenu {
   padding-bottom: 10px;
 }
 
-.navbar, .nav {
-  position:relative;
-
-}
-
 .navbar li{
   display: inline;
 }
@@ -140,10 +135,6 @@ div .startmenu {
 
 .nav a:hover {
   color: #7745E5;
-}
-
-.nav, .navbar {
-  overflow-y:hidden;
 }
 
 /* HOME STYLE */
@@ -434,7 +425,6 @@ div.statsContainer {
   align-self: flex-end;
   margin:auto auto 0;
   bottom: 0;
-  position: fixed;
 }
 
 /*Typemania logo item */
