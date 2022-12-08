@@ -1,7 +1,7 @@
 //import
 const allowedOrigins = require('./allowedOrigins')
 
-//cors access - gives access to request resources from allowedOrigins list
+//cors access 
 const corsOptions = {
     origin: (origin, callback) => {
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -11,7 +11,7 @@ const corsOptions = {
         }
     },
     credentials: true,
-    optionsSuccessStatus: 200 //http status code
+    optionsSuccessStatus: 200
 }
 
 module.exports = corsOptions 

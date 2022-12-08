@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LostChameleon from './assets/songfiles/LostChameleon.mp3';
 import TheHipsta from './assets/songfiles/TheHipsta.mp3';
 import Tobu from './assets/songfiles/Tobu.mp3';
-
+//gets music from the music player provider
 const MusicPlayerContext = React.createContext([{}, () => { }]);
 
 const MusicPlayerProvider = (props) => {

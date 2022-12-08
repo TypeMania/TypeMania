@@ -1,4 +1,4 @@
-//list of allowed origins for cors -  allows listed websites to access the site
+//allowed origins for cors - gives access to request resources
 const allowedOrigins = [
     'http://localhost:3000',
     // 'www.typemania.com'
