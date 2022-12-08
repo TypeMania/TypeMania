@@ -14,23 +14,23 @@ const songSchema = new mongoose.Schema({
     },
     artist: {
         type: String,
-        required: true
+        required: "True"
     },
     bpm: {
         type: String,
-        required: true
+        required: "True"
     },
     length: {
         type: String,
-        required: true
+        required: "True"
     },
     songFilePath: {
         type: String,
-        required: true
+        required: "True"
     },
     songFile: {
         type: String,
-        required: true
+        required: "True"
     }
 
 

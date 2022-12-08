@@ -13,8 +13,6 @@ const connectDB = require('./config/dbConn')
 const mongoose = require('mongoose')
 const PORT = process.env.PORT || 3500
 const songRoutes = require('./routes/songRoutes')
-// const statRoutes = require('./routes/statRoutes')
-
 
 console.log(process.env.NODE_ENV)
 
@@ -35,7 +33,6 @@ app.use('/', require('./routes/root'))
 app.use('/auth', require('./routes/authRoutes'))
 app.use('/users', require('./routes/userRoutes'))
 app.use(songRoutes)
-app.use('/stats', require('./routes/statRoutes'))
 
 app.all('*', (req, res) => {
     res.status(404)

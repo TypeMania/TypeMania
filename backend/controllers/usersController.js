@@ -1,13 +1,12 @@
 //imports
 const User = require('../models/User')
 const Song = require('../models/Song')
-const asyncHandler = require('express-async-handler') 
+const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
 
 // @desc Get all users
 // @route GET /users
 // @access Private (need authorization)
-//NOT currently used in app - kept for future applications
 const getAllUsers = asyncHandler(async (req, res) => {
     // Get all users from MongoDB; -password does not return password, .lean=json data
     const users = await User.find().select('-password').lean()
