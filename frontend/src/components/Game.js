@@ -39,6 +39,8 @@ export default class Game extends Component {
     let hitzone_animations;
     let scrolltrack;
     let noteArray;
+    let generation_id;
+    let newInterval;
 
     function preload (){
   
@@ -75,45 +77,62 @@ export default class Game extends Component {
           targets: hitzone_outer,
           scale: 0.9,
           ease: Phaser.Math.Easing.Back.In,
-          duration: scroll_values.hitzone_pulse,
+          duration: 335 / scroll_values.note_scroll,
           yoyo: true,
           loop: -1
         });
       }
       hitzone_animations();
-
+      const game = this;
       noteArray = [];
       //var chars = song_values.current_song_char;
       //console.log("characters length: " + chars.length)
       var counter = 0;
-      setInterval(()=>{
-        //const note = this.add.rectangle(WIDTH+WIDTH/8,HEIGHT/3,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+      function newInterval() {
+          return setInterval(()=>{
+          //const note = this.add.rectangle(WIDTH+WIDTH/8,HEIGHT/3,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+          
+          game.rectangle = game.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+          var textConfig = {fontSize:'20px', color:'black', fontFamily: 'Arial'};
+          if (counter < song_values.current_song_char.length){
+            game.Text = game.add.text(0, 0, song_values.current_song_char[counter], textConfig);
+            counter = counter + 1;
+          }
+          else {
+            counter = 0;
+            game.Text = game.add.text(0, 0, song_values.current_song_char[counter], textConfig);
+            counter = counter + 1;
+          }
+
+          const note = game.add.container(screen.width+screen.width/8,screen.height/3, [game.rectangle, game.Text]);
+          Phaser.Display.Align.In.Center( game.Text, game.rectangle);
         
-        console.log("characters length: " + song_values.current_song_char.length)
-        this.rectangle = this.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
-        var textConfig = {fontSize:'20px', color:'black', fontFamily: 'Arial'};
-        if (counter < song_values.current_song_char.length){
-          this.Text = this.add.text(0, 0, song_values.current_song_char[counter], textConfig);
-          counter = counter + 1;
+          // Make the notes referencable so we can manimpulate & destroy them later.
+          noteArray.push(note);
+          
+          
+          }, scroll_values.generation_time);
         }
-        else {
-          counter = 0;
-          this.Text = this.add.text(0, 0, song_values.current_song_char[counter], textConfig);
-          counter = counter + 1;
-        }
-        
-        const note = this.add.container(screen.width+screen.width/8,screen.height/3, [this.rectangle, this.Text]);
-        Phaser.Display.Align.In.Center( this.Text, this.rectangle);
       
-
-        // add characters to notes here
-        //
-        noteArray.push(note);
-        console.log(noteArray.length);
+      generation_id = newInterval();
+      
+      // BPM Override slider's onChange function. Modifies animation and music speed.
+      scroll_values.applySpeed = (multiplier) => {
         
-        
-      }, scroll_values.note_scroll*1000);
+        // Adjust values for music playback, note scroll speed, and note generation interval.
+        scroll_values.note_scroll = 1 * multiplier;
+        scroll_values.generation_time = 1000 / multiplier;
 
+        // Clear all animated objects that were using the old values.
+        noteArray.forEach(e=>e.destroy());
+        hitzone_outer.destroy();
+        hitzone_animations();
+
+        // Reset the generation interval.
+        clearInterval(generation_id);
+        generation_id = newInterval();
+        
+      }
     }
 
     song_values.updateSong = (songmap) => {
@@ -121,12 +140,7 @@ export default class Game extends Component {
       console.log("updated chars length: " + song_values.current_song_char.length);
     }
     
-    scroll_values.applySpeed = (multiplier) => {
-      scroll_values.hitzone_pulse = 335 / multiplier;
-      scroll_values.note_scroll = 1 * multiplier;
-      hitzone_outer.destroy();
-      hitzone_animations();
-    }
+    
 
     //has animations restart when the play on start menu is pressed
     gameListener.listener = () => {
@@ -143,7 +157,7 @@ export default class Game extends Component {
     {
       // Move each note left a little bit constantly.
       noteArray.forEach((note)=>{
-        note.x -= scroll_values.note_scroll;
+        note.x -= 1 * scroll_values.note_scroll;
         if(note.x < -50){
           note.destroy();
           noteArray.shift();

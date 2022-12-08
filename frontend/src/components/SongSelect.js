@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SpeedSlider from './SpeedSlider';
 import Leaderboard from './Leaderboard'
 import axios from "axios";
-import { gameListener } from './StartMenu';
+import { StartMenu,  gameListener } from './StartMenu';
 
 
 
@@ -97,13 +97,6 @@ return (
                                 <Box>
                                     <Typography>length: {songmap.length}</Typography>
                                 </Box>
-                        
-                            </Box>
-                            <Box>
-                                <Typography>bpm: {songmap.bpm}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography>length: {songmap.length}</Typography>
                             </Box>
                         </Box>
                     </AccordionDetails>
