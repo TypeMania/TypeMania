@@ -1,4 +1,3 @@
-//all imports
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -8,7 +7,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 
-//identifies the root
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>

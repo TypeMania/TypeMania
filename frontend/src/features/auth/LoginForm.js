@@ -1,11 +1,12 @@
 //file imports
 import { useRef, useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from './authSlice'
 import { useLoginMutation } from './authApiSlice'
 import PubNav from '../../components/public/PubNav'
 import Footer from '../../components/Footer'
+// import usePersist from '../../hooks/usePersist'
 
 
 //login page component
@@ -17,6 +18,7 @@ const LoginForm = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [errMsg, setErrMsg] = useState('')
+    // const [persist, setPersist] = usePersist()
 
     //hooks
     const navigate = useNavigate()
@@ -60,6 +62,7 @@ const LoginForm = () => {
 
     const handleUserInput = (e) => setUsername(e.target.value)
     const handlePwdInput = (e) => setPassword(e.target.value)
+    // const handleToggle = () => setPersist(prev => !prev)
 
 
     //create error class

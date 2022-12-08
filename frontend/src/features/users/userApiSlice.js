@@ -7,7 +7,7 @@ import { apiSlice } from "../../app/api/apiSlice"
 const userAdapter = createEntityAdapter({})
 
 const initialState = userAdapter.getInitialState()
-//validates user information
+
 export const userApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getUsers: builder.query({

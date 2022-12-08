@@ -1,17 +1,14 @@
-import { createTheme, dividerClasses, Slider, ThemeProvider } from "@mui/material";
+import { createTheme, Slider} from "@mui/material";
 import { createRef } from "react";
-//creates the speed slider
+
 const SpeedSlider = () => {
     return (
     <div className='speed-slider'>
         <Slider
             ref={myself}
-            //beginner
             defaultValue={1}
             min={0.5}
-            //advnaced 
             max={1.5}
-            //intervals to faster typing skills 
             step={0.1}
             valueLabelDisplay={"auto"}
             onChangeCommitted={()=>{scroll_values.applySpeed(parseFloat(myself.current.innerText));}}
@@ -35,7 +32,7 @@ const theme = createTheme({
         }
     }
 });
-//exports the scroll speed
+
 export const scroll_values = {
     hitzone_pulse: 335,
     note_scroll: 1,
