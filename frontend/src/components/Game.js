@@ -170,7 +170,7 @@ export default class Game extends Component {
           keyPressed = input.key;
         
           // if the note or container text  mateches the key pressed, destroy that note.
-          if (keyPressed === note.list[1]?.text && note.x > 160){
+          if (keyPressed === note.list[1]?.text && note.x > 0){
             note.destroy();
 
           }
