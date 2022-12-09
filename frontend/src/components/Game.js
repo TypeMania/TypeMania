@@ -245,7 +245,7 @@ export default class Game extends Component {
 
         if(note.x < -50){
           updateText('Combo',0);
-          updateText('Accuracy', (100*(totalHits/(counter-4))).toFixed(2));
+          updateText('Accuracy', (100*(totalHits/(counter-noteArray.length))).toFixed(2));
           note.destroy();
           noteArray.shift();
         }
@@ -258,7 +258,7 @@ export default class Game extends Component {
           if (keyPressed === note.list[1]?.text){
             updateText('Combo',game.data.get('Combo')+1);
             updateText('Score',game.data.get('Score')+game.data.get('Combo'));
-            updateText('Accuracy', (100*(totalHits/(counter-4))).toFixed(2));
+            updateText('Accuracy', (100*(totalHits/(counter-noteArray.length))).toFixed(2));
 
             if(game.data.get('Combo') > bestCombo){
               bestCombo = game.data.get('Combo');
