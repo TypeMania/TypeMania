@@ -42,8 +42,13 @@ export default class Game extends Component {
     let counter;
     let generation_id;
     let newInterval;
-
-  
+    let scoreText;
+    let accText;
+    let comboText;
+    let game;
+    let bestCombo;
+    let resetData;
+    let totalHits;
 
     function preload (){
   
@@ -52,34 +57,53 @@ export default class Game extends Component {
     
     
     function create () {
-      
-      //Score
-      this.data.set('Score', 3000);
-      var text = this.add.text(10, 440, '', { font: '35px Courier', fill: '#efc53f' });
-      text.setText([
-        'Score: ' + this.data.get('Score')
-      ]);
+      game = this;
+      resetData = () => {
+        counter=0;
+        noteArray = [];
+        bestCombo = 0;
+        totalHits = 0;
 
-      //Timing
-      this.data.set('Timing', 3000);
-      var text = this.add.text(10, 480, '', { font: '35px Courier', fill: '#efc53f' });
-      text.setText([
-        'Timing: ' + this.data.get('Timing')
-      ]);
+        // If score/combo/acc already initialized then update.
+        if (scoreText !== undefined) {
+          updateText('Score', 0);
+          updateText('Combo', 0);
+          updateText('Accuracy',100);
 
-      //Combo
-      this.data.set('Combo', 3000);
-      var text = this.add.text(400, 450, '', { font: '65px Courier', fill: '#efc53f' });
-      text.setText([
-          'Combo: ' + this.data.get('Combo')
-      ]);
+        // Otherwise create the initial data.
+        } else {
+
+          //Score
+          scoreText = game.add.text(10, 440, '', { font: '35px Courier', fill: '#efc53f' });
+          game.data.set('Score', 0);
+          scoreText.setText([
+            'Score: ' + game.data.get('Score')
+          ]);
+
+          //Accuracy
+          accText = game.add.text(10, 480, '', { font: '35px Courier', fill: '#efc53f' });
+          game.data.set('Accuracy', 100);
+          accText.setText([
+            'Accuracy: ' + game.data.get('Accuracy') + '%',
+          ]);
+
+          //Combo
+          comboText = game.add.text(400, 450, '', { font: '65px Courier', fill: '#efc53f' });
+          game.data.set('Combo', 0);
+          comboText.setText([
+              'Combo: ' + game.data.get('Combo')
+          ]);
+        }
+
+        
+      }
+      resetData();
 
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
-      
       //grid
-      this.add.grid(800, 500, 2000,1000, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
+      this.add.grid(500,50,1000,750, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
 
       //scroll track
       scrolltrack = this.add.rectangle(0,screen.height/3,screen.width*3,screen.height/3, 0x00b9f2)
@@ -109,9 +133,6 @@ export default class Game extends Component {
       }
       hitzone_animations();
 
-      const game = this;
-      noteArray = [];
-      counter = 0;
       newInterval = () => {
         return setInterval(()=>{
           
@@ -175,18 +196,42 @@ export default class Game extends Component {
         
         //reset animations
         noteArray.forEach(e=>e.destroy());
-        noteArray = [];
         hitzone_outer.destroy();
         hitzone_animations();
 
-        //reset counter
+        //reset score/acc/combo
+        resetData();
+
+        //reset counter 
         counter = 0;
         clearInterval(generation_id);
         generation_id = newInterval();
       };
     }
     
-    
+    function updateText(text, value){
+      switch(text){
+        case 'Combo':
+          game.data.set('Combo', value);
+          comboText.setText([
+            'Combo: ' + game.data.get('Combo')
+          ]);
+          break;
+        case 'Score':
+          game.data.set('Score', value);
+          scoreText.setText([
+            'Score: ' + game.data.get('Score')
+          ]);
+          break;
+        case 'Accuracy':
+          game.data.set('Accuracy', value);
+          accText.setText([
+          'Accuracy: ' + game.data.get('Accuracy') + '%',
+          ]);
+          break;
+        default:;
+      }
+    }
     function update ()
     {
       
@@ -199,6 +244,8 @@ export default class Game extends Component {
         note.x -= scroll_values.note_scroll;
 
         if(note.x < -50){
+          updateText('Combo',0);
+          updateText('Accuracy', (100*(totalHits/(counter-4))).toFixed(2));
           note.destroy();
           noteArray.shift();
         }
@@ -209,9 +256,17 @@ export default class Game extends Component {
           keyPressed = input.key;
           
           if (keyPressed === note.list[1]?.text){
-            console.log("note pressed: " + keyPressed);
-            note.destroy();
+            updateText('Combo',game.data.get('Combo')+1);
+            updateText('Score',game.data.get('Score')+game.data.get('Combo'));
+            updateText('Accuracy', (100*(totalHits/(counter-4))).toFixed(2));
 
+            if(game.data.get('Combo') > bestCombo){
+              bestCombo = game.data.get('Combo');
+            }
+            totalHits++;
+
+            note.destroy();
+            noteArray.shift();
           }
         
       }, this)
