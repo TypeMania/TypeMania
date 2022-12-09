@@ -89,7 +89,7 @@ export default class Game extends Component {
           ]);
 
           //Combo
-          comboText = game.add.text(400, 450, '', { font: '65px Courier', fill: '#efc53f' });
+          comboText = game.add.text(500, 450, '', { font: '65px Courier', fill: '#efc53f' });
           game.data.set('Combo', 0);
           comboText.setText([
               'Combo: ' + game.data.get('Combo')
@@ -132,33 +132,46 @@ export default class Game extends Component {
         });
       }
       hitzone_animations();
-
+      
       newInterval = () => {
         return setInterval(()=>{
           
           // While song is still playing...
           if (counter < song_values.current_song_char.length){
             
-            // Create notes and add characters to them.
+            //setting up the retangle
             game.rectangle = game.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+            
+            //setting up the text configuration
             let textConfig = {fontSize:'20px', color:'black', fontFamily: 'Arial'};
+            
+            //setting char value from array to this.Text
             game.Text = game.add.text(0, 0, song_values.current_song_char[counter], textConfig);
+            
+            //adding both the retangle and text to container
             const note = game.add.container(screen.width+screen.width/8,screen.height/3, [game.rectangle, game.Text]);
+
+            //aligning the text in the center
             Phaser.Display.Align.In.Center( game.Text, game.rectangle);
 
             // Make the notes referencable so we can manimpulate & destroy them later.
             noteArray.push(note);
             
-            // Recognize when the song is over and stop adding notes.
+            // Increment counter to recognize when the song is over and stop adding notes.
             counter++;
           }
           else {
-            // Pull up the ranking panel when the song ends.
-            rankListener.listener();
-            
+            setTimeout(()=>{
 
-            // Stop the note generator.
-            clearInterval(generation_id);
+              // Pull up the ranking panel when the song ends.
+              rankListener.listener();
+
+              // Stop the note generator.
+              counter=0;
+              clearInterval(generation_id);
+              
+            }, 5000);
+            
 
 
             
@@ -186,6 +199,7 @@ export default class Game extends Component {
      
     }
 
+    //updating song_values imported from SongSelect which contains the array of chars for the selected song.
     song_values.updateSong = (songmap) => {
       song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
     }
@@ -210,13 +224,16 @@ export default class Game extends Component {
     
     // Bring up ranking panel after song finishes.
     rankListener.listener = () => {
-      const score = game.data.get('Score');
-      const combo = bestCombo;
-      const accuracy = game.data.get('Accuracy');
-      setTimeout(()=>this.props.setPanel(true),5000);
-      document.getElementById('score').textContent = 'Score: ' + score;
-      document.getElementById('combo').textContent = 'Highest Combo: ' + combo;
-      document.getElementById('accuracy').textContent = 'Accuracy: ' + accuracy + '%';
+      
+
+        this.props.setPanel(true);
+        const score = game.data.get('Score');
+        const combo = bestCombo;
+        const accuracy = game.data.get('Accuracy');
+        document.getElementById('score').textContent = 'Score: ' + score;
+        document.getElementById('combo').textContent = 'Highest Combo: ' + combo;
+        document.getElementById('accuracy').textContent = 'Accuracy: ' + accuracy + '%';
+      
     } 
     
     function updateText(text, value){
@@ -256,12 +273,13 @@ export default class Game extends Component {
           noteArray.shift();
         }
 
-        if (note.x < 300 ){
+        //if note is near but outside the hitzone, destroy it on keypress
+        if (note.x < 300){ 
           let keyPressed = "";
           this.input.keyboard.on('keydown', function(input) {
             keyPressed = input.key;
             
-            if (keyPressed === note.list[1]?.text){
+            if (keyPressed === note.list[1]?.text && note.x > 0){
 
               // Update score/combo/acc on successful keypress.
               updateText('Combo',game.data.get('Combo')+1);
@@ -271,7 +289,8 @@ export default class Game extends Component {
               if(game.data.get('Combo') > bestCombo){
                 bestCombo = game.data.get('Combo');
               }
-
+              
+              // Destroy the notes when they're hit.
               note.destroy();
               noteArray.shift();
             }

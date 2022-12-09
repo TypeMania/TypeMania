@@ -16,29 +16,34 @@ import { StartMenu,  gameListener } from './StartMenu';
 
 const SongSelect = ({setHidden, songSelected, setSongSelected, setSongName, songName, hidden}) => {
 
+    //setting the song states
     const [songs, setSong] = useState([]);
-    //const [currentSongmap, setCurrentSongmap] = useState([]);
+    
     useEffect(() => {
         getSongs();
     }, []);
 
     //using axios is an easier way to access the db that bypasses needed an api slice file found in the features folder
     const getSongs = async () => {
+        //getting songs from database
         const response = await axios.get("http://localhost:3500/songs");
         setSong(response.data);
     };
 
-    //states 
+    //importing functions from useMusicPlayer
     const {playMusic, restartMusic} = useMusicPlayer();
 
     const [expanded, setExpanded] = useState(false);
 
+    //selecting one song should collapse the accordion for the previously selected song.
+    //it is called when the song is selected 
     const handleChange =
         (panel) => (event , newExpanded) => {
         console.log("newExpanded: " + newExpanded)
         setExpanded(newExpanded ? panel : false);
         };
 
+    //playing the selected song and updating song_valyes, the chars array
     function handlePlayMusic(songmap){
         //setCurrentSongmap(songmap);
         song_values.updateSong(songmap);
@@ -119,93 +124,42 @@ return (
     </div>
 );}
 export default SongSelect;
+
+//generating a randomized array ascii code for the selected song based on the song length and bpm
 function seededPRNG(bpm, length){
+    
+    //initializing the array being returned by this function
     const arraySize = Math.round(bpm * (length/60) / 4); // the array size is calculated from the speed and length of the song
     console.log("arraySize: " + arraySize)
     var seedArr = [];
 
     for (var i = 0; i < arraySize; i++) {
-        //let random = Math.random() * (60 - 0) + 0;
+        //adding random int between 33 and 127 (ascii codes) to the seedArr
         let random = Math.floor(Math.random() * (127 - 33 + 1)) + 33;
         seedArr.push(random);
         }   
     return seedArr;
 }
+
+//assigning the randomized ascii codes retured by seedArr chracters.
 export function randomizedCharacters(bpm, length){
-    
-    
     const seedArr = seededPRNG(bpm, length)
     const charArray = [];
     console.log("seedArr legnth: " +  seedArr.length);
     for (let i = 0; i < seedArr.length; i++) {
       const char = String.fromCharCode(seedArr[i]);
-      console.log(i + ": " + seedArr[i]);
       charArray.push(char);
 
     }
     return charArray;
 }
 
+
+//exproting song_values containing the array returned by randomizedCharacters function 
+//and updating it based of the currently selected song
 export const song_values = {
     current_song_char: randomizedCharacters(145, 139),
     updateSong: (songmap) => {
         song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
-        //console.log("current song char length: " + song_values.current_song_char.length);
     }
 }
-    
-    //const [visible, setVisible] = useState(false);
-    /*const [isPlaying, setIsPlaying] = useState(false);*/
-
-    /*function handlePlayMusic(songmap){
-
-        //setCurrentSongmap(songmap);
-        playMusic(songmap);*/
-    
-      
-  
-/*return (
-    <div className="song-select">
-        <Accordion defaultExpanded={false}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
-            >
-              <Typography>Song Select</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-
-                    <Tabs
-                        orientation="vertical"
-                        >
-                        {songsList.map((songmap, index) => (
-                            <div className="box">
-                                <button className="button" onClick={() => handlePlayMusic(songmap)}>
-                                    {currentSongmap.title === songmap.title && isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
-                                </button>
-                                <div className="song-title">
-                                    {songmap.title}
-                                </div>
-                            </div>
-                        ))}
-                        
-                    </Tabs>
-                             
-                    <div>
-                        <Box>
-                            <Box>
-                                <Typography>Artist: {songmap.artist}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography>bpm: {songmap.bpm}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography>length: {songmap.length}</Typography>
-                            </Box>
-                    
-                        </Box>
-                    </Box>
-                </AccordionDetails>
-            </Accordion>    
-                        </div>*/

@@ -3,14 +3,18 @@ import { MusicPlayerContext } from "../MusicPlayerContext";
 import { scroll_values } from '../components/SpeedSlider.js';
 
 const useMusicPlayer = () => {
+  //importing the state from MusicPlayerContext to keep track of state
   const [state, setState] = useContext(MusicPlayerContext);
 
+  //function to play a song 
   function playMusic(songmap) {
+    //if the same song is selected togglePlay is called
     if (songmap === state.currentSongmap) {
       togglePlay();
-    } else {
+    }
+    // else the player is paused the new selected song is played and state is updated.
+     else {
       state.audioPlayer.pause();
-      //state.audioPlayer = new Audio(songmap.songFilePath);
       state.audioPlayer = new Audio(state.songFiles[songmap.index].file);
       state.audioPlayer.playbackRate = scroll_values.note_scroll;
       state.audioPlayer.play();
@@ -24,6 +28,7 @@ const useMusicPlayer = () => {
     state.audioPlayer.play(); //plays song at 0
   }
 
+  //if a song selected is already playing, it pauses it, plays it otherwise.
   function togglePlay() {
     if (state.isPlaying) {
       state.audioPlayer.pause();
