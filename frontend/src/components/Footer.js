@@ -3,7 +3,7 @@ import FooterImage from '../assets/FooterImage.png'
 
 
 
-//home component
+//footer component
 const Footer = () => {
     return (  
         <div className="footer">

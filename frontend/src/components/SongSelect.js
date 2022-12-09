@@ -6,15 +6,15 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import SpeedSlider from './SpeedSlider';
+import { default as SpeedSlider, scroll_values } from './SpeedSlider';
 import Leaderboard from './Leaderboard'
 import axios from "axios";
-import { gameListener } from './StartMenu';
+import { StartMenu,  gameListener } from './StartMenu';
 
 
 
 
-const SongSelect = ({setHidden, setSongSelected, setSongName, songName, hidden}) => {
+const SongSelect = ({setHidden, songSelected, setSongSelected, setSongName, songName, hidden}) => {
 
     const [songs, setSong] = useState([]);
     //const [currentSongmap, setCurrentSongmap] = useState([]);
@@ -50,7 +50,14 @@ const SongSelect = ({setHidden, setSongSelected, setSongName, songName, hidden})
     gameListener.musicstarter = (songmap) => {
         restartMusic(songmap); //function from usemusicplayer hook
     }
-    
+
+    scroll_values.resetMenu = () => {
+        setHidden(false);
+    }
+
+    scroll_values.setGenerationTime = (songmap) => {
+        scroll_values.generation_time = 1000 / Math.floor(1000/(songmap.bpm*4));
+    }
     
     //sets states for start menu
     function selectSong(songmap) {
@@ -97,13 +104,6 @@ return (
                                 <Box>
                                     <Typography>length: {songmap.length}</Typography>
                                 </Box>
-                        
-                            </Box>
-                            <Box>
-                                <Typography>bpm: {songmap.bpm}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography>length: {songmap.length}</Typography>
                             </Box>
                         </Box>
                     </AccordionDetails>
@@ -111,7 +111,7 @@ return (
                 ))}
 
             </AccordionDetails>
-            <SpeedSlider/>
+            <SpeedSlider onChangeCommitted={() => {scroll_values.setGenerationTime(songSelected)}}/>
 
         </Accordion>
         
@@ -120,7 +120,7 @@ return (
 );}
 export default SongSelect;
 function seededPRNG(bpm, length){
-    const arraySize = Math.round(bpm * length / 60); // the array size is calculated from the speed and length of the song
+    const arraySize = Math.round(bpm * (length/60) / 2); // the array size is calculated from the speed and length of the song
     console.log("arraySize: " + arraySize)
     var seedArr = [];
     
@@ -146,7 +146,6 @@ export const song_values = {
     current_song_char: randomizedCharacters(145, 139),
     updateSong: (songmap) => {
         song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
-        console.log("current song char length: " + song_values.current_song_char.length);
     }
 }
     

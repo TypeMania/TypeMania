@@ -2,6 +2,7 @@
 import Phaser from 'phaser';
 import React, { Component } from 'react';
 import { scroll_values } from './SpeedSlider';
+import { song_values } from './SongSelect';
 import { gameListener } from './StartMenu';
 
 
@@ -24,11 +25,10 @@ export default class Game extends Component {
       scene: {
           preload: preload,
           create: create,
-          update: update,
-      }
-
-
+          update: update
+      },
     };
+
 
     const theGame = new Phaser.Game(config)
 
@@ -38,6 +38,9 @@ export default class Game extends Component {
     let hitzone_animations;
     let scrolltrack;
     let noteArray;
+    let counter;
+    let generation_id;
+    let newInterval;
 
   
     function preload(){
@@ -90,46 +93,96 @@ export default class Game extends Component {
           targets: hitzone_outer,
           scale: 0.9,
           ease: Phaser.Math.Easing.Back.In,
-          duration: scroll_values.hitzone_pulse,
+          duration: 335 / scroll_values.note_scroll,
           yoyo: true,
           loop: -1
         });
       }
       hitzone_animations();
 
+      const game = this;
       noteArray = [];
-      setInterval(()=>{
-        const note = this.add.rectangle(screen.width+screen.width/8,screen.height/3,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+      counter = 0;
+      newInterval = () => {
+        return setInterval(()=>{
+          
+          // While song is still playing...
+          if (counter < song_values.current_song_char.length){
+            console.log(counter + ' / ' + song_values.current_song_char.length);
+            
+            // Create notes and add characters to them.
+            game.rectangle = game.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+            let textConfig = {fontSize:'20px', color:'black', fontFamily: 'Arial'};
+            game.Text = game.add.text(0, 0, song_values.current_song_char[counter], textConfig);
+            const note = game.add.container(screen.width+screen.width/8,screen.height/3, [game.rectangle, game.Text]);
+            Phaser.Display.Align.In.Center( game.Text, game.rectangle);
 
-        // add characters to notes here
+            // Make the notes referencable so we can manimpulate & destroy them later.
+            noteArray.push(note);
+            
+            // Recognize when the song is over and stop adding notes.
+            counter++;
+          }
+          else {
+            // Once the song ends stop the note generator.
+            counter = 0;
+            clearInterval(generation_id);
 
-        noteArray.push(note);
-      }, scroll_values.note_scroll*1000);
+            // Pull up the ranking panel here.
 
-    } 
-    
-    scroll_values.applySpeed = (multiplier) => {
-      scroll_values.hitzone_pulse = 335 / multiplier;
-      scroll_values.note_scroll = 1 * multiplier;
-      hitzone_outer.destroy();
-      hitzone_animations();
+          }
+        
+        // Generation rate relies on speed slider (and soon BPM) values.
+        }, scroll_values.generation_time);
+      }
+      
+      // Assign an identifier to the interval that generates notes.
+      // Useful in resetting the generation rate. Allows new animation values from speed selection to be used.
+      generation_id = newInterval();
+      
+      // BPM Override slider's onChange function. Modifies animation and music speed.
+      scroll_values.applySpeed = (multiplier) => {
+        
+        // Adjust values for music playback, note scroll speed, and note generation interval.
+        scroll_values.note_scroll = 1 * multiplier;
+        scroll_values.generation_time = 1000 / multiplier;
+
+        // Bring back start menu to clear all animated objects that were using the old values.
+        scroll_values.resetMenu();
+
+      }
+
+     
     }
 
-    //has animations restart when the play on start menu is pressed
-    gameListener.listener = () => {
-      if (this.props.hidden === false) {
+    song_values.updateSong = (songmap) => {
+      song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
+      console.log("updated chars length: " + song_values.current_song_char.length);
+    }
+    
+     //has animations restart when the play on start menu is pressed
+     gameListener.listener = () => {
+      if (this.props.hidden === false) { //if the start menu is no longer hidden 
+        
+        //reset animations
         noteArray.forEach(e=>e.destroy());
         noteArray = [];
         hitzone_outer.destroy();
         hitzone_animations();
+
+        //reset counter
+        counter = 0;
+        clearInterval(generation_id);
+        generation_id = newInterval();
       };
     }
+    
     
     function update ()
     {
       // Move each note left a little bit constantly.
       noteArray.forEach((note)=>{
-        note.x -= scroll_values.note_scroll;
+        note.x -= 1 * scroll_values.note_scroll;
         if(note.x < -50){
           note.destroy();
           noteArray.shift();
@@ -137,7 +190,7 @@ export default class Game extends Component {
       });
 
       // Destroy the note if the key is down.
-      // Only works when the note before finally shifts as seen above.
+      // Only works when the first note in the array finally shifts.
       if (this.input.keyboard.checkDown(cursors.left)) {
         noteArray[0].destroy();
       }
