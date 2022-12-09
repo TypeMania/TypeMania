@@ -2,14 +2,13 @@
 import Phaser from 'phaser';
 import React, { Component } from 'react';
 import { scroll_values } from './SpeedSlider';
-import { randomizedCharacters, song_values } from './SongSelect';
+import { song_values } from './SongSelect';
 import { gameListener } from './StartMenu';
 
 
 //phaser game component
 //react component (different syntax than other compoenents, but basically the same)
 export default class Game extends Component {
-
   componentDidMount() {
     // Responsive game window or setting it up to be in the future.
     const screen = {
@@ -43,19 +42,35 @@ export default class Game extends Component {
     let generation_id;
     let newInterval;
 
-    function preload (){
   
+    function preload(){
+      
     }
-
-    
     
     function create () {
-
+      //Score
+      this.data.set('Score', 3000);
+      var text = this.add.text(10, 440, '', { font: '35px Courier', fill: '#efc53f' });
+      text.setText([
+        'Score: ' + this.data.get('Score')
+    ]);
+      //Timing
+      this.data.set('Timing', 3000);
+      var text = this.add.text(10, 480, '', { font: '35px Courier', fill: '#efc53f' });
+      text.setText([
+        'Timing: ' + this.data.get('Timing')
+    ]);
+      //Combo
+      this.data.set('Combo', 3000);
+      var text = this.add.text(400, 450, '', { font: '65px Courier', fill: '#efc53f' });
+      text.setText([
+          'Combo: ' + this.data.get('Combo')
+      ]);
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
       //grid
-      this.add.grid(800, 500, 2000,1000, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
+      this.add.grid(500,50,1000,750, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
 
       //scroll track
       scrolltrack = this.add.rectangle(0,screen.height/3,screen.width*3,screen.height/3, 0x00b9f2)
@@ -183,6 +198,61 @@ export default class Game extends Component {
         noteArray[0].destroy();
       }
     }
+
+    //precondition: recieves an array of integer returned by seededPRNG function, and the value from songmap settings
+    //postcondition: returns an array of randomized characters to go into graphic
+    function randomizedCharacters(songmapSettings, seedArr){
+      const charArray = [];
+      for (let i = 0; i < seedArr.length; i++) {
+        if (songmapSettings === "UPPER"){
+          if (seedArr[i] >= 65 && seedArr[i] <= 90) {
+            const char = String.fromCharCode(seedArr[i]);
+            charArray.push(char);
+          }
+          else {
+            const randomChar = String.fromCharCode(Math.floor(Math.random() * (90 - 65 + 1)) + 65);
+            charArray.push(randomChar);
+          }
+      }
+      else if (songmapSettings === "LOWER"){
+        if (seedArr[i] >= 97 && seedArr[i] <= 122) {
+          const char = String.fromCharCode(seedArr[i]);
+          charArray.push(char);
+        }
+        else {
+          const randomChar = String.fromCharCode(Math.floor(Math.random() * (122 - 97 + 1)) + 97);
+          charArray.push(randomChar);
+        }
+      }
+      else if (songmapSettings === "UPPER_LOWER_NUMERIC"){
+        
+        if ((seedArr[i] >= 65 && seedArr[i] <= 90) 
+            || (seedArr[i] >= 97 && seedArr[i] <= 122) 
+            || (seedArr[i] >= 49 && seedArr[i] <= 57)) {
+              const char = String.fromCharCode(seedArr[i]);
+              charArray.push(char);
+        }
+        else {
+          const randomAsciiCode = [];
+          const upperChar = Math.floor(Math.random() * (90 - 65 + 1)) + 65;
+          randomAsciiCode.push(upperChar);
+          const lowerChar = Math.floor(Math.random() * (122 - 97 + 1)) + 97;
+          randomAsciiCode.push(lowerChar);
+          const numChar = Math.floor(Math.random() * (57 - 49 + 1)) + 49;
+          randomAsciiCode.push(numChar);
+          const randomChar = String.fromCharCode(randomAsciiCode[Math.floor(Math.random() * randomAsciiCode.length)]);
+          charArray.push(randomChar);
+        }
+      }
+      else if (songmapSettings === "ALL_CHARS"){
+        const char = String.fromCharCode(seedArr[i]);
+        charArray.push(char);
+      }
+    }
+    return charArray;
+  }
+ 
+    
   }
 
 
