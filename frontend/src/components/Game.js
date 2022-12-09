@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { scroll_values } from './SpeedSlider';
 import { randomizedCharacters, song_values } from './SongSelect';
 import { gameListener } from './StartMenu';
+import { rankListener } from './PostGameplay';
 
 
 //phaser game component
@@ -28,8 +29,8 @@ export default class Game extends Component {
           create: create,
           update: update
       },
-      
     };
+
 
     const theGame = new Phaser.Game(config)
 
@@ -39,7 +40,16 @@ export default class Game extends Component {
     let hitzone_animations;
     let scrolltrack;
     let noteArray;
-  
+    let counter;
+    let generation_id;
+    let newInterval;
+    let scoreText;
+    let accText;
+    let comboText;
+    let game;
+    let bestCombo;
+    let resetData;
+    let totalHits;
 
     function preload (){
   
@@ -48,13 +58,53 @@ export default class Game extends Component {
     
     
     function create () {
+      game = this;
+      resetData = () => {
+        noteArray = [];
+        counter=0;
+        bestCombo = 0;
+        totalHits = 0;
+
+        // If score/combo/acc already initialized then update.
+        if (scoreText !== undefined) {
+          updateText('Score', 0);
+          updateText('Combo', 0);
+          updateText('Accuracy',100);
+
+        // Otherwise create the initial data.
+        } else {
+
+          //Score
+          scoreText = game.add.text(10, 440, '', { font: '35px Courier', fill: '#efc53f' });
+          game.data.set('Score', 0);
+          scoreText.setText([
+            'Score: ' + game.data.get('Score')
+          ]);
+
+          //Accuracy
+          accText = game.add.text(10, 480, '', { font: '35px Courier', fill: '#efc53f' });
+          game.data.set('Accuracy', 100);
+          accText.setText([
+            'Accuracy: ' + game.data.get('Accuracy') + '%',
+          ]);
+
+          //Combo
+          comboText = game.add.text(500, 450, '', { font: '65px Courier', fill: '#efc53f' });
+          game.data.set('Combo', 0);
+          comboText.setText([
+              'Combo: ' + game.data.get('Combo')
+          ]);
+        }
+
+        
+      }
+      resetData();
 
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
-      
       //grid
-      this.add.grid(800, 500, 2000,1000, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
+      this.add.grid(500,50,1000,750, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
 
       //scroll track
       scrolltrack = this.add.rectangle(0,screen.height/3,screen.width*3,screen.height/3, 0x00b9f2)
@@ -68,7 +118,6 @@ export default class Game extends Component {
       }
 
       //hitzone
-      
       hitzone_animations = () => {
         hitzone_outer = this.add.rectangle(screen.width/8,screen.height/3,100,100, 0x270a3d);
         hitzone_outer.setStrokeStyle(7, 0xefc53f);
@@ -77,88 +126,149 @@ export default class Game extends Component {
           targets: hitzone_outer,
           scale: 0.9,
           ease: Phaser.Math.Easing.Back.In,
-          duration: scroll_values.hitzone_pulse,
+          duration: 335 / scroll_values.note_scroll,
           yoyo: true,
           loop: -1
         });
       }
       hitzone_animations();
+      
+      newInterval = () => {
+        return setInterval(()=>{
+          
+          // While song is still playing...
+          if (counter < song_values.current_song_char.length){
+            
+            //setting up the retangle
+            game.rectangle = game.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+            
+            //setting up the text configuration
+            let textConfig = {fontSize:'20px', color:'black', fontFamily: 'Arial'};
+            
+            //setting char value from array to this.Text
+            game.Text = game.add.text(0, 0, song_values.current_song_char[counter], textConfig);
+            
+            //adding both the retangle and text to container
+            const note = game.add.container(screen.width+screen.width/8,screen.height/3, [game.rectangle, game.Text]);
 
-      noteArray = [];
-      //setting counter to use it as index to access the data from  song_values.current_song_char
-      var counter = 0;
-      setInterval(()=>{
-        
-        //setting up the retangle
-        this.rectangle = this.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
-        //setting up the text configuration
-        var textConfig = {fontSize:'20px', color:'black', fontFamily: 'Arial'};
-       
-        //if counter is less than song_values.current_song_char length, then increment counter
-        if (counter < song_values.current_song_char.length){
-          //setting char value from array to this.Text
-          this.Text = this.add.text(0, 0, song_values.current_song_char[counter], textConfig);
+            //aligning the text in the center
+            Phaser.Display.Align.In.Center( game.Text, game.rectangle);
 
-          counter = counter + 1;
-        }
-        else {
-          //if counter is has reached the length of the song_values.current_song_char, then reset it zero.
-          counter = 0;
-          //setting char value from array to this.Text
-          this.Text = this.add.text(0, 0,song_values.current_song_char[counter], textConfig);
-          //incrementing counter
-          counter = counter + 1;
-        }
+            // Make the notes referencable so we can manimpulate & destroy them later.
+            noteArray.push(note);
+            
+            // Increment counter to recognize when the song is over and stop adding notes.
+            counter++;
+          }
+          else {
+            setTimeout(()=>{
+
+              // Pull up the ranking panel when the song ends.
+              rankListener.listener();
+
+              // Stop the note generator.
+              counter=0;
+              clearInterval(generation_id);
+              
+            }, 5000);
+            
+
+
+            
+          }
         
-        //adding both the retangle and text to container
-        const note = this.add.container(screen.width+screen.width/8,screen.height/3, [this.rectangle, this.Text]);
-        //aligning the text in the center
-        Phaser.Display.Align.In.Center( this.Text, this.rectangle);
+        // Generation rate relies on speed slider (and soon BPM) values.
+        }, scroll_values.generation_time);
+      }
+      
+      // Assign an identifier to the interval that generates notes.
+      // Useful in resetting the generation rate. Allows new animation values from speed selection to be used.
+      
+      // BPM Override slider's onChange function. Modifies animation and music speed.
+      scroll_values.applySpeed = (multiplier) => {
+        
+        // Adjust values for music playback, note scroll speed, and note generation interval.
+        scroll_values.note_scroll = 1 * multiplier;
+        scroll_values.generation_time = 1000 / multiplier;
+
+        // Bring back start menu to clear all animated objects that were using the old values.
+        scroll_values.resetMenu();
+
+      }
+
      
-        
-        //pushing the note (cotainer) to noteArray
-        noteArray.push(note);
-        
-      }, scroll_values.note_scroll*1000);
-
     }
 
     //updating song_values imported from SongSelect which contains the array of chars for the selected song.
     song_values.updateSong = (songmap) => {
       song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
-      
     }
     
-    scroll_values.applySpeed = (multiplier) => {
-      scroll_values.hitzone_pulse = 335 / multiplier;
-      scroll_values.note_scroll = 1 * multiplier;
-      hitzone_outer.destroy();
-      hitzone_animations();
-    }
-
-    //has animations restart when the play on start menu is pressed
-    gameListener.listener = () => {
+     //has animations restart when the play on start menu is pressed
+     gameListener.listener = () => {
       if (this.props.hidden === false) { //if the start menu is no longer hidden 
+        
         //reset animations
         noteArray.forEach(e=>e.destroy());
-        noteArray = [];
         hitzone_outer.destroy();
         hitzone_animations();
-      };
+
+        //reset score/acc/combo
+        resetData();
+
+        //reset note generation 
+        clearInterval(generation_id);
+        generation_id = newInterval();
+      }
     }
     
+    // Bring up ranking panel after song finishes.
+    rankListener.listener = () => {
+      
+
+        this.props.setPanel(true);
+        const score = game.data.get('Score');
+        const combo = bestCombo;
+        const accuracy = game.data.get('Accuracy');
+        document.getElementById('score').textContent = 'Score: ' + score;
+        document.getElementById('combo').textContent = 'Highest Combo: ' + combo;
+        document.getElementById('accuracy').textContent = 'Accuracy: ' + accuracy + '%';
+      
+    } 
+    
+    function updateText(text, value){
+      switch(text){
+        case 'Combo':
+          game.data.set('Combo', value);
+          comboText.setText([
+            'Combo: ' + game.data.get('Combo')
+          ]);
+          break;
+        case 'Score':
+          game.data.set('Score', value);
+          scoreText.setText([
+            'Score: ' + game.data.get('Score')
+          ]);
+          break;
+        case 'Accuracy':
+          game.data.set('Accuracy', value);
+          accText.setText([
+          'Accuracy: ' + game.data.get('Accuracy') + '%',
+          ]);
+          break;
+        default:;
+      }
+    }
     function update ()
     {
-      
-      // Move each note left a little bit constantly.
-
-      
-
       noteArray.forEach((note)=>{
-        
+        // Move each note left a little bit constantly.
         note.x -= scroll_values.note_scroll;
 
+        // Update data and destroy notes when they go off screen.
         if(note.x < -50){
+          updateText('Combo',0);
+          updateText('Accuracy', (100*(totalHits/(counter-noteArray.length))).toFixed(2));
           note.destroy();
           noteArray.shift();
         }
@@ -167,26 +277,27 @@ export default class Game extends Component {
         if (note.x < 300){ 
           let keyPressed = "";
           this.input.keyboard.on('keydown', function(input) {
-          keyPressed = input.key;
-        
-          // if the note or container text  mateches the key pressed, destroy that note.
-          if (keyPressed === note.list[1]?.text && note.x > 0){
-            note.destroy();
+            keyPressed = input.key;
+            
+            if (keyPressed === note.list[1]?.text && note.x > 0){
 
-          }
-          }, this)     
+              // Update score/combo/acc on successful keypress.
+              updateText('Combo',game.data.get('Combo')+1);
+              updateText('Score',game.data.get('Score')+game.data.get('Combo'));
+              updateText('Accuracy', (100*(totalHits++/(counter-noteArray.length))).toFixed(2));
+
+              if(game.data.get('Combo') > bestCombo){
+                bestCombo = game.data.get('Combo');
+              }
+              
+              // Destroy the notes when they're hit.
+              note.destroy();
+              noteArray.shift();
+            }
+        
+          }, this)
         }
       })
-
-      
-      // Destroy the note if the key is down.
-      // Only works when the note before finally shifts as seen above.
-      if (this.input.keyboard.checkDown(cursors.left)) {
-        noteArray[0].destroy();
-      }
-      if (this.input.keyboard.checkDown(cursors.right)) {
-        noteArray[0].destroy();
-      }
     }
   }
 

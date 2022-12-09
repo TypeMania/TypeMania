@@ -1,7 +1,10 @@
 import { createTheme, Slider} from "@mui/material";
-import { createRef } from "react";
+import { createRef, useContext } from "react";
+import { MusicPlayerContext } from "../MusicPlayerContext";
 
-const SpeedSlider = () => {
+// BPM Override component
+const SpeedSlider = ({setHidden}) => {
+    const [state, setState] = useContext(MusicPlayerContext);
     return (
     <div className='speed-slider'>
         <Slider
@@ -11,7 +14,14 @@ const SpeedSlider = () => {
             max={1.5}
             step={0.1}
             valueLabelDisplay={"auto"}
-            onChangeCommitted={()=>{scroll_values.applySpeed(parseFloat(myself.current.innerText));}}
+
+            /* Modifies values in the object that communicates with Game.js */
+            onChangeCommitted={()=>{
+                scroll_values.applySpeed(parseFloat(myself.current.innerText));
+                if (state?.audioPlayer) {
+                    state.audioPlayer.playbackRate = scroll_values.note_scroll;
+                }
+            }}
         />
         <p id="speed-slider">BPM Override</p>
     </div>
@@ -19,25 +29,11 @@ const SpeedSlider = () => {
 };
 
 const myself = new createRef();
-const theme = createTheme({
-    components: {
-        MuiSlider: {
-            styleOverrides: {
-                root: {
-                    width: "15%",
-                    top: "10px",
-                    bottom: "80px",
-                }
-            }
-        }
-    }
-});
 
 export const scroll_values = {
-    hitzone_pulse: 335,
     note_scroll: 1,
+    generation_time:1000,
     applySpeed: (multiplier) => {
-        scroll_values.hitzone_pulse = 335 / multiplier;
         scroll_values.note_scroll = 1 * multiplier;
     }
 }
