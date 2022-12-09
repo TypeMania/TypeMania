@@ -3,7 +3,7 @@ import { createRef, useContext } from "react";
 import { MusicPlayerContext } from "../MusicPlayerContext";
 
 // BPM Override component
-const SpeedSlider = () => {
+const SpeedSlider = ({setHidden}) => {
     const [state, setState] = useContext(MusicPlayerContext);
     return (
     <div className='speed-slider'>
@@ -35,7 +35,6 @@ export const scroll_values = {
     generation_time:1000,
     applySpeed: (multiplier) => {
         scroll_values.note_scroll = 1 * multiplier;
-        scroll_values.generation_time = 1000 / multiplier;
     }
 }
 

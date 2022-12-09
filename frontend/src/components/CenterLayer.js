@@ -3,6 +3,7 @@ import Game from './Game';
 import SongSelect from './SongSelect';
 import StartMenu from './StartMenu';
 
+// Holds the game scene, song select, & start menu.
 const CenterLayer = () => {
     //states used for start menu
     const [hidden, setHidden] = React.useState(false); //toggle hide start menu
