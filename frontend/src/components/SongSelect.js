@@ -123,11 +123,12 @@ function seededPRNG(bpm, length){
     const arraySize = Math.round(bpm * (length/60) / 2); // the array size is calculated from the speed and length of the song
     console.log("arraySize: " + arraySize)
     var seedArr = [];
-    
+
     for (var i = 0; i < arraySize; i++) {
-      seedArr.push(Math.random() * (127 - 0) + 0);
-    }
-    
+        //let random = Math.random() * (60 - 0) + 0;
+        let random = Math.floor(Math.random() * (127 - 33 + 1)) + 33;
+        seedArr.push(random);
+        }   
     return seedArr;
 }
 export function randomizedCharacters(bpm, length){
@@ -135,9 +136,12 @@ export function randomizedCharacters(bpm, length){
     
     const seedArr = seededPRNG(bpm, length)
     const charArray = [];
+    console.log("seedArr legnth: " +  seedArr.length);
     for (let i = 0; i < seedArr.length; i++) {
       const char = String.fromCharCode(seedArr[i]);
+      console.log(i + ": " + seedArr[i]);
       charArray.push(char);
+
     }
     return charArray;
 }
@@ -146,6 +150,7 @@ export const song_values = {
     current_song_char: randomizedCharacters(145, 139),
     updateSong: (songmap) => {
         song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
+        //console.log("current song char length: " + song_values.current_song_char.length);
     }
 }
     

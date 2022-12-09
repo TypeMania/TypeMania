@@ -9,6 +9,7 @@ import { gameListener } from './StartMenu';
 //phaser game component
 //react component (different syntax than other compoenents, but basically the same)
 export default class Game extends Component {
+
   componentDidMount() {
     // Responsive game window or setting it up to be in the future.
     const screen = {
@@ -43,9 +44,12 @@ export default class Game extends Component {
     let newInterval;
 
   
-    function preload(){
-      
+
+    function preload (){
+  
     }
+
+    
     
     function create () {
       
@@ -73,8 +77,9 @@ export default class Game extends Component {
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
       
+      
       //grid
-      this.add.grid(500,50,1000,750, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
+      this.add.grid(800, 500, 2000,1000, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
 
       //scroll track
       scrolltrack = this.add.rectangle(0,screen.height/3,screen.width*3,screen.height/3, 0x00b9f2)
@@ -85,6 +90,7 @@ export default class Game extends Component {
         const data = [ 120,20, 60,20, 60,0, 0,50, 60,100, 60,80, 120,80 ];
         const r2 = this.add.polygon(i, screen.height/3, data, 0x9966ff);
         r2.setStrokeStyle(4, 0xefc53f);
+        console.log("arrows: " + r2.x)
       }
 
       //hitzone
@@ -183,15 +189,36 @@ export default class Game extends Component {
     
     function update ()
     {
+      
       // Move each note left a little bit constantly.
+
+      
+
       noteArray.forEach((note)=>{
-        note.x -= 1 * scroll_values.note_scroll;
+        
+        note.x -= scroll_values.note_scroll;
+
         if(note.x < -50){
           note.destroy();
           noteArray.shift();
         }
-      });
 
+        if (note.x < 300 ){
+          let keyPressed = "";
+          this.input.keyboard.on('keydown', function(input) {
+          keyPressed = input.key;
+          
+          if (keyPressed === note.list[1]?.text){
+            console.log("note pressed: " + keyPressed);
+            note.destroy();
+
+          }
+        
+      }, this)
+        }
+      })
+
+      
       // Destroy the note if the key is down.
       // Only works when the first note in the array finally shifts.
       if (this.input.keyboard.checkDown(cursors.left)) {
