@@ -120,7 +120,7 @@ return (
 );}
 export default SongSelect;
 function seededPRNG(bpm, length){
-    const arraySize = Math.round(bpm * (length/60) / 2); // the array size is calculated from the speed and length of the song
+    const arraySize = Math.round(bpm * (length/60) / 4); // the array size is calculated from the speed and length of the song
     console.log("arraySize: " + arraySize)
     var seedArr = [];
 
