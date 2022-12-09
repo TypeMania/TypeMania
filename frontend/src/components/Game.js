@@ -39,6 +39,7 @@ export default class Game extends Component {
     let hitzone_animations;
     let scrolltrack;
     let noteArray;
+  
 
     function preload (){
   
@@ -50,6 +51,7 @@ export default class Game extends Component {
 
       //keyboard input
       cursors = this.input.keyboard.createCursorKeys();
+      
       
       //grid
       this.add.grid(800, 500, 2000,1000, 30, 30, 0x9966ff).setAltFillStyle(0x270a3d).setOutlineStyle();
@@ -63,6 +65,7 @@ export default class Game extends Component {
         const data = [ 120,20, 60,20, 60,0, 0,50, 60,100, 60,80, 120,80 ];
         const r2 = this.add.polygon(i, screen.height/3, data, 0x9966ff);
         r2.setStrokeStyle(4, 0xefc53f);
+        console.log("arrows: " + r2.x)
       }
 
       //hitzone
@@ -83,34 +86,31 @@ export default class Game extends Component {
       hitzone_animations();
 
       noteArray = [];
-      //var chars = song_values.current_song_char;
-      //console.log("characters length: " + chars.length)
       var counter = 0;
       setInterval(()=>{
-        //const note = this.add.rectangle(WIDTH+WIDTH/8,HEIGHT/3,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
         
-        console.log("characters length: " + song_values.current_song_char.length)
         this.rectangle = this.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
         var textConfig = {fontSize:'20px', color:'black', fontFamily: 'Arial'};
+      
+        let char = song_values.current_song_char[counter];
+       
         if (counter < song_values.current_song_char.length){
-          this.Text = this.add.text(0, 0, song_values.current_song_char[counter], textConfig);
+          this.Text = this.add.text(0, 0, char, textConfig);
+
           counter = counter + 1;
         }
         else {
           counter = 0;
-          this.Text = this.add.text(0, 0, song_values.current_song_char[counter], textConfig);
+         
+          this.Text = this.add.text(0, 0,char, textConfig);
           counter = counter + 1;
         }
         
         const note = this.add.container(screen.width+screen.width/8,screen.height/3, [this.rectangle, this.Text]);
         Phaser.Display.Align.In.Center( this.Text, this.rectangle);
-      
-
-        // add characters to notes here
-        //
-        noteArray.push(note);
-        console.log(noteArray.length);
+     
         
+        noteArray.push(note);
         
       }, scroll_values.note_scroll*1000);
 
@@ -118,7 +118,7 @@ export default class Game extends Component {
 
     song_values.updateSong = (songmap) => {
       song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
-      console.log("updated chars length: " + song_values.current_song_char.length);
+      
     }
     
     scroll_values.applySpeed = (multiplier) => {
@@ -141,15 +141,36 @@ export default class Game extends Component {
     
     function update ()
     {
+      
       // Move each note left a little bit constantly.
+
+      
+
       noteArray.forEach((note)=>{
+        
         note.x -= scroll_values.note_scroll;
+
         if(note.x < -50){
           note.destroy();
           noteArray.shift();
         }
-      });
 
+        if (note.x < 300 ){
+          let keyPressed = "";
+          this.input.keyboard.on('keydown', function(input) {
+          keyPressed = input.key;
+          
+          if (keyPressed === note.list[1]?.text){
+            console.log("note pressed: " + keyPressed);
+            note.destroy();
+
+          }
+        
+      }, this)
+        }
+      })
+
+      
       // Destroy the note if the key is down.
       // Only works when the note before finally shifts as seen above.
       if (this.input.keyboard.checkDown(cursors.left)) {
@@ -160,7 +181,6 @@ export default class Game extends Component {
       }
     }
   }
-
 
   shouldComponentUpdate(prevProps) {
     if (prevProps.hidden !== this.props.hidden) {
