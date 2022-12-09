@@ -168,6 +168,35 @@ div .startmenu {
   align-items: left;
 }
 
+.postgameplay {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  max-width:910px;
+  max-height:540px;
+  z-index:201;
+  background-color: black;
+  color:white;
+}
+
+.postgameplay button {
+  margin-top:100px;
+  width:200px;
+  height:100px;
+  background-color:#7745E5;
+  color:white;
+  font-size:large;
+  font-weight:bold;
+  transition-duration: 200ms;
+}
+
+.postgameplay button:hover {
+  background-color:white;
+  color:#7745E5;
+}
+
 .center-layer .song-select {
   z-index:200;
   width:900px; 
@@ -179,11 +208,12 @@ div .startmenu {
 
 /*  GAME STYLING */
 /* Game will always be centered no matter what. */
-#game-container, .song-select, .startmenu {
+#game-container, .song-select, .startmenu, .postgameplay {
   margin: 0 auto;
   grid-row: 1 / 1;
   grid-column: 1 / 1;
   justify-self: center;
+  overflow:hidden;
 }
 
 canvas {

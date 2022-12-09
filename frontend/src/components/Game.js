@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { scroll_values } from './SpeedSlider';
 import { randomizedCharacters, song_values } from './SongSelect';
 import { gameListener } from './StartMenu';
+import { rankListener } from './PostGameplay';
 
 
 //phaser game component
@@ -59,8 +60,8 @@ export default class Game extends Component {
     function create () {
       game = this;
       resetData = () => {
-        counter=0;
         noteArray = [];
+        counter=0;
         bestCombo = 0;
         totalHits = 0;
 
@@ -114,7 +115,6 @@ export default class Game extends Component {
         const data = [ 120,20, 60,20, 60,0, 0,50, 60,100, 60,80, 120,80 ];
         const r2 = this.add.polygon(i, screen.height/3, data, 0x9966ff);
         r2.setStrokeStyle(4, 0xefc53f);
-        console.log("arrows: " + r2.x)
       }
 
       //hitzone
@@ -138,7 +138,6 @@ export default class Game extends Component {
           
           // While song is still playing...
           if (counter < song_values.current_song_char.length){
-            console.log(counter + ' / ' + song_values.current_song_char.length);
             
             // Create notes and add characters to them.
             game.rectangle = game.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
@@ -154,12 +153,15 @@ export default class Game extends Component {
             counter++;
           }
           else {
-            // Once the song ends stop the note generator.
+            // Pull up the ranking panel when the song ends.
+            rankListener.listener();
+            
+
+            // Stop the note generator.
             clearInterval(generation_id);
 
 
-            // Pull up the ranking panel here.
-
+            
           }
         
         // Generation rate relies on speed slider (and soon BPM) values.
@@ -168,7 +170,6 @@ export default class Game extends Component {
       
       // Assign an identifier to the interval that generates notes.
       // Useful in resetting the generation rate. Allows new animation values from speed selection to be used.
-      generation_id = newInterval();
       
       // BPM Override slider's onChange function. Modifies animation and music speed.
       scroll_values.applySpeed = (multiplier) => {
@@ -187,7 +188,6 @@ export default class Game extends Component {
 
     song_values.updateSong = (songmap) => {
       song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
-      console.log("updated chars length: " + song_values.current_song_char.length);
     }
     
      //has animations restart when the play on start menu is pressed
@@ -202,12 +202,22 @@ export default class Game extends Component {
         //reset score/acc/combo
         resetData();
 
-        //reset counter 
-        counter = 0;
+        //reset note generation 
         clearInterval(generation_id);
         generation_id = newInterval();
-      };
+      }
     }
+    
+    // Bring up ranking panel after song finishes.
+    rankListener.listener = () => {
+      const score = game.data.get('Score');
+      const combo = bestCombo;
+      const accuracy = game.data.get('Accuracy');
+      setTimeout(()=>this.props.setPanel(true),5000);
+      document.getElementById('score').textContent = 'Score: ' + score;
+      document.getElementById('combo').textContent = 'Highest Combo: ' + combo;
+      document.getElementById('accuracy').textContent = 'Accuracy: ' + accuracy + '%';
+    } 
     
     function updateText(text, value){
       switch(text){
@@ -234,15 +244,11 @@ export default class Game extends Component {
     }
     function update ()
     {
-      
-      // Move each note left a little bit constantly.
-
-      
-
       noteArray.forEach((note)=>{
-        
+        // Move each note left a little bit constantly.
         note.x -= scroll_values.note_scroll;
 
+        // Update data and destroy notes when they go off screen.
         if(note.x < -50){
           updateText('Combo',0);
           updateText('Accuracy', (100*(totalHits/(counter-noteArray.length))).toFixed(2));
@@ -253,35 +259,26 @@ export default class Game extends Component {
         if (note.x < 300 ){
           let keyPressed = "";
           this.input.keyboard.on('keydown', function(input) {
-          keyPressed = input.key;
-          
-          if (keyPressed === note.list[1]?.text){
-            updateText('Combo',game.data.get('Combo')+1);
-            updateText('Score',game.data.get('Score')+game.data.get('Combo'));
-            updateText('Accuracy', (100*(totalHits/(counter-noteArray.length))).toFixed(2));
+            keyPressed = input.key;
+            
+            if (keyPressed === note.list[1]?.text){
 
-            if(game.data.get('Combo') > bestCombo){
-              bestCombo = game.data.get('Combo');
+              // Update score/combo/acc on successful keypress.
+              updateText('Combo',game.data.get('Combo')+1);
+              updateText('Score',game.data.get('Score')+game.data.get('Combo'));
+              updateText('Accuracy', (100*(totalHits++/(counter-noteArray.length))).toFixed(2));
+
+              if(game.data.get('Combo') > bestCombo){
+                bestCombo = game.data.get('Combo');
+              }
+
+              note.destroy();
+              noteArray.shift();
             }
-            totalHits++;
-
-            note.destroy();
-            noteArray.shift();
-          }
         
-      }, this)
+          }, this)
         }
       })
-
-      
-      // Destroy the note if the key is down.
-      // Only works when the first note in the array finally shifts.
-      if (this.input.keyboard.checkDown(cursors.left)) {
-        noteArray[0].destroy();
-      }
-      if (this.input.keyboard.checkDown(cursors.right)) {
-        noteArray[0].destroy();
-      }
     }
   }
 
