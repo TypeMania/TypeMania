@@ -65,7 +65,6 @@ export default class Game extends Component {
         const data = [ 120,20, 60,20, 60,0, 0,50, 60,100, 60,80, 120,80 ];
         const r2 = this.add.polygon(i, screen.height/3, data, 0x9966ff);
         r2.setStrokeStyle(4, 0xefc53f);
-        console.log("arrows: " + r2.x)
       }
 
       //hitzone
@@ -86,36 +85,45 @@ export default class Game extends Component {
       hitzone_animations();
 
       noteArray = [];
+      //setting counter to use it as index to access the data from  song_values.current_song_char
       var counter = 0;
       setInterval(()=>{
         
+        //setting up the retangle
         this.rectangle = this.add.rectangle(0,0,60,60, 0xFFFF00).setStrokeStyle(3, 0x000000);
+        //setting up the text configuration
         var textConfig = {fontSize:'20px', color:'black', fontFamily: 'Arial'};
-      
-        let char = song_values.current_song_char[counter];
        
+        //if counter is less than song_values.current_song_char length, then increment counter
         if (counter < song_values.current_song_char.length){
-          this.Text = this.add.text(0, 0, char, textConfig);
+          //setting char value from array to this.Text
+          this.Text = this.add.text(0, 0, song_values.current_song_char[counter], textConfig);
 
           counter = counter + 1;
         }
         else {
+          //if counter is has reached the length of the song_values.current_song_char, then reset it zero.
           counter = 0;
-         
-          this.Text = this.add.text(0, 0,char, textConfig);
+          //setting char value from array to this.Text
+          this.Text = this.add.text(0, 0,song_values.current_song_char[counter], textConfig);
+          //incrementing counter
           counter = counter + 1;
         }
         
+        //adding both the retangle and text to container
         const note = this.add.container(screen.width+screen.width/8,screen.height/3, [this.rectangle, this.Text]);
+        //aligning the text in the center
         Phaser.Display.Align.In.Center( this.Text, this.rectangle);
      
         
+        //pushing the note (cotainer) to noteArray
         noteArray.push(note);
         
       }, scroll_values.note_scroll*1000);
 
     }
 
+    //updating song_values imported from SongSelect which contains the array of chars for the selected song.
     song_values.updateSong = (songmap) => {
       song_values.current_song_char = randomizedCharacters(songmap.bpm, songmap.length);
       
@@ -155,18 +163,18 @@ export default class Game extends Component {
           noteArray.shift();
         }
 
-        if (note.x < 300 ){
+        //if note is near but outside the hitzone, destroy it on keypress
+        if (note.x < 300){ 
           let keyPressed = "";
           this.input.keyboard.on('keydown', function(input) {
           keyPressed = input.key;
-          
-          if (keyPressed === note.list[1]?.text){
-            console.log("note pressed: " + keyPressed);
+        
+          // if the note or container text  mateches the key pressed, destroy that note.
+          if (keyPressed === note.list[1]?.text && note.x > 160){
             note.destroy();
 
           }
-        
-      }, this)
+          }, this)     
         }
       })
 

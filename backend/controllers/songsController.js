@@ -1,6 +1,9 @@
 //imports
+
+//importing the Song module
 const Song = require('../models/Song')
 
+//getting songs from Database
 const getSongs = async (req, res) => {
     try {
         const songs = await Song.find();
@@ -10,6 +13,7 @@ const getSongs = async (req, res) => {
     }
 }
 
+//exporting the getsongs function
 module.exports = {
     getSongs
 }
